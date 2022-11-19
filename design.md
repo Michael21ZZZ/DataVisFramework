@@ -42,9 +42,18 @@ hw6 Project
   - Plugins      
     - …
 
+The following is the overall workflow of this framework.
 
+- GUI ---(data, dataOp)---> Backend
+	- The user selects the data source plugin and provide texts to generate/request text. The data plugin process the data and sends the json file.	
+- GUI <---(analysisResult)--- Backend
+	- The Backend performs NLP and sends the processed data to the frontend.
+- GUI.getVisPlugIn(visOp).render(analysisResult)
+	- The Frontend uses the VisPlugin to render a picture.
 
 ![img](https://lh4.googleusercontent.com/hzSrE4ln6sk9CKi7ZkQhsI_eQ5KEnSLFuzoSup9pTVzNI5aT639FZkpk7raF89QAnADkiTV7so7iFZ2HIBCv0SRDruHiSpj45U3dnNsW-1eS4Nz3PLymZ71KsQiXJmsFRJisC6HaHhpR2NeOkBNTL8Ss01vPhB3496Wb_mv0T0sptG6uVwbDyI84jT0YAw)
+
+The following is how the Framework processes input data through CoreNLP. It goes through several conditional statementes to decide whether to perform NLP process. The endpoint of this flow chart is a processed dataframe containing three key columns: text, time, location.
 
 ![img](https://lh5.googleusercontent.com/9uALSFxd-NKJYBZYKKgj18_51XdyCmQkJgE4grJ3_007u6Jqxr-_GLxBQ1cqsg-4npt_MGTLoQ4uh9OtM-XHfQAef8j8-rQj0kj0yIWoFARI2QCbIj55fDlo59RR-K-NUACiYaiYLhxMPoUPdVLG9VHU0582GvltmIh0GiVx1S8Ux-S98ei2B_jAzqZu2w)
 
