@@ -16,7 +16,19 @@ Visualization plugins would take the JSON file sent by the framework and visuali
 
 ## Generality vs specificity
 
-As is described above, the core functionality of our framework’s visualization is to provide a way to restructure data (either in the form of texts or tabular data) in time and space, whose typical use cases include presenting a biography, planing a trip, and tracking a route with a map and timeline. When the dataset does not have original time/space data, the Named Entity Recognition (NER) API developed by Stanford’s CoreNLP enables humongous potential generality.
+As is described above, the core functionality of our framework’s visualization is to provide a way to restructure data (either in the form of texts or tabular data) in time and space, whose typical use cases include presenting a biography, planing a trip, and tracking a route with a map and timeline. When the dataset does not have original time/space data, the [Named Entity Recognition (NER)](https://stanfordnlp.github.io/CoreNLP/ner.html) API developed by Stanford’s CoreNLP enables humongous potential generality in that it can extract time and location entity from texts.
+
+Example:
+
+**Input**
+
+"Jason lives in Seattle in 2015."
+
+**Output**
+
+detected entity:        Seattle CITY    temporal value: null
+
+detected entity:        2015    DATE    temporal value: <TIMEX3 tid="t1" type="DATE" value="2015">2015</TIMEX3>
 
 Although theoretically any text can be input into this framework for visualization, such an unbinded generality may not always be meaningful when the input text has no clear partitions in terms of time or space. For example, there is no point visualizing a poem or a scientific research in a time-spatial analysis. To decrease the possibility of meaningless input, when inputting raw strings, developers of data plugins should try to validate that the incoming data sources inherently contain data or space entities that can be extracted. This practice can improve some degree of specificity. 
 
@@ -53,7 +65,7 @@ The following is the overall workflow of this framework.
 
 ![img](https://lh4.googleusercontent.com/hzSrE4ln6sk9CKi7ZkQhsI_eQ5KEnSLFuzoSup9pTVzNI5aT639FZkpk7raF89QAnADkiTV7so7iFZ2HIBCv0SRDruHiSpj45U3dnNsW-1eS4Nz3PLymZ71KsQiXJmsFRJisC6HaHhpR2NeOkBNTL8Ss01vPhB3496Wb_mv0T0sptG6uVwbDyI84jT0YAw)
 
-The following is how the Framework processes input data through CoreNLP. It goes through several conditional statementes to decide whether to perform NLP process. The endpoint of this flow chart is a processed dataframe containing three key columns: text, time, location.
+The following is how the Framework processes input data through CoreNLP. The unified output json from the data plugin (more details in the next section) goes through several conditional statementes to decide whether to perform NLP process. The endpoint of this flow chart is a processed dataframe containing three key columns: text, time, location.
 
 ![img](https://lh5.googleusercontent.com/9uALSFxd-NKJYBZYKKgj18_51XdyCmQkJgE4grJ3_007u6Jqxr-_GLxBQ1cqsg-4npt_MGTLoQ4uh9OtM-XHfQAef8j8-rQj0kj0yIWoFARI2QCbIj55fDlo59RR-K-NUACiYaiYLhxMPoUPdVLG9VHU0582GvltmIh0GiVx1S8Ux-S98ei2B_jAzqZu2w)
 
@@ -86,10 +98,10 @@ public JSONObject getData();
  * Example structure for the stored data to be processed by framework
  */
 {
-“has_time”: boolean,
-“has_location”: boolean,
-“Text_or_tabular”: String,
-“Text_data”: String,
+“Text_or_tabular”: String (whether the data is recorded in text or tabular format),
+“has_time”: boolean (whether the tabular data has a time column), 
+“has_location”: boolean (whether the tabular data has a time column),
+“Text_data”: String (data in text format),
 “Tabluar_data”: [
 				{“time”: String, 
 				"location": String, 
