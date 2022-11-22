@@ -1,23 +1,23 @@
-package edu.cmu.cs214.hw6.plugin;
+// package edu.cmu.cs214.hw6.plugin;
 
-import org.json.JSONObject;
+// import org.json.JSONObject;
 
-import edu.cmu.cs214.hw6.framework.core.DataPlugin;
-import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
+// import edu.cmu.cs214.hw6.framework.core.DataPlugin;
+// import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 
 
-public class  WikipediaPlugin implements DataPlugin {
+// public class WikiPlugin implements DataPlugin {
     
     
-    @Override
-    public void onRegister(WorkFlowFramework framework) {
-        // TODO
+//     @Override
+//     public void onRegister(WorkFlowFramework framework) {
+//         // TODO
         
-    }
+//     }
 
-    @Override
-    public JSONObject getData() {
-        // TODO
-        return null;
-    }
-}
+// //     @Override
+// //     public JSONObject getData() {
+// //         // TODO
+// //         return null;
+// //     }
+// // }
