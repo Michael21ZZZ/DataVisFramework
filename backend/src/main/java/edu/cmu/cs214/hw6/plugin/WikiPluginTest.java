@@ -13,6 +13,7 @@ public class WikiPluginTest {
     public static void main(String[] args) {
         Wiki wiki = new Wiki.Builder().build();
         //System.out.println(wiki.getPageText("Elon Musk") );
+        
         System.out.println(wiki.getTextExtract("Elon Musk") );
     }
 }

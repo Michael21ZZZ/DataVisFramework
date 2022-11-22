@@ -8,16 +8,15 @@
 
 // public class WikiPlugin implements DataPlugin {
     
-    
 //     @Override
 //     public void onRegister(WorkFlowFramework framework) {
 //         // TODO
         
 //     }
 
-// //     @Override
-// //     public JSONObject getData() {
-// //         // TODO
-// //         return null;
-// //     }
-// // }
+//     @Override
+//     public JSONObject getData() {
+//         // TODO
+//         return null;
+//     }
+// }
