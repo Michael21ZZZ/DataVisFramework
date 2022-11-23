@@ -6,7 +6,7 @@ import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 
 
-public class  WikipediaPlugin implements DataPlugin {
+public class WikiPlugin implements DataPlugin {
     
     
     @Override
