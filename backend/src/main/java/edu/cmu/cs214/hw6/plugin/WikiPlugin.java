@@ -20,4 +20,10 @@ public class WikiPlugin implements DataPlugin {
         // TODO
         return null;
     }
+
+    @Override
+    public void search(String keywords) {
+        // TODO Auto-generated method stub
+        
+    }
 }
