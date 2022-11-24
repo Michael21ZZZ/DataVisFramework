@@ -3,6 +3,7 @@ package edu.cmu.cs214.hw6.framework.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.cmu.cs214.hw6.NLP.NLPHelper;
@@ -45,7 +46,7 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
         if (!isTabular) { // if it's pure text, needs to partitioned
             return new JSONObject();
         } else {
-            List<JSONObject> tabularData = unprocessedData.tabularData();
+            JSONArray tabularData = unprocessedData.tabularData();
             boolean hasTime = unprocessedData.hasTime();
             boolean hasLocation = unprocessedData.hasLocation();
             if (!hasTime) {
