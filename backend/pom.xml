@@ -35,11 +35,6 @@
       <artifactId>json</artifactId>
       <version>20220924</version>
     </dependency>
-    <dependency>
-      <groupId>io.github.fastily</groupId>
-      <artifactId>jwiki</artifactId>
-      <version>1.10.0</version>
-    </dependency>
     </dependencies>
 
   <build>
