@@ -1,22 +1,32 @@
-// package edu.cmu.cs214.hw6.plugin;
+package edu.cmu.cs214.hw6.plugin;
 
-// import org.json.JSONObject;
+import org.json.JSONObject;
+import io.github.fastily.jwiki.*;
+import io.github.fastily.jwiki.core.Wiki;
+import edu.cmu.cs214.hw6.framework.core.*;
 
-// import edu.cmu.cs214.hw6.framework.core.DataPlugin;
-// import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
+public class WikiPlugin implements DataPlugin {
+
+    private WorkFlowFramework framework;
+    private String keyword;
+    private String text;
 
 
-// public class WikiPlugin implements DataPlugin {
     
-//     @Override
-//     public void onRegister(WorkFlowFramework framework) {
-//         // TODO
-        
-//     }
+    @Override
+    public void onRegister(WorkFlowFramework framework) {
+        this.framework = framework;
+    }
 
-//     @Override
-//     public JSONObject getData() {
-//         // TODO
-//         return null;
-//     }
-// }
+    @Override
+    public UnProcessedData getData() {
+
+        UnProcessedData data = new UnProcessedData(null, false, false, null, null);
+        return data;
+    }
+
+    private void search(String keyword) {
+        Wiki wiki = new Wiki.Builder().build();
+        this.text = wiki.getTextExtract("Elon Musk") ;
+    }
+}
