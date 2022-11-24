@@ -40,12 +40,12 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
     }
 
     public JSONObject processData(UnProcessedData unprocessedData) {
-        String textOrTabular = unprocessedData.textOrTabular();
+        boolean isTabular = unprocessedData.isTabular();
         NLPHelper nlpHelper = new NLPHelper();
-        if (textOrTabular.equals("text")) { // pure text needs to partitioned
+        if (!isTabular) { // if it's pure text, needs to partitioned
             return new JSONObject();
         } else {
-            JSONObject tabularData = unprocessedData.tabularData();
+            List<JSONObject> tabularData = unprocessedData.tabularData();
             boolean hasTime = unprocessedData.hasTime();
             boolean hasLocation = unprocessedData.hasLocation();
             if (!hasTime) {
@@ -54,7 +54,10 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
             if (!hasLocation) {
                 tabularData = nlpHelper.parseLocation(tabularData);
             }
-            return tabularData;
+            JSONObject res = new JSONObject();
+            res.put("CoreData", tabularData);
+            res.put("LocationFreq", new JSONObject()); // TODO
+            return res;
         }
     }
 }

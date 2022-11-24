@@ -38,8 +38,6 @@ public class App extends NanoHTTPD {
         for (DataPlugin p: plugins){
             workFlow.registerPlugin(p);
         }
-
-
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         System.out.println("\nRunning! Point your browsers to http://localhost:8080/ \n");
     }
