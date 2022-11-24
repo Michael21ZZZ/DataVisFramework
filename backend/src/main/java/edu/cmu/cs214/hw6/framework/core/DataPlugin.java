@@ -19,5 +19,11 @@ public interface DataPlugin {
      * This method will return that field of JSONObject to the framework
      */
     public UnProcessedData getData();
+
+    /**
+     * Perform search 
+     * @param keywords Words used for search
+     */
+    public void search(String keywords);
         
     }
