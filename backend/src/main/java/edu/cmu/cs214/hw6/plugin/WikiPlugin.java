@@ -22,7 +22,6 @@ public class WikiPlugin implements DataPlugin {
 
     @Override
     public UnProcessedData getData() {
-        this.search(this.keyword);
         UnProcessedData wikiData = new UnProcessedData(
             this.textOrTabular,
             this.hasTime,
