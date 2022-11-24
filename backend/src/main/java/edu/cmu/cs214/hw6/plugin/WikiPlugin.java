@@ -1,29 +1,41 @@
 package edu.cmu.cs214.hw6.plugin;
 
 import org.json.JSONObject;
-
-import edu.cmu.cs214.hw6.framework.core.DataPlugin;
-import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
-
+import io.github.fastily.jwiki.*;
+import io.github.fastily.jwiki.core.Wiki;
+import edu.cmu.cs214.hw6.framework.core.*;
 
 public class WikiPlugin implements DataPlugin {
-    
-    
+
+    private WorkFlowFramework framework;
+    private String keyword;
+    private String textData;
+    private final String textOrTabular = "text";
+    private final boolean hasTime = false;
+    private final boolean hasLocation = false;
+    private final JSONObject tabularData = null;
+
     @Override
     public void onRegister(WorkFlowFramework framework) {
-        // TODO
-        
+        this.framework = framework;
     }
 
     @Override
-    public JSONObject getData() {
-        // TODO
-        return null;
+    public UnProcessedData getData() {
+        UnProcessedData wikiData = new UnProcessedData(
+            this.textOrTabular,
+            this.hasTime,
+            this.hasLocation,
+            this.textData,
+            this.tabularData);
+        return wikiData;
     }
-
-    @Override
+    /**
+     * Search the keyword on wikipedia and updated the textData.
+     * If there is not matching keyword, the textData would be null. 
+     */
     public void search(String keywords) {
-        // TODO Auto-generated method stub
-        
+        Wiki wiki = new Wiki.Builder().build();
+        this.textData = wiki.getTextExtract(this.keyword) ;
     }
 }

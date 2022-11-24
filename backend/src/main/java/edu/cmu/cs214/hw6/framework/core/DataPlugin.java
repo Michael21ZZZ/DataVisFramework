@@ -25,6 +25,5 @@ public interface DataPlugin {
      * @param keywords Words used for search
      */
     public void search(String keywords);
-
-
+        
     }
