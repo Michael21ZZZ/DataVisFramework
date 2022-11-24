@@ -3,6 +3,7 @@ package edu.cmu.cs214.hw6.plugin;
 import org.json.JSONObject;
 
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
+import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 
 public class TwitterPlugin implements DataPlugin{
@@ -14,7 +15,7 @@ public class TwitterPlugin implements DataPlugin{
     }
 
     @Override
-    public JSONObject getData() {
+    public UnProcessedData getData() {
         // TODO Auto-generated method stub
         return null;
     }
