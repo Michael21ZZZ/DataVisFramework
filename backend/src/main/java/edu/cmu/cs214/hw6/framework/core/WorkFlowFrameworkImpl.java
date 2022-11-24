@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import edu.cmu.cs214.hw6.NLP.NLPHelper;
+
 public class WorkFlowFrameworkImpl implements WorkFlowFramework{
     private DataPlugin currentPlugin;
     private List<DataPlugin>  registeredPlugins;
@@ -37,7 +39,16 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
         }
     }
 
-    public JSONObject processData(JSONObject unprocessedData) {
-        boolean 
+    public JSONObject processData(UnProcessedData unprocessedData) {
+        String textOrTabular = unprocessedData.textOrTabular();
+        NLPHelper nlpHelper = new NLPHelper();
+        if (textOrTabular.equals("text")) {
+
+        } else {
+            JSONObject tabularData = unprocessedData.tabularData();
+            boolean hasTime = unprocessedData.hasTime();
+            boolean hasLocation = unprocessedData.hasLocation();
+            
+        }
     }
 }
