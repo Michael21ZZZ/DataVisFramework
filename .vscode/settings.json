@@ -1,5 +1,5 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive",
     "java.dependency.packagePresentation": "flat",
     "java.configuration.updateBuildConfiguration": "interactive"
 }
