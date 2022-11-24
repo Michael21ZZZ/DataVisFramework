@@ -42,13 +42,19 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
     public JSONObject processData(UnProcessedData unprocessedData) {
         String textOrTabular = unprocessedData.textOrTabular();
         NLPHelper nlpHelper = new NLPHelper();
-        if (textOrTabular.equals("text")) {
-
+        if (textOrTabular.equals("text")) { // pure text needs to partitioned
+            return new JSONObject();
         } else {
             JSONObject tabularData = unprocessedData.tabularData();
             boolean hasTime = unprocessedData.hasTime();
             boolean hasLocation = unprocessedData.hasLocation();
-            
+            if (!hasTime) {
+                tabularData = nlpHelper.parseTime(tabularData);
+            }
+            if (!hasLocation) {
+                tabularData = nlpHelper.parseLocation(tabularData);
+            }
+            return tabularData;
         }
     }
 }
