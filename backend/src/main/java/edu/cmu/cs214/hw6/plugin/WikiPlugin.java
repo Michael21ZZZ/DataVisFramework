@@ -22,6 +22,7 @@ public class WikiPlugin implements DataPlugin {
 
     @Override
     public UnProcessedData getData() {
+        this.search();
         UnProcessedData wikiData = new UnProcessedData(
             this.textOrTabular,
             this.hasTime,
@@ -31,7 +32,7 @@ public class WikiPlugin implements DataPlugin {
         return wikiData;
     }
 
-    private void search() {
+    private void search(String keywords) {
         Wiki wiki = new Wiki.Builder().build();
         this.textData = wiki.getTextExtract(this.keyword) ;
     }
