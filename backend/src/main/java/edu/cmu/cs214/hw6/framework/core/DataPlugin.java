@@ -18,7 +18,7 @@ public interface DataPlugin {
      * JSONObject to store the data to be processed by framework
      * This method will return that field of JSONObject to the framework
      */
-    public JSONObject getData();
+    public UnProcessedData getData();
 
     /**
      * Perform search 
