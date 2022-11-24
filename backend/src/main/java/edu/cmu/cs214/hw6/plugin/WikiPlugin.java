@@ -30,7 +30,10 @@ public class WikiPlugin implements DataPlugin {
             this.tabularData);
         return wikiData;
     }
-
+    /**
+     * Search the keyword on wikipedia and updated the textData.
+     * If there is not matching keyword, the textData would be null. 
+     */
     public void search(String keywords) {
         Wiki wiki = new Wiki.Builder().build();
         this.textData = wiki.getTextExtract(this.keyword) ;
