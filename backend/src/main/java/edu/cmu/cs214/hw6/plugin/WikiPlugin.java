@@ -9,10 +9,12 @@ public class WikiPlugin implements DataPlugin {
 
     private WorkFlowFramework framework;
     private String keyword;
-    private String text;
+    private String textData;
+    private final String textOrTabular = "text";
+    private final boolean hasTime = false;
+    private final boolean hasLocation = false;
+    private final JSONObject tabularData = null;
 
-
-    
     @Override
     public void onRegister(WorkFlowFramework framework) {
         this.framework = framework;
@@ -20,13 +22,17 @@ public class WikiPlugin implements DataPlugin {
 
     @Override
     public UnProcessedData getData() {
-
-        UnProcessedData data = new UnProcessedData(null, false, false, null, null);
-        return data;
+        UnProcessedData wikiData = new UnProcessedData(
+            this.textOrTabular,
+            this.hasTime,
+            this.hasLocation,
+            this.textData,
+            this.tabularData);
+        return wikiData;
     }
 
-    private void search(String keyword) {
+    private void search() {
         Wiki wiki = new Wiki.Builder().build();
-        this.text = wiki.getTextExtract("Elon Musk") ;
+        this.textData = wiki.getTextExtract(this.keyword) ;
     }
 }
