@@ -6,7 +6,7 @@ Hi! This is TP-Link.
  * Data structure from back-end to front-end
  */
 {
-“Core Data”: {[
+“CoreData”: {[
   “Time”: String,
   “Space”: String, 
   “Lontitude”: String,
@@ -14,7 +14,7 @@ Hi! This is TP-Link.
   “Event”: String],
   ...
               }
-“Location Frequency”: {
+“LocationFreq”: {
   “Location”: String,
   “Frequency”: int}
               }
