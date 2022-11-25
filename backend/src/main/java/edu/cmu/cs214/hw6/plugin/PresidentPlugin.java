@@ -6,7 +6,11 @@ import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 
-public class TwitterPlugin implements DataPlugin{
+/**
+ * Plugin to extract presidents' travel log
+ * https://history.state.gov/departmenthistory/travels/president
+ */
+public class PresidentPlugin implements DataPlugin{
 
     @Override
     public void onRegister(WorkFlowFramework framework) {
