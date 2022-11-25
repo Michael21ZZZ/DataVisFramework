@@ -1,6 +1,5 @@
 package edu.cmu.cs214.hw6.NLP;
 
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
