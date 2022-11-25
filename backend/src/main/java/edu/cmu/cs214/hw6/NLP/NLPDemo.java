@@ -48,9 +48,9 @@ public class NLPDemo {
 
       // make an example document
       String[] texts =  {
-        "Jason lives in Seattle in 2015.",
-        "The meeting will be held at 4:00pm in the library",
-        "The conflict has lasted for over 15 years and shows no signs of abating."
+        "On the first day, I went to Beijing.",
+        "On the next day, I went to Shanghai.",
+        "3 days later, I went to Japan."
       };
       for (String text: texts) {
         start = System.currentTimeMillis();
