@@ -12,22 +12,43 @@ import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
  */
 public class PresidentPlugin implements DataPlugin{
 
-    @Override
-    public void onRegister(WorkFlowFramework framework) {
-        // TODO Auto-generated method stub
-        
+    private WorkFlowFramework framework;
+    
+    private boolean isTabular;
+    private boolean hasTime;
+    private boolean hasLocation;
+    private String textData;
+    private JSONArray tabularData;
+
+    public PresidentPlugin() {
+        this.isTabular = true;
+        this.hasTime = true;
+        this.hasLocation = true;
+        this.textData = "";
+
     }
 
     @Override
+    public void onRegister(WorkFlowFramework framework) {
+        this.framework = framework;
+        
+    }
+    @Override
     public UnProcessedData getData() {
-        // TODO Auto-generated method stub
-        return null;
+        UnProcessedData presidentData = new UnProcessedData(
+            this.isTabular,
+            this.hasTime,
+            this.hasLocation,
+            this.textData,
+            this.tabularData);
+        return presidentData;
     }
 
     @Override
     public void search(String keywords) {
-        // TODO Auto-generated method stub
         
     }
+
+
     
 }

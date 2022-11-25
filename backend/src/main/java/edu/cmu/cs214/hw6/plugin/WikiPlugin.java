@@ -7,11 +7,18 @@ import edu.cmu.cs214.hw6.framework.core.*;
 public class WikiPlugin implements DataPlugin {
 
     private WorkFlowFramework framework;
+    private boolean isTabular;
+    private boolean hasTime;
+    private boolean hasLocation;
     private String textData;
-    private final boolean isTabular = false;
-    private final boolean hasTime = false;
-    private final boolean hasLocation = false;
-    private final JSONArray tabularData = null;
+    private JSONArray tabularData;
+    
+    public WikiPlugin() {
+        this.isTabular = false;
+        this.hasTime = false;
+        this.hasLocation = false;
+        this.tabularData = null;
+    }
 
     @Override
     public void onRegister(WorkFlowFramework framework) {
