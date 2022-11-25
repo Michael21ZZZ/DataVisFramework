@@ -40,6 +40,11 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
         }
     }
 
+    /**
+     * Process data from plugin, nlp extract time/location, and calculate location freq
+     * @param unprocessedData
+     * @return
+     */
     public JSONObject processData(UnProcessedData unprocessedData) {
         boolean isTabular = unprocessedData.isTabular();
         NLPHelper nlpHelper = new NLPHelper();
@@ -56,8 +61,8 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
                 tabularData = nlpHelper.parseLocation(tabularData);
             }
             JSONObject res = new JSONObject();
-            res.put("CoreData", tabularData);
-            res.put("LocationFreq", new JSONObject()); // TODO
+            res.put("coreData", tabularData);
+            res.put("locationFreq", new JSONObject()); // TODO
             return res;
         }
     }
