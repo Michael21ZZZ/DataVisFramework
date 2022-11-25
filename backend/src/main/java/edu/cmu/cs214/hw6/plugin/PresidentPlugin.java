@@ -1,6 +1,6 @@
 package edu.cmu.cs214.hw6.plugin;
 
-import org.json.JSONObject;
+import org.json.*;
 
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
