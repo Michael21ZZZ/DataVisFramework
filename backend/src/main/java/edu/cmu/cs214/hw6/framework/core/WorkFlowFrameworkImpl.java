@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.cmu.cs214.hw6.NLP.GoogleGeoCoding;
 import edu.cmu.cs214.hw6.NLP.NLPHelper;
 
 public class WorkFlowFrameworkImpl implements WorkFlowFramework{
@@ -59,6 +60,15 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
             }
             if (!hasLocation) {
                 tabularData = nlpHelper.parseLocation(tabularData);
+            }
+
+            // add location to each data row
+            GoogleGeoCoding ggc = new GoogleGeoCoding();
+            for (int i = 0; i < tabularData.length(); i++) {
+                JSONObject row = tabularData.getJSONObject(i);
+                JSONObject coord = ggc.getCord(row.getString("location"));
+                row.put("lng", coord.getDouble("lng"));
+                row.put("lat", coord.getDouble("lat"));
             }
             JSONObject res = new JSONObject();
             res.put("coreData", tabularData);
