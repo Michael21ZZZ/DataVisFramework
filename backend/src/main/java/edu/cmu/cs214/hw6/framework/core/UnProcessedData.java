@@ -5,9 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-/**
- * needs to be revised as json object
- */
+
 public record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, String textData, JSONArray tabularData) {
 
 }

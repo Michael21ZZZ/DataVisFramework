@@ -35,7 +35,6 @@ public class PresidentPlugin implements DataPlugin{
         this.hasLocation = true;
         this.textData = "";
         this.tabularData = new JSONArray();
-
     }
 
     @Override
