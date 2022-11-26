@@ -8,7 +8,10 @@ import java.util.ServiceLoader;
 
 import javax.xml.crypto.Data;
 
+import org.json.JSONObject;
+
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
+import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFrameworkImpl;
 import fi.iki.elonen.NanoHTTPD;
@@ -49,18 +52,14 @@ public class App extends NanoHTTPD {
         if (uri.equals("/plugin")) {
             // e.g., /plugin?i=0
             workFlow.registerPlugin(plugins.get(Integer.parseInt(params.get("i"))));
-        } else if (uri.equals("/play")){
+            return newFixedLengthResponse("");
+        } else if (uri.equals("/submitdata")){
             // e.g., /play?x=1&y=1
-            if (game.hasGame()) {
-                game.playMove(Integer.parseInt(params.get("x")), Integer.parseInt(params.get("y")));
-            }
-        } else if (uri.equals("/start")){
-
-        }
-        Extract the view-specific data from the game and apply it to the template.
-        GameState gameplay = GameState.forGame(this.game);
-        return newFixedLengthResponse(gameplay.toString());
-        return newFixedLengthResponse("Hello World!");
+            UnProcessedData UnProcessedData = workFlow.fetchData(params.get("keyword")); // TODO
+            JSONObject processedData = workFlow.processData(UnProcessedData);
+            return newFixedLengthResponse(processedData.toString());
+        } 
+        return newFixedLengthResponse("");
     }
 
 
