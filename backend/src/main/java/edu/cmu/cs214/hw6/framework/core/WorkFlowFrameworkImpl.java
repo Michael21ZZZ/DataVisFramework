@@ -61,7 +61,6 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
             if (!unprocessedData.hasLocation()) {
                 tabularData = nlpHelper.parseLocation(tabularData);
             }
-
             // A map store the freq of a location
             Map<String, Integer> locFreqMap = new HashMap<String, Integer>();
             // iterate through the data rows; add location; update location freq map

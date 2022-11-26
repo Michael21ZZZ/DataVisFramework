@@ -1,50 +1,11 @@
 package edu.cmu.cs214.hw6.NLP;
-
-import java.util.Properties;
-import java.util.stream.Collectors;
-
 import edu.stanford.nlp.pipeline.*;
-import edu.stanford.nlp.time.TimeAnnotations;
 
+import java.util.*;
 
-public class NLPDemo {
-
-    public static void main(String[] args) {
-      // set up pipeline properties
-      Properties props = new Properties();
-      props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
-      // example customizations (these are commented out but you can uncomment them to see the results
-  
-      // disable fine grained ner
-      // props.setProperty("ner.applyFineGrained", "false");
-  
-      // customize fine grained ner
-      // props.setProperty("ner.fine.regexner.mapping", "example.rules");
-      // props.setProperty("ner.fine.regexner.ignorecase", "true");
-  
-      // add additional rules, customize TokensRegexNER annotator
-      // props.setProperty("ner.additional.regexner.mapping", "example.rules");
-      // props.setProperty("ner.additional.regexner.ignorecase", "true");
-  
-      // add 2 additional rules files ; set the first one to be case-insensitive
-      // props.setProperty("ner.additional.regexner.mapping", "ignorecase=true,example_one.rules;example_two.rules");
-  
-      // set document date to be a specific date (other options are explained in the document date section)
-      // props.setProperty("ner.docdate.useFixedDate", "2019-01-01");
-  
-      // only run rules based NER
-      // props.setProperty("ner.rulesOnly", "true");
-  
-      // only run statistical NER
-      // props.setProperty("ner.statisticalOnly", "true");
-  
-      // set up pipeline
-      long start = System.currentTimeMillis();
-      StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-      long finish = System.currentTimeMillis();
-      long timeElapsed = finish - start;
-      System.out.println("Set up pipeline takes:" + timeElapsed);
-      String article = """
+public class NLPSplitSent {
+    
+    public static String text = """
         The American Civil War (April 12, 1861 – May 26, 1865; also known by other names) was a civil war in the United States. 
         It was fought between the Union[f] (the North) and the Confederacy (the South), the latter formed by states that had seceded. 
         The central cause of the war was the dispute over whether slavery would be permitted to expand into the western territories, leading to more slave states, or be prevented from doing so, which was widely believed would place slavery on a course of ultimate extinction. 
@@ -74,36 +35,21 @@ public class NLPDemo {
         In total, the war left between 620,000 and 750,000 soldiers dead, along with an undetermined number of civilian casualties, making the Civil War the deadliest military conflict in American history.
         [g] The technology and brutality of the Civil War foreshadowed the coming World Wars.
       """;
-      String[] sentences = article.split("\\. "); 
-      for (String stenence: sentences) {
-        System.out.println(stenence);
-      }
-      
-      // make an example document
-      String[] texts =  {
-        "On the first day, I went to Beijing.",
-        "On the next day, I went to Shanghai.",
-        "3 days later, I went to Japan."
-      };
-      for (String text: texts) {
-        start = System.currentTimeMillis();
-        CoreDocument doc = new CoreDocument(text);
-        // annotate the document
-        pipeline.annotate(doc);
-        // view results
-        System.out.println("---");
-        System.out.println("entities found");
-        for (CoreEntityMention em : doc.entityMentions())
-          System.out.println("\tdetected entity: \t"+em.text()+"\t"+em.entityType() + "\t" + "temporal value: " + em.coreMap().get(TimeAnnotations.TimexAnnotation.class));
-        System.out.println("---");
-        System.out.println("tokens and ner tags");
-        String tokensAndNERTags = doc.tokens().stream().map(token -> "("+token.word()+","+token.ner()+")").collect(
-            Collectors.joining(" "));
-        System.out.println(tokensAndNERTags);
-        finish = System.currentTimeMillis();
-        timeElapsed = finish - start;
-        System.out.println("Analyze one sentence takes:" + timeElapsed);
-      } 
-    }  
-  }
 
+    public static void main(String[] args) {
+        // set up pipeline properties
+        Properties props = new Properties();
+        // set the list of annotators to run
+        props.setProperty("annotators", "tokenize, ssplit");
+        // build pipeline
+        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+        // create a document object
+        CoreDocument doc = new CoreDocument(text);
+        // annotate
+        pipeline.annotate(doc);
+        // display sentences
+        for (CoreSentence sent : doc.sentences()) {
+            System.out.println(sent.text());
+        }
+    }
+}
