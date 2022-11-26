@@ -46,20 +46,20 @@ public class App extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         String uri = session.getUri();
         Map<String, String> params = session.getParms();
-        // if (uri.equals("/plugin")) {
-        //     // e.g., /plugin?i=0
-        //     game.startNewGame(plugins.get(Integer.parseInt(params.get("i"))));
-        // } else if (uri.equals("/play")){
-        //     // e.g., /play?x=1&y=1
-        //     if (game.hasGame()) {
-        //         game.playMove(Integer.parseInt(params.get("x")), Integer.parseInt(params.get("y")));
-        //     }
-        // } else if (uri.equals("/start")){
+        if (uri.equals("/plugin")) {
+            // e.g., /plugin?i=0
+            workFlow.registerPlugin(plugins.get(Integer.parseInt(params.get("i"))));
+        } else if (uri.equals("/play")){
+            // e.g., /play?x=1&y=1
+            if (game.hasGame()) {
+                game.playMove(Integer.parseInt(params.get("x")), Integer.parseInt(params.get("y")));
+            }
+        } else if (uri.equals("/start")){
 
-        // }
-        // Extract the view-specific data from the game and apply it to the template.
-        // GameState gameplay = GameState.forGame(this.game);
-        // return newFixedLengthResponse(gameplay.toString());
+        }
+        Extract the view-specific data from the game and apply it to the template.
+        GameState gameplay = GameState.forGame(this.game);
+        return newFixedLengthResponse(gameplay.toString());
         return newFixedLengthResponse("Hello World!");
     }
 
