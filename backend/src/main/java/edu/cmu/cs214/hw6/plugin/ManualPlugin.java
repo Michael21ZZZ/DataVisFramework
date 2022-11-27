@@ -5,15 +5,24 @@ import org.json.*;
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
+import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 
 public class ManualPlugin implements DataPlugin{
 
     private WorkFlowFramework framework;
+    private boolean isTabular;
+    private boolean hasTime;
+    private boolean hasLocation;
     private String textData;
-    private final boolean isTabular = false;
-    private final boolean hasTime = false;
-    private final boolean hasLocation = false;
-    private final JSONArray tabularData = null;
+    private JSONArray tabularData;
+
+    public ManualPlugin() {
+        this.isTabular = true;
+        this.hasTime = true;
+        this.hasLocation = true;
+        this.textData = "";
+        this.tabularData = new JSONArray();
+    }
 
     @Override
     public void onRegister(WorkFlowFramework framework) {
@@ -23,14 +32,18 @@ public class ManualPlugin implements DataPlugin{
 
     @Override
     public UnProcessedData getData() {
-        // TODO Auto-generated method stub
-        return null;
+        UnProcessedData manualData = new UnProcessedData(
+            this.isTabular,
+            this.hasTime,
+            this.hasLocation,
+            this.textData,
+            this.tabularData);
+        return manualData;
     }
 
     @Override
-    public void search(String keywords) {
-        // TODO Auto-generated method stub
-        
+    public void search(SearchTerm searchTerm) {
+        this.tabularData = searchTerm.tabularInput();
     }
     
 }

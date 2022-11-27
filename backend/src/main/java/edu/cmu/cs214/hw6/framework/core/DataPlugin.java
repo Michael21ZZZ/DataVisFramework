@@ -22,8 +22,8 @@ public interface DataPlugin {
 
     /**
      * Perform search 
-     * @param keywords Words used for search
+     * @param searchJsonObject Words used for search
      */
-    public void search(String keywords);
+    public void search(SearchTerm searchTerm);
         
 }

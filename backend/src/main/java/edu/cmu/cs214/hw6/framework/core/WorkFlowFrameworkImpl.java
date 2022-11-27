@@ -34,9 +34,9 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
         this.currentPlugin = plugin;
     }
 
-    public UnProcessedData fetchData(String keywords) {
+    public UnProcessedData fetchData(SearchTerm searchTerm) {
         if (this.currentPlugin != null) {
-            this.currentPlugin.search(keywords);
+            this.currentPlugin.search(searchTerm);
             return this.currentPlugin.getData();
         } else {
             return null;
