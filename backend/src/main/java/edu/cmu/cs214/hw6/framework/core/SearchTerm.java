@@ -6,6 +6,6 @@ import org.json.JSONObject;
 
 
 
-public record SearchTerm(String keyword, JSONArray tabularData) {
+public record SearchTerm(String keyword, JSONArray tabularInput) {
 
 }

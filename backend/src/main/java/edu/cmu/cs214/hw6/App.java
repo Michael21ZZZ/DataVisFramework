@@ -8,7 +8,12 @@ import java.util.ServiceLoader;
 
 import javax.xml.crypto.Data;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
+import edu.cmu.cs214.hw6.framework.core.SearchTerm;
+import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFrameworkImpl;
 import fi.iki.elonen.NanoHTTPD;
@@ -46,21 +51,17 @@ public class App extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         String uri = session.getUri();
         Map<String, String> params = session.getParms();
-        // if (uri.equals("/plugin")) {
-        //     // e.g., /plugin?i=0
-        //     game.startNewGame(plugins.get(Integer.parseInt(params.get("i"))));
-        // } else if (uri.equals("/play")){
-        //     // e.g., /play?x=1&y=1
-        //     if (game.hasGame()) {
-        //         game.playMove(Integer.parseInt(params.get("x")), Integer.parseInt(params.get("y")));
-        //     }
-        // } else if (uri.equals("/start")){
-
-        // }
-        // Extract the view-specific data from the game and apply it to the template.
-        // GameState gameplay = GameState.forGame(this.game);
-        // return newFixedLengthResponse(gameplay.toString());
-        return newFixedLengthResponse("Hello World!");
+        if (uri.equals("/plugin")) {
+            // e.g., /plugin?i=0
+            workFlow.registerPlugin(plugins.get(Integer.parseInt(params.get("i"))));
+            return newFixedLengthResponse("");
+        } else if (uri.equals("/submitdata")){
+            // e.g., /play?x=1&y=1
+            UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
+            JSONObject processedData = workFlow.processData(UnProcessedData);
+            return newFixedLengthResponse(processedData.toString());
+        } 
+        return newFixedLengthResponse("");
     }
 
 
@@ -83,5 +84,18 @@ public class App extends NanoHTTPD {
         public String getText() {
             return "Hello World!";
         }
+    }
+    
+    /**
+     * Parse params into a search item before feeding into fetchData. 
+     * @param params
+     * @return searchTerm 
+     */
+    private SearchTerm parseParams(Map<String, String> params) {
+        String keyword = params.get("keyword");
+        JSONArray tabularInput = new JSONArray(params.get("tabularInput")); // TODO!
+        SearchTerm searchTerm = new SearchTerm(keyword, tabularInput);
+
+        return searchTerm;
     }
 }

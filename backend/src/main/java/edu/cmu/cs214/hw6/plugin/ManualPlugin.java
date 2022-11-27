@@ -43,7 +43,7 @@ public class ManualPlugin implements DataPlugin{
 
     @Override
     public void search(SearchTerm searchTerm) {
-        this.tabularData = searchTerm.tabularData();
+        this.tabularData = searchTerm.tabularInput();
     }
     
 }
