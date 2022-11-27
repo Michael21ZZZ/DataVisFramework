@@ -26,4 +26,4 @@ public interface DataPlugin {
      */
     public void search(String keywords);
         
-    }
+}
