@@ -20,7 +20,7 @@ class framework {
       return plugin
     }
 
-    registerPlugins(dir: string): void {
+    private registerPlugins(dir: string): void {
         var plugins: string[] = [];
         var loc: string = './' + dir + '/'
         fs.readdir(loc, (err: any, files: string[]) => {
