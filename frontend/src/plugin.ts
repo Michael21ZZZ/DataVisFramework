@@ -1,10 +1,9 @@
+import { pluginData } from "./data";
+import { framework } from "./framework";
+
 interface VisualizationPlugin {
-  register: void;
-  renderData: React.ReactNode;
-}
-
-interface Visualization {
+  renderData: (data: pluginData) => void;
 
 }
 
-export type { VisualizationPlugin }
+export type { VisualizationPlugin}

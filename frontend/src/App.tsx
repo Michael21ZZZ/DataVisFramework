@@ -1,8 +1,11 @@
-import Plotly from 'plotly.js';
 import React from 'react';
 
 import './App.css'; // import the css file to enable your styles.
-import { VisualizationPlugin } from './plugin';
+import { pluginData } from './data';
+import { framework } from './framework';
+import { plugin1 } from './plugins/plugin1';
+import { plugin2 } from './plugins/plugin2';
+import { plugin3 } from './plugins/plugin3';
 
 /**
  * Define the type of the props field for a React component
@@ -24,21 +27,20 @@ interface Props { }
  * state is the internal value of the component and managed by
  * the component itself.
  */
-class App extends React.Component<Props, VisualizationPlugin> {
+class App extends React.Component<Props, framework> {
   private initialized: boolean = false;
+  private PLUGIN_DIR = 'plugins'
 
   /**
    * @param props has type Props
    */
   constructor(props: Props) {
     super(props)
+
     /**
      * state has type Visualization Plugin as specified in the class inheritance.
      */
-     this.state = {
-      register: undefined,
-      renderData: null
-    };
+
   }
 
   /**
@@ -63,23 +65,11 @@ class App extends React.Component<Props, VisualizationPlugin> {
   }
 
   viztest (): void {
-    var data: [{}] = [
-			{
-				type: "scattermapbox",
-				text: "PIT",
-				lon: [-40],
-				lat: [80],
-				marker: { color: "fuchsia", size: 4}
-			}
-		];
-
-		var layout: {} = {
-			dragmode: "zoom",
-			mapbox: { style: "open-street-map", center: { lat: 38, lon: -90 }, zoom: 3},
-			margin: { r: 0, t: 0, b: 0, l: 0 }
-		};
-
-		Plotly.newPlot("PlotlyTest", data, layout);
+    let data: pluginData = {"coreData":[{"lng":-79.9958864,"location":"Pittsburgh","time":"2022-05-12","text":"I had a donut.","lat":40.44062479999999},{"lng":-74.0059728,"location":"New York","time":"2022-06-12","text":"I went to the Met.","lat":40.7127753},{"lng":-87.6297982,"location":"Chicago","time":"2023-09-29","text":"Peter and I went to Ed Sheeran's concert.","lat":41.8781136},{"lng":-79.9958864,"location":"Pittsburgh","time":"2024-02-1","text":"The Civil War 2 broke out.","lat":40.44062479999999}],
+    "locationFreq":{"New York":1,"Chicago":1,"Pittsburgh":2}}
+    let work: framework = new framework()
+    work.registerPlugin(new plugin3())
+    work.selectPlugin(0).renderData(data)
   }
 
   /**
@@ -95,7 +85,7 @@ class App extends React.Component<Props, VisualizationPlugin> {
      */
     return (
       <div>
-      <button className="dropbtn" onClick={/* Call the function */this.viztest}>Visualization Test</button>
+      <button className="dropbtn" onClick={/* Call the function */this.viztest}>Visualization Test 1</button>
       <div id='PlotlyTest'></div>
       </div>
     );
