@@ -5,6 +5,7 @@ import org.json.*;
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
+import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -54,9 +55,10 @@ public class PresidentPlugin implements DataPlugin{
     }
 
     @Override
-    public void search (String keywords) {
+    public void search (SearchTerm searchTerm) {
+        String keyword = searchTerm.keyword();
         try {
-            this.tabularData = loadTravelLogs(keywords);
+            this.tabularData = loadTravelLogs(keyword);
         } catch(ParserConfigurationException e) {
             System.out.println(e.getMessage());  
         } catch(SAXException e) {

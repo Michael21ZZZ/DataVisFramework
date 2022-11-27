@@ -3,6 +3,7 @@ package edu.cmu.cs214.hw6.plugin;
 import org.json.*;
 import io.github.fastily.jwiki.core.Wiki;
 import edu.cmu.cs214.hw6.framework.core.*;
+import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 
 public class WikiPlugin implements DataPlugin {
 
@@ -40,9 +41,10 @@ public class WikiPlugin implements DataPlugin {
      * Search the keyword on wikipedia and updated the textData.
      * If there is not matching keyword, the textData would be an empty string. 
      */
-    public void search(String keywords) {
+    public void search(SearchTerm searchTerm) {
+        String keyword = searchTerm.keyword();
         Wiki wiki = new Wiki.Builder().build();
-        this.textData = wiki.getTextExtract(keywords);
+        this.textData = wiki.getTextExtract(keyword);
         if (this.textData == null) {
             this.textData = "";
         }

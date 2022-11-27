@@ -5,6 +5,7 @@ import org.json.*;
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
+import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 
 public class ManualPlugin implements DataPlugin{
 
@@ -41,9 +42,8 @@ public class ManualPlugin implements DataPlugin{
     }
 
     @Override
-    public void search(String keywords) {
-        // TODO Auto-generated method stub
-        
+    public void search(SearchTerm searchTerm) {
+        this.tabularData = searchTerm.tabularData();
     }
     
 }
