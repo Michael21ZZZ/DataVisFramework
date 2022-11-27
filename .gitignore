@@ -2,3 +2,4 @@ target/
 *.bin
 *.class
 .vscode
+.DS_Store
