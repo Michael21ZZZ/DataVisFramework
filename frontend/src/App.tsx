@@ -2,13 +2,13 @@ import React from 'react';
 
 import './App.css'; // import the css file to enable your styles.
 import { pluginData } from './data';
-import { framework } from './framework';
+import { framework} from './framework';
 import { plugin1 } from './plugins/plugin1';
 import { plugin2 } from './plugins/plugin2';
 import { plugin3 } from './plugins/plugin3';
 import * as fs from 'fs';
 import { VisualizationPlugin } from './plugin';
-import { frameworkState } from './frameworkState';
+import {loadPlugin} from './pluginloader'
 
 /**
  * Define the type of the props field for a React component
@@ -30,21 +30,20 @@ interface Props { }
  * state is the internal value of the component and managed by
  * the component itself.
  */
-class App extends React.Component<Props, frameworkState> {
+class App extends React.Component<Props, framework> {
   private initialized: boolean = false;
   private PLUGIN_DIR = 'plugins'
-  private fk: framework = new framework()
 
   /**
    * @param props has type Props
    */
   constructor(props: Props) {
     super(props)
-
     /**
      * state has type Visualization Plugin as specified in the class inheritance.
      */
-    this.state = {registeredPlugins: [new plugin1()]}
+    this.state = {
+      registeredPlugins: []}
   }
 
   /**
@@ -69,12 +68,26 @@ class App extends React.Component<Props, frameworkState> {
     }
   }
 
-  viztest (): void {
+  loadPlugins (): React.MouseEventHandler {
+    return async (e) => {
+      e.preventDefault()
+      this.setState({registeredPlugins: []})
+      this.setState({registeredPlugins: [new plugin1(), new plugin2()]})
+    }
+  }
+
+  viztest (ind: number): React.MouseEventHandler {
+    return async (e) => {
     let data: pluginData = {"coreData":[{"lng":-79.9958864,"location":"Pittsburgh","time":"2022-05-12","text":"I had a donut.","lat":40.44062479999999},{"lng":-74.0059728,"location":"New York","time":"2022-06-12","text":"I went to the Met.","lat":40.7127753},{"lng":-87.6297982,"location":"Chicago","time":"2023-09-29","text":"Peter and I went to Ed Sheeran's concert.","lat":41.8781136},{"lng":-79.9958864,"location":"Pittsburgh","time":"2024-02-1","text":"The Civil War 2 broke out.","lat":40.44062479999999}],
     "locationFreq":{"New York":1,"Chicago":1,"Pittsburgh":2}}
-    let work: framework = new framework()
-    work.registerPlugin(new plugin1())
-    work.selectPlugin(0).renderData(data)
+    this.state.registeredPlugins[ind].renderData(data)
+  }}
+
+  createVizButton (plugins: VisualizationPlugin[]): React.ReactNode {
+    for (var i = 0; i < plugins.length; i++) {
+    }
+    return (<div><button>Nothing Here</button>
+    <button>Nothing Here Either!</button></div>)
   }
 
 
@@ -91,7 +104,10 @@ class App extends React.Component<Props, frameworkState> {
      */
     return (
       <div>
-      <button className="dropbtn" onClick={/* Call the function */this.viztest}>Visualization Test 1</button>
+        <div>{this.createVizButton(this.state.registeredPlugins)}</div>
+      <button className="dropbtn" onClick={this.loadPlugins()}>Load plugins</button>
+      <button className="dropbtn" onClick={this.viztest(0)}>Visualization Test 1</button>
+      <button className="dropbtn" onClick={this.viztest(1)}>Visualization Test 2</button>
       <div id='PlotlyTest'></div>
       </div>
     );

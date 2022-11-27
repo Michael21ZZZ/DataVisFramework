@@ -1,22 +1,23 @@
-import { VisualizationPlugin } from "./plugin"
+import { VisualizationPlugin } from "./plugin";
 const fs = require('fs');
 
+
 class framework {
-    #registeredPlugins: VisualizationPlugin[] = []
+    registeredPlugins: VisualizationPlugin[] = []
   
     constructor() {
-      this.#registeredPlugins = []
+      this.registeredPlugins = []
     }
   
     /**
      * Registers a new {@link VisualizationPlugin} with the framework
      */
-    registerPlugin(plugin: VisualizationPlugin): void {
-      this.#registeredPlugins.push(plugin)
+     private registerPlugin(plugin: VisualizationPlugin): void {
+      this.registeredPlugins.push(plugin)
     }
   
-    selectPlugin(pluginIdx: number): VisualizationPlugin {
-      const plugin = this.#registeredPlugins[pluginIdx]
+    private selectPlugin(pluginIdx: number): VisualizationPlugin {
+      const plugin = this.registeredPlugins[pluginIdx]
       return plugin
     }
 
@@ -32,10 +33,11 @@ class framework {
 
         for (const pluginFile of plugins) {
             const plugin = require(`${pluginFile}`)
-            this.#registeredPlugins.push(new plugin())
+            this.registeredPlugins.push(new plugin())
         }
     }
   
   }
 
-  export { framework }
+export type { framework }
+
