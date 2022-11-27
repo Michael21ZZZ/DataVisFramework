@@ -20,8 +20,8 @@ public class GoogleGeoCoding {
      */
     public JSONObject getCord(String keyword) {
         JSONObject defaultJO = new JSONObject();
-        defaultJO.put("lat", 999);
-        defaultJO.put("lng", 999);
+        defaultJO.put("lat", 0);
+        defaultJO.put("lng", 0);
         JSONObject output = new JSONObject();
         if (keyword == null || keyword.strip().length() == 0) {
             return defaultJO;
@@ -32,10 +32,15 @@ public class GoogleGeoCoding {
                 .apiKey(this.apiKey)
                 .build();
             GeocodingResult[] results = GeocodingApi.geocode(context, keyword).await();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String outputStr = gson.toJson(results[0]);
-            JSONObject jsonObject = new JSONObject(outputStr);
-            output = jsonObject.getJSONObject("geometry").getJSONObject("location");
+            if (results.length != 0) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String outputStr = gson.toJson(results[0]);
+                JSONObject jsonObject = new JSONObject(outputStr);
+                output = jsonObject.getJSONObject("geometry").getJSONObject("location");
+            } else { // no results from google map
+                output = defaultJO;
+            }
+            
         } catch (ApiException | InterruptedException | IOException e) {
             output = defaultJO;
         } finally {
@@ -49,7 +54,7 @@ public class GoogleGeoCoding {
 
     public static void main(String[] args) throws ApiException, InterruptedException, IOException {
         GoogleGeoCoding ggc = new GoogleGeoCoding();
-        JSONObject res = ggc.getCord("Guangzhou");
+        JSONObject res = ggc.getCord("New Orleans");
         System.out.println(res);
     }
 }
