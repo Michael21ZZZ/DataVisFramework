@@ -9,8 +9,10 @@ import java.util.ServiceLoader;
 import javax.xml.crypto.Data;
 
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
+import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFrameworkImpl;
@@ -55,7 +57,7 @@ public class App extends NanoHTTPD {
             return newFixedLengthResponse("");
         } else if (uri.equals("/submitdata")){
             // e.g., /play?x=1&y=1
-            UnProcessedData UnProcessedData = workFlow.fetchData(params.get("keyword")); // TODO
+            UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
             JSONObject processedData = workFlow.processData(UnProcessedData);
             return newFixedLengthResponse(processedData.toString());
         } 
@@ -82,5 +84,18 @@ public class App extends NanoHTTPD {
         public String getText() {
             return "Hello World!";
         }
+    }
+    
+    /**
+     * Parse params into a search item before feeding into fetchData. 
+     * @param params
+     * @return searchTerm 
+     */
+    private SearchTerm parseParams(Map<String, String> params) {
+        String keyword = params.get("keyword");
+        JSONArray tabularInput = new JSONArray(params.get("tabularInput")); // TODO!
+        SearchTerm searchTerm = new SearchTerm(keyword, tabularInput);
+
+        return searchTerm;
     }
 }
