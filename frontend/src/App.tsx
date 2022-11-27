@@ -72,7 +72,7 @@ class App extends React.Component<Props, framework> {
     return async (e) => {
       e.preventDefault()
       this.setState({registeredPlugins: []})
-      this.setState({registeredPlugins: [new plugin1(), new plugin2()]})
+      this.setState({registeredPlugins: [new plugin1(), new plugin2(), new plugin3()]})
     }
   }
 
@@ -83,12 +83,13 @@ class App extends React.Component<Props, framework> {
     this.state.registeredPlugins[ind].renderData(data)
   }}
 
-  createVizButton (plugins: VisualizationPlugin[]): React.ReactNode {
-    for (var i = 0; i < plugins.length; i++) {
-    }
-    return (<div><button>Nothing Here</button>
-    <button>Nothing Here Either!</button></div>)
+  createVizButton (idx: number): React.ReactNode {
+    return (<div><button className="dropbtn" onClick={this.viztest(idx)}>VizPlugin {idx+1}</button></div>)
   }
+
+  refreshPage = () =>{
+    window.location.reload();
+ }
 
 
   /**
@@ -104,11 +105,14 @@ class App extends React.Component<Props, framework> {
      */
     return (
       <div>
-        <div>{this.createVizButton(this.state.registeredPlugins)}</div>
-      <button className="dropbtn" onClick={this.loadPlugins()}>Load plugins</button>
-      <button className="dropbtn" onClick={this.viztest(0)}>Visualization Test 1</button>
-      <button className="dropbtn" onClick={this.viztest(1)}>Visualization Test 2</button>
-      <div id='PlotlyTest'></div>
+        <button className="dropbtn" onClick={this.loadPlugins()}>Load visualization plugins</button>
+        <div id='vizplugin'>
+          {this.state.registeredPlugins.map((
+            plugin, i
+          ) => this.createVizButton(i))}
+        </div>
+        <div id='PlotlyTest'></div>
+        <button className="dropbtn" onClick={this.refreshPage}>Return</button>
       </div>
     );
   }
