@@ -49,4 +49,11 @@ public class WikiPlugin implements DataPlugin {
             this.textData = "";
         }
     }
+
+    /**
+     * Temporary getter method
+     */
+    public String getText() {
+        return this.textData;
+    }
 }

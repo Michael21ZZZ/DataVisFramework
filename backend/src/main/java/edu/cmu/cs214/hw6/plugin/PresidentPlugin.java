@@ -69,7 +69,7 @@ public class PresidentPlugin implements DataPlugin{
     }
 
     /**
-     * 
+     * Load travel logs with given president name from local XML files.
      * @param presidentStandardName
      * @return
      * @throws ParserConfigurationException
