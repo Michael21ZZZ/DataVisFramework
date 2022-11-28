@@ -12,8 +12,26 @@ GEO map, time series and GEO-time visualizations can provide intuitive insights 
 
 Our framework and plugins combined can solve this problem. The data plugins can ensure a clean date format. Our framework can extract time and spatial information from selected texts with an NLP technique called Named Entity Recognition (NER). After the time and location data are processed, the framework will pass them to the frontend and perform data visualization in an interactive way. 
 
-### Data Exchange Format Requirements
-**Data format sent from Data Plugin to Framework**
+## Development
+### App API
+
+#### Select Data Plugin
+
+**Request**
+
+```
+GET /dataplugin?i=0
+```
+
+**Response**
+
+
+#### Submit Data (Data Plugin sends data to the framework)
+**Request**
+```
+GET /submitdata/
+```
+**Response**
 ```
 {
 record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, String textData, JSONArray tabularData)
@@ -31,11 +49,14 @@ record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, 
 				...
 				]
 }
-
 ```
 
-
-**Data format sent from Framework to Visualization Plugin**
+#### Select Visualization Plugin, framework sends data and layout to the frontend, and frontend plots
+**Request**
+```
+GET /visplugin?i=0
+```
+**Response**
 ```
 {
 “coreData”: {[
@@ -52,6 +73,7 @@ record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, 
               }
 }
 ```
+
 ### Data Plugin Interface
 
 ### Data Visualization Interface
@@ -108,7 +130,8 @@ npm start
 This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
 
 ### GUI usage
-
+1. Select a Data Plugin
+2. Search and gets 
 
 ## Credits
 
