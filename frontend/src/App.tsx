@@ -6,9 +6,6 @@ import { framework} from './framework';
 import { plugin1 } from './plugins/plugin1';
 import { plugin2 } from './plugins/plugin2';
 import { plugin3 } from './plugins/plugin3';
-import * as fs from 'fs';
-import { VisualizationPlugin } from './plugin';
-import {loadPlugin} from './pluginloader'
 
 /**
  * Define the type of the props field for a React component

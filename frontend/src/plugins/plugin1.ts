@@ -21,7 +21,7 @@ class plugin1 implements VisualizationPlugin {
         let lontitude: number[] = [];
         let latitude: number[] = [];
         data.coreData.forEach(element => {
-            texts.push(element.location)
+            texts.push(element.location + "<br>" + element.text)
             lontitude.push(element.lng)
             latitude.push(element.lat)
         });
