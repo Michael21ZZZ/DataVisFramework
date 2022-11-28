@@ -88,6 +88,20 @@ In the front-end folder, run
 
 ```
 npm install
+```
+Then rename the file:
+```
+./node_modules/@types/plotly.js
+```
+
+to
+```
+./node_modules/@types/plotly.js-dist
+```
+
+then, run
+
+```
 npm start
 ```
 
