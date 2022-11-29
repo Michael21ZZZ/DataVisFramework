@@ -25,7 +25,7 @@ public class ManualPlugin implements DataPlugin{
         this.hasTime = false;
         this.hasLocation = false;
         this.textData = new String();
-        this.tabularData = null;
+        this.tabularData = new JSONArray();
     }
 
     @Override

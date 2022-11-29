@@ -21,7 +21,8 @@ public class WikiPlugin implements DataPlugin {
         this.isTabular = false;
         this.hasTime = false;
         this.hasLocation = false;
-        this.tabularData = null;
+        this.textData = new String();
+        this.tabularData = new JSONArray();
     }
 
     @Override
