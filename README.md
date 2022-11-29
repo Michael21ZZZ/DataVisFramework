@@ -15,7 +15,7 @@ Our framework and plugins combined can solve this problem. The data plugins can 
 	
 ## Plugin Interfaces
 ### Data Plugin Interface
-
+```
 public interface DataPlugin {
 
     /**
@@ -51,7 +51,7 @@ public interface DataPlugin {
     String getPluginName();
  
 }
-
+```
 ### Data Visualization Interface	
 
 	
