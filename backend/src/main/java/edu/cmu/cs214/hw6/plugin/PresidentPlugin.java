@@ -13,6 +13,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.*;
 import java.io.*;
 
+import java.util.ArrayList;
+
 /**
  * Plugin to extract presidents' travel log
  * https://history.state.gov/departmenthistory/travels/president
@@ -23,12 +25,22 @@ import java.io.*;
 public class PresidentPlugin implements DataPlugin{
 
     private WorkFlowFramework framework;
+
+    private static final String PLUGIN_NAME = "President";
+    private static final String PLUGIN_INSTRUCTION = "Please enter the last name and the first name of a president of United States." 
+    + "For example, you can enter trump donald to search for Donald Trump."
+    + "If you are searching George H. W. Bush, please enter bush george h w." 
+    + "If you are searching George W. Bush, please enter bush george w. "
+    + "Source: https://history.state.gov/departmenthistory/travels/president.";
     
     private boolean isTabular;
     private boolean hasTime;
     private boolean hasLocation;
     private String textData;
     private JSONArray tabularData;
+    private ArrayList<String> preNameList;
+    private ArrayList<String> preFileNameList;
+
 
     public PresidentPlugin() {
         this.isTabular = true;
@@ -36,6 +48,8 @@ public class PresidentPlugin implements DataPlugin{
         this.hasLocation = true;
         this.textData = "";
         this.tabularData = new JSONArray();
+        this.getPresidentNames();
+
     }
 
     @Override
@@ -58,7 +72,8 @@ public class PresidentPlugin implements DataPlugin{
     public void search (SearchTerm searchTerm) {
         String keyword = searchTerm.keyword();
         try {
-            this.tabularData = loadTravelLogs(keyword);
+            String standardFileName = transformName(keyword);
+            this.tabularData = loadTravelLogs(standardFileName);
         } catch(ParserConfigurationException e) {
             System.out.println(e.getMessage());  
         } catch(SAXException e) {
@@ -76,13 +91,13 @@ public class PresidentPlugin implements DataPlugin{
      * @throws SAXException
      * @throws IOException
      */
-    public JSONArray loadTravelLogs(String presidentStandardName) throws ParserConfigurationException, SAXException, IOException {
+    private JSONArray loadTravelLogs(String standardFileName) throws ParserConfigurationException, SAXException, IOException {
         JSONArray tabularData = new JSONArray();
         // prepare the document
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         //StringBuilder urlPrefix = new StringBuilder("backend/president-travels/"); 
         StringBuilder urlPrefix = new StringBuilder("president-travels/"); 
-        StringBuilder standardName = new StringBuilder("harding-warren-g.xml");       
+        StringBuilder standardName = new StringBuilder(standardFileName);       
         String filePath =  urlPrefix.append(standardName).toString();  
         Document doc = builder.parse(new File(filePath));
         doc.getDocumentElement().normalize();
@@ -105,11 +120,59 @@ public class PresidentPlugin implements DataPlugin{
         return tabularData;
     }
 
+    @Override
+    public String getPluginInstructions() {
+        return this.PLUGIN_INSTRUCTION;
+    }
 
+    @Override
+    public String getPluginName() {
+        return this.PLUGIN_NAME;
+    }
 
+    private String transformName(String inputName) {
+        String newName= inputName.replaceAll("[^A-Za-z]+", "").toLowerCase();
+        Integer lenInputName = newName.length();
+        ArrayList<String> selectedNameList = new ArrayList<String>();
+        for (int i = 0; i < this.preFileNameList.size(); i++) {
+            String standardName = this.preNameList.get(i);
+            selectedNameList.add(standardName.substring(0, lenInputName));
+        }
 
+        if (newName.equals("bushgeorge")) {
+            throw new IllegalArgumentException("Please specify which President Bush you are referring to. ");
+        } else if (selectedNameList.contains(newName)) {
+            return this.preFileNameList.get(selectedNameList.indexOf(newName));
+        } else {
+            throw new IllegalArgumentException("No president found. Please check your input.");
+        }
+   
+    } 
 
+    /**
+     * 
+     * @return An array list that contains file names for all president's travel file. 
+     * Examples: obamabarack
+     */
+    private void getPresidentNames() {
+        ArrayList<String> preFileNameList = new ArrayList<String>();
+        ArrayList<String> preNameList = new ArrayList<String>();
+        File folder = new File("president-travels/");
+        File[] listOfFiles = folder.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            String fileName = listOfFiles[i].getName();
+            String standardName = fileName.replaceAll("[^A-Za-z]+", "").toLowerCase();
+            preFileNameList.add(fileName);
+            preNameList.add(standardName);
+        }
 
+        this.preNameList = preNameList;
+        this.preFileNameList = preFileNameList;
+    }
+
+    public JSONArray getTabularData() {
+        return this.tabularData;
+    }
 
 }
 
