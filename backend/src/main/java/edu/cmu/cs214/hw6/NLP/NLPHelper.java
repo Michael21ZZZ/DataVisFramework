@@ -24,7 +24,7 @@ public class NLPHelper {
         props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
         // set up pipeline
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-        CoreDocument doc = new CoreDocument(NLPDemo.demoText);
+        CoreDocument doc = new CoreDocument(article);
         // annotate the document
         pipeline.annotate(doc);
         List<CoreSentence> sentences = doc.sentences();    
@@ -32,10 +32,12 @@ public class NLPHelper {
 
         // initialize date; scan through the article and find the earliest date; if not; set it to 2020-01-01
         int earliestYear = 9999;
+        String prevDateStr = "9999-99-99";
         for (CoreEntityMention em : doc.entityMentions()) {
             if (em.entityType().equals("DATE")) { // a date em
                 String dateVal = em.coreMap().get(TimeAnnotations.TimexAnnotation.class).value();
-                dateVal = DateReg.dateReg(dateVal, "9999-99-99");
+                dateVal = DateReg.dateReg(dateVal, prevDateStr);
+                prevDateStr = dateVal;
                 int year = Integer.parseInt(dateVal.substring(0, 4));
                 if (year < earliestYear) {
                     earliestYear = year;
