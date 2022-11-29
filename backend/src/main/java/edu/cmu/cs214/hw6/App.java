@@ -30,6 +30,7 @@ public class App extends NanoHTTPD {
 
     private WorkFlowFrameworkImpl workFlow;
     private List<DataPlugin> dataPlugins;
+    
     private JSONObject processedData;
 
     /**
@@ -44,6 +45,7 @@ public class App extends NanoHTTPD {
         for (DataPlugin p: dataPlugins){
             workFlow.registerPlugin(p);
         }
+
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         System.out.println("\nRunning! Point your browsers to http://localhost:8080/ \n");
     }
