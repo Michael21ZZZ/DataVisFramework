@@ -13,6 +13,9 @@ public class WikiPlugin implements DataPlugin {
     private boolean hasLocation;
     private String textData;
     private JSONArray tabularData;
+
+    private static final String PLUGIN_NAME = "Wikipedia";
+    private static final String PLUGIN_INSTRUCTION = "Please enter a keyword that is used to be search on Wikipedia.";
     
     public WikiPlugin() {
         this.isTabular = false;
@@ -47,6 +50,7 @@ public class WikiPlugin implements DataPlugin {
         this.textData = wiki.getTextExtract(keyword);
         if (this.textData == null) {
             this.textData = "";
+            throw new IllegalArgumentException("Keyword not found. Please change another keyword.");
         }
     }
 
@@ -56,4 +60,16 @@ public class WikiPlugin implements DataPlugin {
     public String getText() {
         return this.textData;
     }
+
+
+    @Override
+    public String getPluginInstructions() {
+        return this.PLUGIN_INSTRUCTION;
+    }
+
+    @Override
+    public String getPluginName() {
+        return this.PLUGIN_NAME;
+    }
+    
 }

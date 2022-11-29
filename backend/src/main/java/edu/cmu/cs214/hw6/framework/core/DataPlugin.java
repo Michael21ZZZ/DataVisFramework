@@ -11,19 +11,32 @@ public interface DataPlugin {
      * framework, giving the plug-in a chance to perform any initial set-up
      * before the game has begun (if necessary).
      */
-    public void onRegister(WorkFlowFramework framework);
+    void onRegister(WorkFlowFramework framework);
     
     /**
      * Every class that implements this interface should have a field of 
      * JSONObject to store the data to be processed by framework
      * This method will return that field of JSONObject to the framework
      */
-    public UnProcessedData getData();
+    UnProcessedData getData();
 
     /**
-     * Perform search 
-     * @param searchJsonObject Words used for search
+     * Perform search based on searchTerm
+     * @param searchTerm Words used for search
      */
-    public void search(SearchTerm searchTerm);
+    void search(SearchTerm searchTerm);
+
+    /**
+     * Get the instruction for this plugin
+     * @return Instruction for specific plugins
+     */
+    String getPluginInstructions();
+
+    /**
+     * Gets the name of the plug-in game.
+     * @return Name for specific plugins
+     */
+    String getPluginName();
+
         
 }

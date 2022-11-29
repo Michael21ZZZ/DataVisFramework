@@ -111,8 +111,8 @@ public class App extends NanoHTTPD {
      */
     private SearchTerm parseParams(Map<String, String> params) {
         String keyword = params.get("keyword");
-        JSONArray tabularInput = new JSONArray(params.get("tabularInput")); // TODO!
-        SearchTerm searchTerm = new SearchTerm(keyword, tabularInput);
+        // JSONArray tabularInput = new JSONArray(params.get("tabularInput")); // TODO!
+        SearchTerm searchTerm = new SearchTerm(keyword);
 
         return searchTerm;
     }
