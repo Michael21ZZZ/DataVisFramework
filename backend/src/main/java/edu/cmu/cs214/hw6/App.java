@@ -8,7 +8,12 @@ import java.util.ServiceLoader;
 
 import javax.xml.crypto.Data;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
+import edu.cmu.cs214.hw6.framework.core.SearchTerm;
+import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFrameworkImpl;
 import fi.iki.elonen.NanoHTTPD;
@@ -24,7 +29,9 @@ public class App extends NanoHTTPD {
     }
 
     private WorkFlowFrameworkImpl workFlow;
-    private List<DataPlugin> plugins;
+    private List<DataPlugin> dataPlugins;
+    
+    private JSONObject processedData;
 
     /**
      * Start the server at :8080 port.
@@ -34,10 +41,11 @@ public class App extends NanoHTTPD {
         super(8080);
 
         this.workFlow = new WorkFlowFrameworkImpl();
-        plugins = loadPlugins();
-        for (DataPlugin p: plugins){
+        dataPlugins = loadPlugins();
+        for (DataPlugin p: dataPlugins){
             workFlow.registerPlugin(p);
         }
+
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         System.out.println("\nRunning! Point your browsers to http://localhost:8080/ \n");
     }
@@ -46,21 +54,32 @@ public class App extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         String uri = session.getUri();
         Map<String, String> params = session.getParms();
-        // if (uri.equals("/plugin")) {
-        //     // e.g., /plugin?i=0
-        //     game.startNewGame(plugins.get(Integer.parseInt(params.get("i"))));
-        // } else if (uri.equals("/play")){
-        //     // e.g., /play?x=1&y=1
-        //     if (game.hasGame()) {
-        //         game.playMove(Integer.parseInt(params.get("x")), Integer.parseInt(params.get("y")));
-        //     }
-        // } else if (uri.equals("/start")){
-
-        // }
-        // Extract the view-specific data from the game and apply it to the template.
-        // GameState gameplay = GameState.forGame(this.game);
-        // return newFixedLengthResponse(gameplay.toString());
-        return newFixedLengthResponse("Hello World!");
+        JSONObject responseJson = new JSONObject();
+        if (uri.equals("/dataplugin")) {
+            // e.g., /dataplugin?i=0
+            DataPlugin dataPlugin = dataPlugins.get(Integer.parseInt(params.get("i")));
+            workFlow.registerPlugin(dataPlugin);
+            // String name = dataPlugin.getName();
+            // String instr = dataPlugin.getInstruction();
+            // JSONObject dataPluginInfo = new JSONObject();
+            // dataPluginInfo.put("name", name);
+            // dataPluginInfo.put("instruction", instr);
+            return newFixedLengthResponse(responseJson.toString());
+        } else if (uri.equals("/submitdata")){
+            // e.g., /submitdata?keyword=XX&tabularinput=XX
+            try {
+                UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
+                this.processedData = workFlow.processData(UnProcessedData);
+                responseJson.put("datasubmitsuccess", true);
+                return newFixedLengthResponse(responseJson.toString());
+            } catch(Exception e) {
+                responseJson.put("datasubmitsuccess", false);
+                return newFixedLengthResponse(responseJson.toString());
+            }
+        } else if (uri.equals("visplugin")) {
+            
+        }
+        return newFixedLengthResponse("");
     }
 
 
@@ -73,7 +92,7 @@ public class App extends NanoHTTPD {
         ServiceLoader<DataPlugin> plugins = ServiceLoader.load(DataPlugin.class);
         List<DataPlugin> result = new ArrayList<>();
         for (DataPlugin plugin : plugins) {
-            System.out.println("Loaded plugin " + plugin.getData());
+            System.out.println("Loaded plugin " + plugin.getPluginName());
             result.add(plugin);
         }
         return result;
@@ -83,5 +102,18 @@ public class App extends NanoHTTPD {
         public String getText() {
             return "Hello World!";
         }
+    }
+    
+    /**
+     * Parse params into a search item before feeding into fetchData. 
+     * @param params
+     * @return searchTerm 
+     */
+    private SearchTerm parseParams(Map<String, String> params) {
+        String keyword = params.get("keyword");
+        // JSONArray tabularInput = new JSONArray(params.get("tabularInput")); // TODO!
+        SearchTerm searchTerm = new SearchTerm(keyword);
+
+        return searchTerm;
     }
 }

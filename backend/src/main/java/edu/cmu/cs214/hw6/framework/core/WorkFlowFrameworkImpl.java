@@ -1,11 +1,14 @@
 package edu.cmu.cs214.hw6.framework.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.cmu.cs214.hw6.NLP.GoogleGeoCoding;
 import edu.cmu.cs214.hw6.NLP.NLPHelper;
 
 public class WorkFlowFrameworkImpl implements WorkFlowFramework{
@@ -31,33 +34,48 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
         this.currentPlugin = plugin;
     }
 
-    public UnProcessedData fetchData(String keywords) {
+    public UnProcessedData fetchData(SearchTerm searchTerm) {
         if (this.currentPlugin != null) {
-            this.currentPlugin.search(keywords);
+            this.currentPlugin.search(searchTerm);
             return this.currentPlugin.getData();
         } else {
             return null;
         }
     }
 
+    /**
+     * Process data from plugin, nlp extract time/location, and calculate location freq
+     * @param unprocessedData
+     * @return
+     */
     public JSONObject processData(UnProcessedData unprocessedData) {
         boolean isTabular = unprocessedData.isTabular();
         NLPHelper nlpHelper = new NLPHelper();
         if (!isTabular) { // if it's pure text, needs to partitioned
-            return new JSONObject();
+            return nlpHelper.parseText(unprocessedData.textData());
         } else {
             JSONArray tabularData = unprocessedData.tabularData();
-            boolean hasTime = unprocessedData.hasTime();
-            boolean hasLocation = unprocessedData.hasLocation();
-            if (!hasTime) {
+            if (!unprocessedData.hasTime()) {
                 tabularData = nlpHelper.parseTime(tabularData);
             }
-            if (!hasLocation) {
+            if (!unprocessedData.hasLocation()) {
                 tabularData = nlpHelper.parseLocation(tabularData);
             }
+            // A map store the freq of a location
+            Map<String, Integer> locFreqMap = new HashMap<String, Integer>();
+            // iterate through the data rows; add location; update location freq map
+            GoogleGeoCoding ggc = new GoogleGeoCoding();
+            for (int i = 0; i < tabularData.length(); i++) {
+                JSONObject row = tabularData.getJSONObject(i);
+                String location = row.getString("location");
+                JSONObject coord = ggc.getCord(location);
+                row.put("lng", coord.getDouble("lng"));
+                row.put("lat", coord.getDouble("lat"));
+                locFreqMap.put(location, locFreqMap.getOrDefault(location, 0) + 1);
+            }
             JSONObject res = new JSONObject();
-            res.put("CoreData", tabularData);
-            res.put("LocationFreq", new JSONObject()); // TODO
+            res.put("coreData", tabularData);
+            res.put("locationFreq", locFreqMap);
             return res;
         }
     }

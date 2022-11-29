@@ -1,6 +1,6 @@
 # List of plugins to be registered by framework.
 # Provide fully qualified class names here ( edu.cmu.cs.cs214.rec09.plugin.XXX ),
 # with one plugin per line.
-edu.cmu.cs.cs214.rec09.plugin.MemoryPlugin
-edu.cmu.cs.cs214.rec09.plugin.RpsPlugin
-edu.cmu.cs.cs214.rec09.plugin.TicTacToePlugin
+edu.cmu.cs214.hw6.plugin.ManualPlugin
+edu.cmu.cs214.hw6.plugin.PresidentPlugin
+edu.cmu.cs214.hw6.plugin.WikiPlugin
