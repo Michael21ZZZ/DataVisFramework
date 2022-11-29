@@ -13,7 +13,7 @@ public class NLPWikiDemo {
     public static void main(String[] args) {
       // generated text from wiki plugin
       WikiPlugin wikiPlugin = new WikiPlugin();
-      SearchTerm searchTerm = new SearchTerm("Andrew Carnegie", new JSONArray());
+      SearchTerm searchTerm = new SearchTerm("Abraham Lincoln", new JSONArray());
       wikiPlugin.search(searchTerm);
       final String demoText = wikiPlugin.getText();
       NLPHelper nlpHelper = new NLPHelper();
