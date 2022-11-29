@@ -1,12 +1,8 @@
 import React from 'react';
 
 import './App.css'; // import the css file to enable your styles.
-import { pluginData, processedData } from './data';
+import { processedData } from './data';
 import { framework} from './framework';
-import { plugin1 } from './plugins/plugin1';
-import { plugin2 } from './plugins/plugin2';
-import { plugin3 } from './plugins/plugin3';
-import * as fs from 'fs'
 import Plotly from 'plotly.js-dist';
 
 /**
@@ -31,7 +27,6 @@ interface Props { }
  */
 class App extends React.Component<Props, framework> {
   private initialized: boolean = false;
-  private PLUGIN_DIR = 'plugins'
 
   /**
    * @param props has type Props
@@ -42,21 +37,25 @@ class App extends React.Component<Props, framework> {
      * state has type Visualization Plugin as specified in the class inheritance.
      */
     this.state = {
-      processedData: {data:[
-        {
+      processedData: {
+        data: [
+          {
             type: "heatmap",
             z: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            y: [ "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December" ],
+            y: ["January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November", "December"],
             text: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        }
-    ],
-      layout:{}},
+          }
+        ],
+        layout: {}
+      },
       dataPlugin: "Data plugin not selected",
       vizPlugin: "Visualization plugin not selected",
       instruction: "",
-      registeredPlugins: [new plugin1(), new plugin2(), new plugin3()]}
+      registeredDataPlugins: ['wiki', 'twitter', 'president'],
+      registeredVisualizationPlugins: ['map', 'heatmap', 'box']
+    }
   }
 
   /**
@@ -109,7 +108,7 @@ class App extends React.Component<Props, framework> {
 
   submitKeyword (): React.MouseEventHandler {
     return async (e) => {
-      let keyword = (document.getElementById('keyword') as HTMLElement).outerHTML
+      // let keyword = (document.getElementById('keyword') as HTMLElement).outerHTML
       // const response = await fetch('/submitdata/?keyword='+{keyword})
       // const json = await response.json()
       this.setInstructionContent('Please select a Visualization plugin')
@@ -144,15 +143,15 @@ class App extends React.Component<Props, framework> {
         this.state.processedData.layout)}
   }
 
-  createDataButton (idx: number): React.ReactNode {
+  createDataButton (plugin: string, idx: number): React.ReactNode {
     return (<div key={idx}>
-      <button className="dropbtn"  onClick={this.getDataPlugin(idx)}>DataPlugin {idx+1}</button>
+      <button className="dropbtn"  onClick={this.getDataPlugin(idx)}>DataPlugin {plugin}</button>
       </div>)
   }
 
-  createVisButton (idx: number): React.ReactNode {
+  createVisButton (plugin: string, idx: number): React.ReactNode {
     return (<div key={idx}>
-      <button className="dropbtn"  onClick={this.getVisPlugin(idx)}>VisPlugin {idx+1}</button>
+      <button className="dropbtn"  onClick={this.getVisPlugin(idx)}>VisPlugin {plugin}</button>
       </div>)
   }
 
@@ -177,18 +176,18 @@ class App extends React.Component<Props, framework> {
         <div id='instruction'>Please Select a Data Plugin</div>
         <div id='options'>
           <div id='data_options'>
-            {this.state.registeredPlugins.map((
-              _, i
-            ) => this.createDataButton(i))}
+            {this.state.registeredDataPlugins.map((
+              plugin, i
+            ) => this.createDataButton(plugin, i))}
           </div>
           <div id='search'>
             Enter the key word: <input type="text" id="keyword"></input>
             <button onClick={this.submitKeyword()}>Search</button>
           </div>
           <div id='vis_options'>
-            {this.state.registeredPlugins.map((
-              _, i
-            ) => this.createVisButton(i))}
+            {this.state.registeredVisualizationPlugins.map((
+              plugin, i
+            ) => this.createVisButton(plugin, i))}
           </div></div>
         <div id='PlotlyTest'></div>
         <button className="dropbtn" onClick={this.refreshPage}>Return</button>
