@@ -6,6 +6,7 @@ import { framework} from './framework';
 import { plugin1 } from './plugins/plugin1';
 import { plugin2 } from './plugins/plugin2';
 import { plugin3 } from './plugins/plugin3';
+import * as fs from 'fs'
 
 /**
  * Define the type of the props field for a React component
@@ -40,7 +41,10 @@ class App extends React.Component<Props, framework> {
      * state has type Visualization Plugin as specified in the class inheritance.
      */
     this.state = {
-      registeredPlugins: []}
+      data: "",
+      dataPlugin: "Data plugin not selected",
+      vizPlugin: "Visualization plugin not selected",
+      registeredPlugins: [new plugin1(), new plugin2(), new plugin3()]}
   }
 
   /**
@@ -68,9 +72,36 @@ class App extends React.Component<Props, framework> {
   loadPlugins (): React.MouseEventHandler {
     return async (e) => {
       e.preventDefault()
-      this.setState({registeredPlugins: []})
-      this.setState({registeredPlugins: [new plugin1(), new plugin2(), new plugin3()]})
+      // this.setState({registeredPlugins: []})
+      // this.setState({registeredPlugins: [new plugin1(), new plugin2(), new plugin3()]})
     }
+  }
+
+  getDataPlugin = async (ind: number): Promise<any> => {
+    const response = await fetch('/dataplugin?i='+{ind})
+    const json = await response.json()
+    this.setState({
+      dataPlugin: json.dataplugin
+    }
+    )
+  }
+
+  submitData (): React.MouseEventHandler {
+    return async (e) => {
+      const response = await fetch('/submitdata/')
+      const json = await response.json()
+      this.setState({
+        unProcessedData: json
+      })
+  }}
+
+  getVisPlugin = async (ind: number): Promise<any> => {
+    const response = await fetch('/visplugin?i='+{ind})
+    const json = await response.json()
+    this.setState({
+      processedData: json
+    }
+    )
   }
 
   viztest (ind: number): React.MouseEventHandler {
@@ -81,7 +112,7 @@ class App extends React.Component<Props, framework> {
   }}
 
   createVizButton (idx: number): React.ReactNode {
-    return (<div><button className="dropbtn" onClick={this.viztest(idx)}>VizPlugin {idx+1}</button></div>)
+    return (<div key={idx}><button className="dropbtn" onClick={this.viztest(idx)}>VizPlugin {idx+1}</button></div>)
   }
 
   refreshPage = () =>{

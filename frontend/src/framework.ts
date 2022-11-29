@@ -3,6 +3,10 @@ const fs = require('fs');
 
 
 class framework {
+    unProcessedData: string = ""
+    processedData: string = ""
+    dataPlugin: string = ""
+    vizPlugin: string = ""
     registeredPlugins: VisualizationPlugin[] = []
   
     constructor() {
