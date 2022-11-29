@@ -59,12 +59,6 @@ class App extends React.Component<Props, framework> {
   }
 
   /**
-   * Use arrow function, i.e., () => {} to create an async function,
-   * otherwise, 'this' would become undefined in runtime. This is
-   * just an issue of Javascript.
-   */
-
-  /**
    * This function will call after the HTML is rendered.
    * We update the initial state by creating a new game.
    * @see https://reactjs.org/docs/react-component.html#componentdidmount
@@ -174,21 +168,20 @@ class App extends React.Component<Props, framework> {
     return (
       <div>
         <div id='instruction'>Please Select a Data Plugin</div>
+
         <div id='options'>
           <div id='data_options'>
-            {this.state.registeredDataPlugins.map((
-              plugin, i
-            ) => this.createDataButton(plugin, i))}
+            {this.state.registeredDataPlugins.map((plugin, i) => this.createDataButton(plugin, i))}
           </div>
           <div id='search'>
-            Enter the key word: <input type="text" id="keyword"></input>
+            Enter the keyword: <input type="text" id="keyword"></input>
             <button onClick={this.submitKeyword()}>Search</button>
           </div>
           <div id='vis_options'>
-            {this.state.registeredVisualizationPlugins.map((
-              plugin, i
-            ) => this.createVisButton(plugin, i))}
-          </div></div>
+            {this.state.registeredVisualizationPlugins.map((plugin, i) => this.createVisButton(plugin, i))}
+          </div>
+        </div>
+
         <div id='PlotlyTest'></div>
         <button className="dropbtn" onClick={this.refreshPage}>Return</button>
       </div>
