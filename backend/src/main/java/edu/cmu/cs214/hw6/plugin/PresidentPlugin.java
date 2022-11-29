@@ -129,7 +129,11 @@ public class PresidentPlugin implements DataPlugin{
     public String getPluginName() {
         return this.PLUGIN_NAME;
     }
-
+    /**
+     * Transform users'input into standard file name to locate which president. 
+     * @param inputName
+     * @return
+     */
     private String transformName(String inputName) {
         String newName= inputName.replaceAll("[^A-Za-z]+", "").toLowerCase();
         Integer lenInputName = newName.length();
@@ -169,7 +173,10 @@ public class PresidentPlugin implements DataPlugin{
         this.preNameList = preNameList;
         this.preFileNameList = preFileNameList;
     }
-
+    /**
+     * 
+     * @return tabularData. 
+     */
     public JSONArray getTabularData() {
         return this.tabularData;
     }
