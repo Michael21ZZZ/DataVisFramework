@@ -17,7 +17,7 @@ Our framework and plugins combined can solve this problem. The data plugins can 
 ### Data Plugin Interface
 
 /**
-Interface to define data plugins.
+* Interface to define data plugins.
 */
 
 public interface DataPlugin {
