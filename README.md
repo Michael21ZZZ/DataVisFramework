@@ -12,29 +12,18 @@ GEO map, time series and GEO-time visualizations can provide intuitive insights 
 
 Our framework and plugins combined can solve this problem. The data plugins can ensure a clean date format. Our framework can extract time and spatial information from selected texts with an NLP technique called Named Entity Recognition (NER). After the time and location data are processed, the framework will pass them to the frontend and perform data visualization in an interactive way. 
 
-## Development
-### App API
+	
+## Plugin Interfaces
+### Data Plugin Interface
 
-#### Select Data Plugin
+### Data Visualization Interface	
 
-**Request**
-
-```
-GET /dataplugin?i=0
-```
-
-**Response**
-
-
-#### Submit Data (Data Plugin sends data to the framework)
-**Request**
-```
-GET /submitdata/
-```
-**Response**
+	
+## Data Exchange
+**Data Plugin sends data to Backend Framework**
 ```
 {
-record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, String textData, JSONArray tabularData)
+	record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, String textData, JSONArray tabularData)
 “isTabular”: boolean (whether the data is recorded in text or tabular format),
 “hasTime”: boolean (whether the tabular data has a time column), 
 “hasLocation”: boolean (whether the tabular data has a time column),
@@ -51,12 +40,7 @@ record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, 
 }
 ```
 
-#### Select Visualization Plugin, framework sends data and layout to the frontend, and frontend plots
-**Request**
-```
-GET /visplugin?i=0
-```
-**Response**
+**Backend Framework sends data to DataVis Plugin**
 ```
 {
 “coreData”: {[
@@ -74,9 +58,53 @@ GET /visplugin?i=0
 }
 ```
 
-### Data Plugin Interface
+**DataVis Plugin sends data to Frontend Framework**
+```
+{
+	data: {},
+	layout: {}
+}
+```
 
-### Data Visualization Interface
+## App API
+
+### Select Data Plugin
+
+**Request**
+
+```
+GET /dataplugin?i=0
+```
+
+**Response**
+{
+	"datapluginname": String,
+	"instruction": String
+}
+
+#### Submit Data (Data Plugin sends data to the framework)
+**Request**
+```
+GET /submitdata/?keyword=XX
+```
+**Response**
+```
+	"datasubmitsuccess": boolean
+```
+
+#### Select Visualization Plugin, framework sends data and layout to the frontend, and frontend plots
+**Request**
+```
+GET /visplugin?i=0
+```
+**Response**
+```
+{
+	"data": {},
+	"layout": {}
+}
+```
+
 
 ## Installation
 
@@ -131,7 +159,8 @@ This will start the front-end server at http://localhost:3000. You can update th
 
 ### GUI usage
 1. Select a Data Plugin
-2. Search and gets 
+2. Search keyword and submits
+3. Select Visualization and gets the plot
 
 ## Credits
 
