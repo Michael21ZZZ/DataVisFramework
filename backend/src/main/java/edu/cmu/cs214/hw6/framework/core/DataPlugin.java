@@ -27,13 +27,14 @@ public interface DataPlugin {
     void search(SearchTerm searchTerm);
 
     /**
-     * Print instructions for this plugin
-     * @return Instructions for specific plugins
+     * Get the instruction for this plugin
+     * @return Instruction for specific plugins
      */
     String getPluginInstructions();
 
     /**
      * Gets the name of the plug-in game.
+     * @return Name for specific plugins
      */
     String getPluginName();
 
