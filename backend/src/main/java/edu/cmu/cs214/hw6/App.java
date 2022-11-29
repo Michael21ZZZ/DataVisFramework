@@ -29,7 +29,9 @@ public class App extends NanoHTTPD {
     }
 
     private WorkFlowFrameworkImpl workFlow;
-    private List<DataPlugin> plugins;
+    private List<DataPlugin> dataPlugins;
+    
+    private JSONObject processedData;
 
     /**
      * Start the server at :8080 port.
@@ -39,10 +41,11 @@ public class App extends NanoHTTPD {
         super(8080);
 
         this.workFlow = new WorkFlowFrameworkImpl();
-        plugins = loadPlugins();
-        for (DataPlugin p: plugins){
+        dataPlugins = loadPlugins();
+        for (DataPlugin p: dataPlugins){
             workFlow.registerPlugin(p);
         }
+
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         System.out.println("\nRunning! Point your browsers to http://localhost:8080/ \n");
     }
@@ -51,16 +54,31 @@ public class App extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         String uri = session.getUri();
         Map<String, String> params = session.getParms();
-        if (uri.equals("/plugin")) {
-            // e.g., /plugin?i=0
-            workFlow.registerPlugin(plugins.get(Integer.parseInt(params.get("i"))));
-            return newFixedLengthResponse("");
+        JSONObject responseJson = new JSONObject();
+        if (uri.equals("/dataplugin")) {
+            // e.g., /dataplugin?i=0
+            DataPlugin dataPlugin = dataPlugins.get(Integer.parseInt(params.get("i")));
+            workFlow.registerPlugin(dataPlugin);
+            // String name = dataPlugin.getName();
+            // String instr = dataPlugin.getInstruction();
+            // JSONObject dataPluginInfo = new JSONObject();
+            // dataPluginInfo.put("name", name);
+            // dataPluginInfo.put("instruction", instr);
+            return newFixedLengthResponse(responseJson.toString());
         } else if (uri.equals("/submitdata")){
-            // e.g., /play?x=1&y=1
-            UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
-            JSONObject processedData = workFlow.processData(UnProcessedData);
-            return newFixedLengthResponse(processedData.toString());
-        } 
+            // e.g., /submitdata?keyword=XX&tabularinput=XX
+            try {
+                UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
+                this.processedData = workFlow.processData(UnProcessedData);
+                responseJson.put("datasubmitsuccess", true);
+                return newFixedLengthResponse(responseJson.toString());
+            } catch(Exception e) {
+                responseJson.put("datasubmitsuccess", false);
+                return newFixedLengthResponse(responseJson.toString());
+            }
+        } else if (uri.equals("visplugin")) {
+            
+        }
         return newFixedLengthResponse("");
     }
 
@@ -74,7 +92,7 @@ public class App extends NanoHTTPD {
         ServiceLoader<DataPlugin> plugins = ServiceLoader.load(DataPlugin.class);
         List<DataPlugin> result = new ArrayList<>();
         for (DataPlugin plugin : plugins) {
-            System.out.println("Loaded plugin " + plugin.getData());
+            System.out.println("Loaded plugin " + plugin.getPluginName());
             result.add(plugin);
         }
         return result;

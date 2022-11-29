@@ -52,7 +52,7 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
         boolean isTabular = unprocessedData.isTabular();
         NLPHelper nlpHelper = new NLPHelper();
         if (!isTabular) { // if it's pure text, needs to partitioned
-            return new JSONObject();
+            return nlpHelper.parseText(unprocessedData.textData());
         } else {
             JSONArray tabularData = unprocessedData.tabularData();
             if (!unprocessedData.hasTime()) {

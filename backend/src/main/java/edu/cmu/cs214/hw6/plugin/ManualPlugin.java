@@ -52,12 +52,12 @@ public class ManualPlugin implements DataPlugin{
 
     @Override
     public String getPluginInstructions() {
-        return this.PLUGIN_NAME;
+        return this.PLUGIN_INSTRUCTION;
     }
 
     @Override
     public String getPluginName() {
-        return this.PLUGIN_INSTRUCTION;
+        return this.PLUGIN_NAME;
     }
     
 }
