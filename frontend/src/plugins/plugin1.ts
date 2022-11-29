@@ -11,6 +11,7 @@ class plugin1 implements VisualizationPlugin {
     };
 
     renderData (data: pluginData): void {
+        
         var layout: {} = {
             dragmode: "zoom",
             mapbox: { style: "open-street-map", center: { lat: 38, lon: -90 }, zoom: 3},

@@ -1,12 +1,13 @@
+import { processedData } from "./data";
 import { VisualizationPlugin } from "./plugin";
 const fs = require('fs');
 
 
 class framework {
-    unProcessedData: string = ""
-    processedData: string = ""
+    processedData: processedData | undefined
     dataPlugin: string = ""
     vizPlugin: string = ""
+    instruction: string = ""
     registeredPlugins: VisualizationPlugin[] = []
   
     constructor() {

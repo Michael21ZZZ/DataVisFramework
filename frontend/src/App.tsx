@@ -1,12 +1,13 @@
 import React from 'react';
 
 import './App.css'; // import the css file to enable your styles.
-import { pluginData } from './data';
+import { pluginData, processedData } from './data';
 import { framework} from './framework';
 import { plugin1 } from './plugins/plugin1';
 import { plugin2 } from './plugins/plugin2';
 import { plugin3 } from './plugins/plugin3';
 import * as fs from 'fs'
+import Plotly from 'plotly.js-dist';
 
 /**
  * Define the type of the props field for a React component
@@ -41,9 +42,20 @@ class App extends React.Component<Props, framework> {
      * state has type Visualization Plugin as specified in the class inheritance.
      */
     this.state = {
-      data: "",
+      processedData: {data:[
+        {
+            type: "heatmap",
+            z: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            y: [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ],
+            text: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        }
+    ],
+      layout:{}},
       dataPlugin: "Data plugin not selected",
       vizPlugin: "Visualization plugin not selected",
+      instruction: "",
       registeredPlugins: [new plugin1(), new plugin2(), new plugin3()]}
   }
 
@@ -69,50 +81,79 @@ class App extends React.Component<Props, framework> {
     }
   }
 
-  loadPlugins (): React.MouseEventHandler {
-    return async (e) => {
-      e.preventDefault()
-      // this.setState({registeredPlugins: []})
-      // this.setState({registeredPlugins: [new plugin1(), new plugin2(), new plugin3()]})
+  setInstructionContent(content: string) {
+    let instruction = document.getElementById('instruction')
+    if (instruction !== null) {
+      instruction.innerHTML = content;
     }
   }
 
-  getDataPlugin = async (ind: number): Promise<any> => {
-    const response = await fetch('/dataplugin?i='+{ind})
-    const json = await response.json()
-    this.setState({
-      dataPlugin: json.dataplugin
-    }
-    )
-  }
-
-  submitData (): React.MouseEventHandler {
+  getDataPlugin(ind: number): React.MouseEventHandler {
     return async (e) => {
-      const response = await fetch('/submitdata/')
-      const json = await response.json()
+      // const response = await fetch('/dataplugin?i=' + { ind })
+      // const json = await response.json()
+      let dataplugins = document.getElementById('data_options')
+      let searchbar = document.getElementById('search')
+      if (dataplugins !== null && searchbar !== null) {
+        dataplugins.style.display = 'none'
+        searchbar.style.display = 'inline'
+      }
+      this.setInstructionContent('Please enter your keywords')
       this.setState({
-        unProcessedData: json
-      })
-  }}
-
-  getVisPlugin = async (ind: number): Promise<any> => {
-    const response = await fetch('/visplugin?i='+{ind})
-    const json = await response.json()
-    this.setState({
-      processedData: json
+        // dataPlugin: json.datapluginname,
+        // instruction: json.instruction
+      }
+      )
     }
-    )
   }
 
-  viztest (ind: number): React.MouseEventHandler {
+  submitKeyword (): React.MouseEventHandler {
     return async (e) => {
-    let data: pluginData = {"coreData":[{"lng":-79.9958864,"location":"Pittsburgh","time":"2022-05-12","text":"I had a donut.","lat":40.44062479999999},{"lng":-74.0059728,"location":"New York","time":"2022-06-12","text":"I went to the Met.","lat":40.7127753},{"lng":-87.6297982,"location":"Chicago","time":"2023-09-29","text":"Peter and I went to Ed Sheeran's concert.","lat":41.8781136},{"lng":-79.9958864,"location":"Pittsburgh","time":"2024-02-1","text":"The Civil War 2 broke out.","lat":40.44062479999999}],
-    "locationFreq":{"New York":1,"Chicago":1,"Pittsburgh":2}}
-    this.state.registeredPlugins[ind].renderData(data)
+      let keyword = (document.getElementById('keyword') as HTMLElement).outerHTML
+      // const response = await fetch('/submitdata/?keyword='+{keyword})
+      // const json = await response.json()
+      this.setInstructionContent('Please select a Visualization plugin')
+      let visplugins = document.getElementById('vis_options')
+      let searchbar = document.getElementById('search')
+      if (visplugins !== null && searchbar !== null) {
+        visplugins.style.display = 'inline'
+        searchbar.style.display = 'none'
+      }
   }}
 
-  createVizButton (idx: number): React.ReactNode {
-    return (<div key={idx}><button className="dropbtn" onClick={this.viztest(idx)}>VizPlugin {idx+1}</button></div>)
+  getVisPlugin(ind: number): React.MouseEventHandler {
+    return async (e) => {
+      // const response = await fetch('/visplugin?i=' + { ind })
+      // const json = await response.json()
+      let visplugins = document.getElementById('vis_options')
+      if (visplugins !== null) {
+        visplugins.style.display = 'none'
+      }
+      this.setState({
+        // vizPlugin: json,
+        // processedData: json
+      }, this.drawPlot
+      )
+    }
+  }
+
+  drawPlot (): void {
+      if (this.state.processedData !== undefined) {
+        Plotly.newPlot('PlotlyTest', 
+        this.state.processedData.data,
+        this.state.processedData.layout)}
+  }
+
+  createDataButton (idx: number): React.ReactNode {
+    return (<div key={idx}>
+      <button className="dropbtn"  onClick={this.getDataPlugin(idx)}>DataPlugin {idx+1}</button>
+      </div>)
+  }
+
+  createVisButton (idx: number): React.ReactNode {
+    return (<div key={idx}>
+      <button className="dropbtn"  onClick={this.getVisPlugin(idx)}>VisPlugin {idx+1}</button>
+      </div>)
   }
 
   refreshPage = () =>{
@@ -133,12 +174,22 @@ class App extends React.Component<Props, framework> {
      */
     return (
       <div>
-        <button className="dropbtn" onClick={this.loadPlugins()}>Load visualization plugins</button>
-        <div id='vizplugin'>
-          {this.state.registeredPlugins.map((
-            plugin, i
-          ) => this.createVizButton(i))}
-        </div>
+        <div id='instruction'>Please Select a Data Plugin</div>
+        <div id='options'>
+          <div id='data_options'>
+            {this.state.registeredPlugins.map((
+              _, i
+            ) => this.createDataButton(i))}
+          </div>
+          <div id='search'>
+            Enter the key word: <input type="text" id="keyword"></input>
+            <button onClick={this.submitKeyword()}>Search</button>
+          </div>
+          <div id='vis_options'>
+            {this.state.registeredPlugins.map((
+              _, i
+            ) => this.createVisButton(i))}
+          </div></div>
         <div id='PlotlyTest'></div>
         <button className="dropbtn" onClick={this.refreshPage}>Return</button>
       </div>

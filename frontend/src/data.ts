@@ -11,4 +11,9 @@ interface subdata {
     text: string    
 }
 
-export type { pluginData }
+interface processedData {
+    data: [{}]
+    layout: {}
+}
+
+export type { pluginData, processedData }
