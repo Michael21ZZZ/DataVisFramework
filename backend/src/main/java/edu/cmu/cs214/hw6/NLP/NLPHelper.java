@@ -11,7 +11,12 @@ import org.json.JSONObject;
 
 public class NLPHelper {
     private final String[] nerTypeLoc = {"CITY", "STATE_OR_PROVINCE", "COUNTRY"};
-
+    private Properties props = new Properties();
+    private StanfordCoreNLP pipeline;
+    public NLPHelper() {
+        this.props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
+        this.pipeline = new StanfordCoreNLP(props);
+    }
     public static void main(String[] args) {
         NLPHelper nlpHelper = new NLPHelper();
         nlpHelper.parseText(NLPDemo.demoText);
@@ -19,14 +24,9 @@ public class NLPHelper {
     public JSONObject parseText(String article) {
         GoogleGeoCoding ggc = new GoogleGeoCoding();
         Map<String, Integer> locFreqMap = new HashMap<String, Integer>();
-        // set up pipeline properties
-        Properties props = new Properties();
-        props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
-        // set up pipeline
-        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
         CoreDocument doc = new CoreDocument(article);
         // annotate the document
-        pipeline.annotate(doc);
+        this.pipeline.annotate(doc);
         List<CoreSentence> sentences = doc.sentences();    
         JSONArray tabularData = new JSONArray();
 
@@ -112,16 +112,10 @@ public class NLPHelper {
     }
 
     public List<CoreSentence> splitSents(String article) {
-        // set up pipeline properties
-        Properties props = new Properties();
-        // set the list of annotators to run
-        props.setProperty("annotators", "tokenize, ssplit");
-        // build pipeline
-        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
         // create a document object
         CoreDocument doc = new CoreDocument(article);
         // annotate
-        pipeline.annotate(doc);
+        this.pipeline.annotate(doc);
         // display sentences
         return doc.sentences();
     }

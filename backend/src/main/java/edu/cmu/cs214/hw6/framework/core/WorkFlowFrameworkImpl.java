@@ -16,9 +16,12 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
     private List<DataPlugin>  registeredDataPlugins;
     private VisPlugin currentVisPlugin;
     private List<VisPlugin>  registeredVisPlugins;
+    private NLPHelper nlpHelper;
 
     public WorkFlowFrameworkImpl() {
         this.registeredDataPlugins = new ArrayList<DataPlugin>();
+        this.registeredVisPlugins = new ArrayList<VisPlugin>();
+        this.nlpHelper = new NLPHelper();
     }
 
     /**
@@ -76,16 +79,15 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
      */
     public JSONObject processData(UnProcessedData unprocessedData) {
         boolean isTabular = unprocessedData.isTabular();
-        NLPHelper nlpHelper = new NLPHelper();
         if (!isTabular) { // if it's pure text, needs to partitioned
-            return nlpHelper.parseText(unprocessedData.textData());
+            return this.nlpHelper.parseText(unprocessedData.textData());
         } else {
             JSONArray tabularData = unprocessedData.tabularData();
             if (!unprocessedData.hasTime()) {
-                tabularData = nlpHelper.parseTime(tabularData);
+                tabularData = this.nlpHelper.parseTime(tabularData);
             }
             if (!unprocessedData.hasLocation()) {
-                tabularData = nlpHelper.parseLocation(tabularData);
+                tabularData = this.nlpHelper.parseLocation(tabularData);
             }
             // A map store the freq of a location
             Map<String, Integer> locFreqMap = new HashMap<String, Integer>();

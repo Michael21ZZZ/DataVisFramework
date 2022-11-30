@@ -10,8 +10,10 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFrameworkImpl;
+import edu.cmu.cs214.hw6.plugin.WikiPlugin;
 
 public class BEFrameworkTest {
     JSONArray tabDataArray = new JSONArray();
@@ -33,11 +35,4 @@ public class BEFrameworkTest {
         this.unProcessedData = new UnProcessedData(true, true, true, "", tabDataArray);
     }
 
-    
-    @Test
-    public void processTest() {
-        WorkFlowFrameworkImpl wffi = new WorkFlowFrameworkImpl();
-        System.out.println(wffi.processData(this.unProcessedData));
-
-    }
 }

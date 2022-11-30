@@ -60,28 +60,30 @@ public class App extends NanoHTTPD {
         if (uri.equals("/dataplugin")) {
             // e.g., /dataplugin?i=0
             DataPlugin dataPlugin = dataPlugins.get(Integer.parseInt(params.get("i")));
-            workFlow.registerDataPlugin(dataPlugin);
+            workFlow.setCurrentDataPlugin(dataPlugin);
             String name = dataPlugin.getPluginName();
             String instr = dataPlugin.getPluginInstructions();
-            JSONObject dataPluginInfo = new JSONObject();
-            dataPluginInfo.put("name", name);
-            dataPluginInfo.put("instruction", instr);
+            responseJson.put("name", name);
+            responseJson.put("instruction", instr);
+            System.out.println(responseJson.toString());
             return newFixedLengthResponse(responseJson.toString());
         } else if (uri.equals("/submitdata")){
             // e.g., /submitdata?keyword=XX&tabularinput=XX
             try {
                 UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
+                System.out.println(UnProcessedData.textData());
                 this.processedData = workFlow.processData(UnProcessedData);
                 responseJson.put("datasubmitsuccess", true);
                 return newFixedLengthResponse(responseJson.toString());
             } catch(Exception e) {
+                System.out.println(e);
                 responseJson.put("datasubmitsuccess", false);
                 return newFixedLengthResponse(responseJson.toString());
             }
-        } else if (uri.equals("visplugin")) {
+        } else if (uri.equals("/visplugin")) {
             return newFixedLengthResponse(workFlow.prepVis(responseJson).toString());
         }
-        return newFixedLengthResponse("");
+        return newFixedLengthResponse("Hello World");
     }
 
 
@@ -94,7 +96,7 @@ public class App extends NanoHTTPD {
         ServiceLoader<DataPlugin> plugins = ServiceLoader.load(DataPlugin.class);
         List<DataPlugin> result = new ArrayList<>();
         for (DataPlugin plugin : plugins) {
-            System.out.println("Loaded plugin " + plugin.getPluginName());
+            System.out.println("Loaded Data plugin " + plugin.getPluginName());
             result.add(plugin);
         }
         return result;
@@ -109,7 +111,7 @@ public class App extends NanoHTTPD {
         ServiceLoader<VisPlugin> plugins = ServiceLoader.load(VisPlugin.class);
         List<VisPlugin> result = new ArrayList<>();
         for (VisPlugin plugin : plugins) {
-            System.out.println("Loaded plugin " + plugin.getPluginName());
+            System.out.println("Loaded Geo plugin " + plugin.getPluginName());
             result.add(plugin);
         }
         return result;
