@@ -12,36 +12,62 @@ import edu.cmu.cs214.hw6.NLP.GoogleGeoCoding;
 import edu.cmu.cs214.hw6.NLP.NLPHelper;
 
 public class WorkFlowFrameworkImpl implements WorkFlowFramework{
-    private DataPlugin currentPlugin;
-    private List<DataPlugin>  registeredPlugins;
+    private DataPlugin currentDataPlugin;
+    private List<DataPlugin>  registeredDataPlugins;
+    private VisPlugin currentVisPlugin;
+    private List<VisPlugin>  registeredVisPlugins;
 
     public WorkFlowFrameworkImpl() {
-        this.registeredPlugins = new ArrayList<DataPlugin>();
+        this.registeredDataPlugins = new ArrayList<DataPlugin>();
     }
 
     /**
      * Registers a new {@link DataPlugin} with the game framework
      */
-    public void registerPlugin(DataPlugin plugin) {
+    public void registerDataPlugin(DataPlugin plugin) {
         plugin.onRegister(this);
-        registeredPlugins.add(plugin);
+        registeredDataPlugins.add(plugin);
     }
 
     /**
      * Set current {@link DataPlugin} 
      */
-    public void setCurrentPlugin(DataPlugin plugin) {
-        this.currentPlugin = plugin;
+    public void setCurrentDataPlugin(DataPlugin plugin) {
+        this.currentDataPlugin = plugin;
     }
 
     public UnProcessedData fetchData(SearchTerm searchTerm) {
-        if (this.currentPlugin != null) {
-            this.currentPlugin.search(searchTerm);
-            return this.currentPlugin.getData();
+        if (this.currentDataPlugin != null) {
+            this.currentDataPlugin.search(searchTerm);
+            return this.currentDataPlugin.getData();
         } else {
             return null;
         }
     }
+
+    /**
+     * Registers a new {@link VisPlugin} with the framework
+     */
+    public void registerVisPlugin(VisPlugin plugin) {
+        plugin.onRegister(this);
+        registeredVisPlugins.add(plugin);
+    }
+
+    /**
+     * Set current {@link VisPlugin} 
+     */
+    public void setCurrentVisPlugin(VisPlugin plugin) {
+        this.currentVisPlugin = plugin;
+    }
+
+    public JSONObject prepVis(JSONObject processedData) {
+        if (this.currentVisPlugin != null && processedData != null) {
+            return this.currentVisPlugin.prepVis(processedData);
+        } else {
+            return null;
+        }
+    }
+
 
     /**
      * Process data from plugin, nlp extract time/location, and calculate location freq

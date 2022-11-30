@@ -7,15 +7,15 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.google.gson.JsonObject;
-
 import edu.cmu.cs214.hw6.framework.core.VisPlugin;
+import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 
 public class VisPluginGeo implements VisPlugin {
     private JSONObject layout = new JSONObject();
     private JSONArray coreData = new JSONArray();
     private List<JSONObject> formattedData = new ArrayList<JSONObject>();
     private JSONObject locFreq;
+    private WorkFlowFramework framework;
     @Override
     public JSONObject prepVis(JSONObject processedData) {
         JSONObject res = new JSONObject();
@@ -79,6 +79,17 @@ public class VisPluginGeo implements VisPlugin {
         formattedCoreDate.put("lat", allLat);
         formattedCoreDate.put("mode", "markers");
         this.formattedData.add(formattedCoreDate);
+    }
+
+    @Override
+    public void onRegister(WorkFlowFramework framework) {
+        this.framework = framework;
+        
+    }
+
+    @Override
+    public String getPluginName() {
+        return "GeoMap";
     }
 
     

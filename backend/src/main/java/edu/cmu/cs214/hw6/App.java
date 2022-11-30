@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
+import edu.cmu.cs214.hw6.framework.core.VisPlugin;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFrameworkImpl;
 import fi.iki.elonen.NanoHTTPD;
@@ -30,7 +31,7 @@ public class App extends NanoHTTPD {
 
     private WorkFlowFrameworkImpl workFlow;
     private List<DataPlugin> dataPlugins;
-    
+    private List<VisPlugin> visPlugins;
     private JSONObject processedData;
 
     /**
@@ -41,9 +42,10 @@ public class App extends NanoHTTPD {
         super(8080);
 
         this.workFlow = new WorkFlowFrameworkImpl();
-        dataPlugins = loadPlugins();
+        dataPlugins = loadDataPlugins();
+        this.visPlugins = loadVisPlugins();
         for (DataPlugin p: dataPlugins){
-            workFlow.registerPlugin(p);
+            workFlow.registerDataPlugin(p);
         }
 
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
@@ -58,12 +60,12 @@ public class App extends NanoHTTPD {
         if (uri.equals("/dataplugin")) {
             // e.g., /dataplugin?i=0
             DataPlugin dataPlugin = dataPlugins.get(Integer.parseInt(params.get("i")));
-            workFlow.registerPlugin(dataPlugin);
-            // String name = dataPlugin.getName();
-            // String instr = dataPlugin.getInstruction();
-            // JSONObject dataPluginInfo = new JSONObject();
-            // dataPluginInfo.put("name", name);
-            // dataPluginInfo.put("instruction", instr);
+            workFlow.registerDataPlugin(dataPlugin);
+            String name = dataPlugin.getPluginName();
+            String instr = dataPlugin.getPluginInstructions();
+            JSONObject dataPluginInfo = new JSONObject();
+            dataPluginInfo.put("name", name);
+            dataPluginInfo.put("instruction", instr);
             return newFixedLengthResponse(responseJson.toString());
         } else if (uri.equals("/submitdata")){
             // e.g., /submitdata?keyword=XX&tabularinput=XX
@@ -77,7 +79,7 @@ public class App extends NanoHTTPD {
                 return newFixedLengthResponse(responseJson.toString());
             }
         } else if (uri.equals("visplugin")) {
-            
+            return newFixedLengthResponse(workFlow.prepVis(responseJson).toString());
         }
         return newFixedLengthResponse("");
     }
@@ -88,7 +90,7 @@ public class App extends NanoHTTPD {
      *
      * @return List of instantiated plugins
      */
-    private static List<DataPlugin> loadPlugins() {
+    private static List<DataPlugin> loadDataPlugins() {
         ServiceLoader<DataPlugin> plugins = ServiceLoader.load(DataPlugin.class);
         List<DataPlugin> result = new ArrayList<>();
         for (DataPlugin plugin : plugins) {
@@ -98,6 +100,20 @@ public class App extends NanoHTTPD {
         return result;
     }
 
+        /**
+     * Load plugins listed in META-INF/services/...
+     *
+     * @return List of instantiated plugins
+     */
+    private static List<VisPlugin> loadVisPlugins() {
+        ServiceLoader<VisPlugin> plugins = ServiceLoader.load(VisPlugin.class);
+        List<VisPlugin> result = new ArrayList<>();
+        for (VisPlugin plugin : plugins) {
+            System.out.println("Loaded plugin " + plugin.getPluginName());
+            result.add(plugin);
+        }
+        return result;
+    }
     public static class Test {
         public String getText() {
             return "Hello World!";

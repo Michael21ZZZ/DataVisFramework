@@ -18,4 +18,11 @@ public interface VisPlugin {
      * Format Data
      */
     public void formatData();
+
+    public void onRegister(WorkFlowFramework framework);
+    /**
+     * Gets the name of the plug-in game.
+     * @return Name for specific plugins
+     */
+    String getPluginName();
 }
