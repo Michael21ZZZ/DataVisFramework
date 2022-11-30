@@ -33,6 +33,7 @@ public class App extends NanoHTTPD {
     private List<DataPlugin> dataPlugins;
     private List<VisPlugin> visPlugins;
     private JSONObject processedData;
+    private JSONObject responseJson = new JSONObject();
 
     /**
      * Start the server at :8080 port.
@@ -56,7 +57,6 @@ public class App extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         String uri = session.getUri();
         Map<String, String> params = session.getParms();
-        JSONObject responseJson = new JSONObject();
         if (uri.equals("/dataplugin")) {
             // e.g., /dataplugin?i=0
             DataPlugin dataPlugin = dataPlugins.get(Integer.parseInt(params.get("i")));
@@ -66,19 +66,17 @@ public class App extends NanoHTTPD {
             responseJson.put("name", name);
             responseJson.put("instruction", instr);
             System.out.println(responseJson.toString());
-            return newFixedLengthResponse(responseJson.toString());
         } else if (uri.equals("/submitdata")){
             // e.g., /submitdata?keyword=XX&tabularinput=XX
             try {
                 UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
                 System.out.println(UnProcessedData.textData());
                 this.processedData = workFlow.processData(UnProcessedData);
+                this.responseJson.put("processedata", this.processedData);
                 responseJson.put("datasubmitsuccess", true);
-                return newFixedLengthResponse(responseJson.toString());
             } catch(Exception e) {
                 System.out.println(e);
                 responseJson.put("datasubmitsuccess", false);
-                return newFixedLengthResponse(responseJson.toString());
             }
         } else if (uri.equals("/visplugin")) {
             VisPlugin visPlugin = visPlugins.get(Integer.parseInt(params.get("i")));
@@ -97,7 +95,7 @@ public class App extends NanoHTTPD {
             responseJson.put("visplugins", visplugins);
             return newFixedLengthResponse(responseJson.toString());
         }
-        return newFixedLengthResponse("Hello World");
+        return newFixedLengthResponse(responseJson.toString());
     }
 
 
