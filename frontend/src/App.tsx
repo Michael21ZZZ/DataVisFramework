@@ -43,6 +43,7 @@ class App extends React.Component<Props, framework> {
       instruction: "",
       registeredDataPlugins: [],
       registeredVisualizationPlugins: [],
+      frozen: false
     }
   }
 
@@ -103,6 +104,8 @@ class App extends React.Component<Props, framework> {
 
   submitKeyword (): React.MouseEventHandler {
     return async (e) => {
+      this.setState({instruction: 'Please wait', frozen: true},
+      )
       let keyword: string = (document.getElementById('keyword') as HTMLInputElement).value
       const response = await fetch('/submitdata?keyword=' + keyword)
       const json = await response.json()
@@ -113,17 +116,14 @@ class App extends React.Component<Props, framework> {
         visplugins.style.display = 'inline'
         searchbar.style.display = 'none'
       }
-      this.setState({instruction: 'Please select a Visualization plugin'})
+      this.setState({instruction: 'Please select a Visualization plugin', frozen: false})
   }}
 
   getVisPlugin(ind: number): React.MouseEventHandler {
     return async (e) => {
       const response = await fetch('/visplugin?i=' + ind)
       const json = await response.json()
-      this.setState({
-        plotData: json
-      }, this.drawPlot
-      )
+      this.setState({plotData: json}, this.drawPlot)
     }
   }
 
@@ -155,7 +155,10 @@ class App extends React.Component<Props, framework> {
   }
 
   refreshPage = () =>{
-    window.location.reload();
+    if (this.state.frozen === false) {
+      window.location.reload();
+    }
+    
  }
 
 
@@ -172,7 +175,7 @@ class App extends React.Component<Props, framework> {
      */
     return (
       <div>
-        <div id='instruction'>Please Select a Data Plugin</div>
+        <b><div id='instruction'>Please Select a Data Plugin</div></b>
 
         <div id='state'>
           Data Plugin: <p id='plugin'>{this.state.dataPlugin}</p> <br/>

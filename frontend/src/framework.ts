@@ -8,6 +8,7 @@ interface framework {
     instruction: string
     registeredVisualizationPlugins: string[]
     registeredDataPlugins: string[]
+    frozen: boolean
   }
 
 export type { framework }
