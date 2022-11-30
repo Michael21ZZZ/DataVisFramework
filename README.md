@@ -15,30 +15,16 @@ Our framework and plugins combined can solve this problem. The data plugins can 
 
 ## Installation
 
-cd ./backend
-
-mvn install
-
-cd ../frontend
-
+To install the necessary packages, in the backend folder, run
+```
+mvn clean install
+```
+In the frontend folder, run
+```
 npm install
+```
 
 ## Usage
-
-Provide instructions and examples for use. Include screenshots as needed.
-
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
-
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
-### Set Up Backend Server 
-Either run the Java backend by using your IDE or by typing 
-
-```
-mvn exec:exec
-```
-in the back-end folder. This will start the Java server at http://localhost:8080.
 
 ### Set Up Frontend Server
 In the front-end folder, run
@@ -63,6 +49,23 @@ npm start
 ```
 
 This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
+
+Provide instructions and examples for use. Include screenshots as needed.
+
+To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
+
+    ```md
+    ![alt text](assets/images/screenshot.png)
+    ```
+### Set Up Backend Server 
+Either run the Java backend by using your IDE or by typing 
+
+```
+mvn exec:exec
+```
+in the back-end folder. This will start the Java server at http://localhost:8080.
+
+
 
 ### GUI usage
 1. Select a Data Plugin
