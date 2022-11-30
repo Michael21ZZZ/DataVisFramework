@@ -1,10 +1,5 @@
 package edu.cmu.cs214.hw6.NLP;
 
-import java.util.List;
-import java.util.Properties;
-
-import org.json.JSONArray;
-
 import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 import edu.cmu.cs214.hw6.plugin.WikiPlugin;
 
