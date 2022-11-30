@@ -38,7 +38,6 @@ public class VisPluginGeo implements VisPlugin {
 
     public JSONObject getMapBox() {
         JSONObject mapBox = new JSONObject();
-        mapBox.put("style", "scattergeo");
         // add center
         JSONObject center = new JSONObject();
         center.put("lat", 38);
