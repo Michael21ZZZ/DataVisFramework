@@ -12,6 +12,64 @@ GEO map, time series and GEO-time visualizations can provide intuitive insights 
 
 Our framework and plugins combined can solve this problem. The data plugins can ensure a clean date format. Our framework can extract time and spatial information from selected texts with an NLP technique called Named Entity Recognition (NER). After the time and location data are processed, the framework will pass them to the frontend and perform data visualization in an interactive way. 
 
+
+## Installation
+
+cd ./backend
+
+mvn install
+
+cd ../frontend
+
+npm install
+
+## Usage
+
+Provide instructions and examples for use. Include screenshots as needed.
+
+To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
+
+    ```md
+    ![alt text](assets/images/screenshot.png)
+    ```
+### Set Up Backend Server 
+Either run the Java backend by using your IDE or by typing 
+
+```
+mvn exec:exec
+```
+in the back-end folder. This will start the Java server at http://localhost:8080.
+
+### Set Up Frontend Server
+In the front-end folder, run
+
+```
+npm install
+```
+Then rename the file:
+```
+./node_modules/@types/plotly.js
+```
+
+to
+```
+./node_modules/@types/plotly.js-dist
+```
+
+then, run
+
+```
+npm start
+```
+
+This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
+
+### GUI usage
+1. Select a Data Plugin
+2. Search keyword and submits
+3. Select Visualization and gets the plot
+
+
 	
 ## Plugin Interfaces
 ### Data Plugin Interface
@@ -115,8 +173,8 @@ GET /register
 **Response**
 ```
 {
-	"dataplugins": String[],
-	"visplugins": String[]
+"dataplugins": String[],
+"visplugins": String[]
 }
 ```
 
@@ -137,17 +195,17 @@ GET /dataplugin?i=0
 ```
 
 
-#### Submit Data (Data Plugin sends data to the framework)
+### Submit Data (Data Plugin sends data to the framework)
 **Request**
 ```
 GET /submitdata/?keyword=XX
 ```
 **Response**
 ```
-	"datasubmitsuccess": boolean
+"datasubmitsuccess": boolean
 ```
 
-#### Select Visualization Plugin, framework sends data and layout to the frontend, and frontend plots
+### Select Visualization Plugin, framework sends data and layout to the frontend, and frontend plots
 **Request**
 ```
 GET /visplugin?i=0
@@ -155,67 +213,14 @@ GET /visplugin?i=0
 **Response**
 ```
 {
-	"data": {},
-	"layout": {}
+"data": {},
+"layout": {}
 }
 ```
 
 
-## Installation
 
-cd ./backend
 
-mvn install
-
-cd ../frontend
-
-npm install
-
-## Usage
-
-Provide instructions and examples for use. Include screenshots as needed.
-
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
-
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
-### Set Up Backend Server 
-Either run the Java backend by using your IDE or by typing 
-
-```
-mvn exec:exec
-```
-in the back-end folder. This will start the Java server at http://localhost:8080.
-
-### Set Up Frontend Server
-In the front-end folder, run
-
-```
-npm install
-```
-Then rename the file:
-```
-./node_modules/@types/plotly.js
-```
-
-to
-```
-./node_modules/@types/plotly.js-dist
-```
-
-then, run
-
-```
-npm start
-```
-
-This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
-
-### GUI usage
-1. Select a Data Plugin
-2. Search keyword and submits
-3. Select Visualization and gets the plot
 
 ## Credits
 
