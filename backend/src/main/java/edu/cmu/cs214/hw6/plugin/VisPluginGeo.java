@@ -60,6 +60,7 @@ public class VisPluginGeo implements VisPlugin {
 
     @Override
     public void formatData() {
+        this.formattedData = new ArrayList<JSONObject>();
         List<String> allText = new ArrayList<String>();
         List<String> allLoc = new ArrayList<String>();
         List<String> allDate = new ArrayList<String>();
