@@ -5,6 +5,7 @@ import io.github.fastily.jwiki.core.Wiki;
 import edu.cmu.cs214.hw6.framework.core.*;
 import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 
+
 public class WikiPlugin implements DataPlugin {
 
     private WorkFlowFramework framework;
@@ -21,7 +22,8 @@ public class WikiPlugin implements DataPlugin {
         this.isTabular = false;
         this.hasTime = false;
         this.hasLocation = false;
-        this.tabularData = null;
+        this.textData = new String();
+        this.tabularData = new JSONArray();
     }
 
     @Override

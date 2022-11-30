@@ -1,6 +1,7 @@
 package edu.cmu.cs214.hw6;
 
 import static org.junit.Assert.assertTrue;
+import edu.cmu.cs214.hw6.App;
 
 import org.junit.Test;
 
