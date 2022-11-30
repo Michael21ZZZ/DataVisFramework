@@ -79,7 +79,7 @@ public class VisPluginGeo implements VisPlugin {
         formattedCoreDate.put("text", allText);
         formattedCoreDate.put("lon", allLon);
         formattedCoreDate.put("lat", allLat);
-        formattedCoreDate.put("mode", "markers");
+        formattedCoreDate.put("mode", "markers+lines");
         this.formattedData.add(formattedCoreDate);
     }
 
