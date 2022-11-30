@@ -3,3 +3,4 @@
 # with one plugin per line.
 edu.cmu.cs214.hw6.plugin.VisPluginGeo
 edu.cmu.cs214.hw6.plugin.VisPluginLocFreq
+edu.cmu.cs214.hw6.plugin.VisPluginTimeline
