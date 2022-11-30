@@ -82,6 +82,18 @@ public class App extends NanoHTTPD {
             }
         } else if (uri.equals("/visplugin")) {
             return newFixedLengthResponse(workFlow.prepVis(responseJson).toString());
+        } else if (uri.equals("/register")) {
+            String[] dataplugins = {};
+            String[] visplugins = {};
+            for (int i = 0; i < this.dataPlugins.size(); i++) {
+                dataplugins[i] = this.dataPlugins.get(i).getPluginName();
+            }
+            for (int i = 0; i < this.visPlugins.size(); i++) {
+                visplugins[i] = this.visPlugins.get(i).getPluginName();
+            }
+            responseJson.put("dataplugins", dataplugins);
+            responseJson.put("visplugins", visplugins);
+            return newFixedLengthResponse(responseJson.toString());
         }
         return newFixedLengthResponse("Hello World");
     }
@@ -102,7 +114,7 @@ public class App extends NanoHTTPD {
         return result;
     }
 
-        /**
+    /**
      * Load plugins listed in META-INF/services/...
      *
      * @return List of instantiated plugins
@@ -134,5 +146,6 @@ public class App extends NanoHTTPD {
 
         return searchTerm;
     }
+
 }
 
