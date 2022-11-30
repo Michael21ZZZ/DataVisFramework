@@ -63,12 +63,12 @@ jobs:
       - name: Run on TS files
         if: steps.change-ts.outputs.any_changed == 'true'
         run: |
-          timeout 2m cd ./frontend
+          cd ./frontend
           timeout 2m npm install
           timeout 2m npm run compile
           timeout 2m npm run lint
           timeout 2m npm run test
-          timeout 2m cd ..
+          cd ..
       
       # Build Java and run tests
       - name: Build with Maven
