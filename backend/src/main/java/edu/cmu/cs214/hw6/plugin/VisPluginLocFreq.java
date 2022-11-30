@@ -58,7 +58,7 @@ public class VisPluginLocFreq implements VisPlugin {
 
     @Override
     public String getPluginName() {
-        return "GeoMap";
+        return "Location Frequency Bar";
     }
 
     public static void main(String[] args) {
