@@ -35,13 +35,18 @@ public class NLPHelper {
         String prevDateStr = "9999-99-99";
         for (CoreEntityMention em : doc.entityMentions()) {
             if (em.entityType().equals("DATE")) { // a date em
-                String dateVal = em.coreMap().get(TimeAnnotations.TimexAnnotation.class).value();
-                dateVal = DateReg.dateReg(dateVal, prevDateStr);
-                prevDateStr = dateVal;
-                int year = Integer.parseInt(dateVal.substring(0, 4));
-                if (year < earliestYear) {
-                    earliestYear = year;
+                try {
+                    String dateVal = em.coreMap().get(TimeAnnotations.TimexAnnotation.class).value();
+                    dateVal = DateReg.dateReg(dateVal, prevDateStr);
+                    prevDateStr = dateVal;
+                    int year = Integer.parseInt(dateVal.substring(0, 4));
+                    if (year < earliestYear) {
+                        earliestYear = year;
+                    }
+                } catch(Exception e) {
+                    continue;
                 }
+                
             }
         }
         earliestYear = Math.min(earliestYear, 9999);
@@ -61,11 +66,16 @@ public class NLPHelper {
                 if (Arrays.asList(this.nerTypeLoc).contains(em.entityType())) { // a location em
                     nERLocList.add(new NERLoc(em.entityType(), em.text()));
                 } else if (em.entityType().equals("DATE")) { // a date em
-                    String dateVal = em.coreMap().get(TimeAnnotations.TimexAnnotation.class).value();
-                    dateVal = DateReg.dateReg(dateVal, prevDate);
-                    prevDate = dateVal;
-                    NERDate nERDate = new NERDate(dateVal);
-                    nERDateList.add(nERDate);
+                    try {
+                        String dateVal = em.coreMap().get(TimeAnnotations.TimexAnnotation.class).value();
+                        dateVal = DateReg.dateReg(dateVal, prevDate);
+                        prevDate = dateVal;
+                        NERDate nERDate = new NERDate(dateVal);
+                        nERDateList.add(nERDate);
+                    } catch(Exception e){
+                        continue;
+                    }
+                    
                 }
             }
             Collections.sort(nERDateList, Collections.reverseOrder());
