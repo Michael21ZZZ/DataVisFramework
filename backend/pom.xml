@@ -14,15 +14,15 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>18</maven.compiler.source>
+    <maven.compiler.target>18</maven.compiler.target>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -35,7 +35,49 @@
       <artifactId>json</artifactId>
       <version>20220924</version>
     </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>io.github.fastily</groupId>
+      <artifactId>jwiki</artifactId>
+      <version>1.10.0</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.stanford.nlp</groupId>
+      <artifactId>stanford-corenlp</artifactId>
+      <version>4.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.stanford.nlp</groupId>
+      <artifactId>stanford-corenlp</artifactId>
+      <version>4.4.0</version>
+      <classifier>models</classifier>
+    </dependency>
+    <dependency>
+  <groupId>com.google.maps</groupId>
+  <artifactId>google-maps-services</artifactId>
+  <version>2.1.2</version>
+</dependency>
+<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-simple</artifactId>
+  <version>1.7.25</version>
+</dependency>
+    
+    <dependency>
+      <groupId>tech.tablesaw</groupId>
+      <artifactId>tablesaw-core</artifactId>
+      <version>LATEST</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.maps</groupId>
+      <artifactId>google-maps-services</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
@@ -79,6 +121,19 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.2.1</version>
+          <configuration>
+              <executable>java</executable>
+              <arguments>
+                  <argument>-classpath</argument>
+                  <classpath/>
+                  <argument>edu.cmu.cs214.hw6.App</argument>
+              </arguments>
+          </configuration>
+      </plugin>
       </plugins>
     </pluginManagement>
   </build>
