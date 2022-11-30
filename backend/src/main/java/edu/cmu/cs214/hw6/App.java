@@ -42,7 +42,7 @@ public class App extends NanoHTTPD {
         super(8080);
 
         this.workFlow = new WorkFlowFrameworkImpl();
-        dataPlugins = loadDataPlugins();
+        this.dataPlugins = loadDataPlugins();
         this.visPlugins = loadVisPlugins();
         for (DataPlugin p: dataPlugins){
             workFlow.registerDataPlugin(p);
@@ -83,13 +83,13 @@ public class App extends NanoHTTPD {
         } else if (uri.equals("/visplugin")) {
             return newFixedLengthResponse(workFlow.prepVis(responseJson).toString());
         } else if (uri.equals("/register")) {
-            String[] dataplugins = {};
-            String[] visplugins = {};
+            ArrayList<String> dataplugins = new ArrayList<String>();
+            ArrayList<String> visplugins = new ArrayList<String>();
             for (int i = 0; i < this.dataPlugins.size(); i++) {
-                dataplugins[i] = this.dataPlugins.get(i).getPluginName();
+                dataplugins.add(this.dataPlugins.get(i).getPluginName());
             }
             for (int i = 0; i < this.visPlugins.size(); i++) {
-                visplugins[i] = this.visPlugins.get(i).getPluginName();
+                visplugins.add(this.visPlugins.get(i).getPluginName());
             }
             responseJson.put("dataplugins", dataplugins);
             responseJson.put("visplugins", visplugins);
