@@ -104,6 +104,22 @@ public interface DataPlugin {
 
 ## App API
 
+### Register All Plugins for Initialization
+
+**Request**
+
+```
+GET /register
+```
+
+**Response**
+```
+{
+	"dataplugins": String[],
+	"visplugins": String[]
+}
+```
+
 ### Select Data Plugin
 
 **Request**
@@ -113,10 +129,13 @@ GET /dataplugin?i=0
 ```
 
 **Response**
+```
 {
 	"datapluginname": String,
 	"instruction": String
 }
+```
+
 
 #### Submit Data (Data Plugin sends data to the framework)
 **Request**
