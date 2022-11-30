@@ -1,13 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-import './App.css'; // import the css file to enable your styles.
-import { plotData } from './data';
-import { framework} from './framework';
-import Plotly from 'plotly.js-dist';
+import './App.css' // import the css file to enable your styles.
+
+import { framework } from './framework'
+import Plotly from 'plotly.js-dist'
 
 /**
  * Define the type of the props field for a React component
  */
+// eslint-disable-next-line
 interface Props { }
 
 /**
@@ -16,31 +17,31 @@ interface Props { }
  * React will keep track of the value of props and state.
  * Any time there's a change to their values, React will
  * automatically update (not fully re-render) the HTML needed.
- * 
+ *
  * props and state are similar in the sense that they manage
  * the data of this component. A change to their values will
  * cause the view (HTML) to change accordingly.
- * 
+ *
  * Usually, props is passed and changed by the parent component;
  * state is the internal value of the component and managed by
  * the component itself.
  */
 class App extends React.Component<Props, framework> {
-  private initialized: boolean = false;
+  private initialized: boolean = false
 
   /**
    * @param props has type Props
    */
-  constructor(props: Props) {
+  constructor (props: Props) {
     super(props)
     /**
      * state has type Visualization Plugin as specified in the class inheritance.
      */
     this.state = {
-      plotData: {data:[{}], layout:{}},
-      dataPlugin: "not selected",
-      visPlugin: "not selected",
-      instruction: "",
+      plotData: { data: [{}], layout: {} },
+      dataPlugin: 'not selected',
+      visPlugin: 'not selected',
+      instruction: '',
       registeredDataPlugins: [],
       registeredVisualizationPlugins: [],
       frozen: false
@@ -53,21 +54,23 @@ class App extends React.Component<Props, framework> {
    * @see https://reactjs.org/docs/react-component.html#componentdidmount
    */
 
-  componentDidMount(): void {
+  componentDidMount (): void {
     /**
      * setState in DidMount() will cause it to render twice which may cause
      * this function to be invoked twice. Use initialized to avoid that.
      */
     if (!this.initialized) {
-      this.initialized = true;
+      this.initialized = true
     }
   }
 
-  componentWillMount(): void {
+  // eslint-disable-next-line
+  componentWillMount (): void {
+    // eslint-disable-next-line
     this.register()
   }
 
-  register = async () => {
+  register = async (): Promise<any> => {
     const response = await fetch('/register')
     const json = await response.json()
     this.setState({
@@ -76,19 +79,20 @@ class App extends React.Component<Props, framework> {
     })
   }
 
-  setInstructionContent(content: string) {
-    let instruction = document.getElementById('instruction')
+  setInstructionContent (content: string): void {
+    const instruction = document.getElementById('instruction')
     if (instruction !== null) {
-      instruction.innerHTML = content;
+      instruction.innerHTML = content
     }
   }
 
-  getDataPlugin(ind: number): React.MouseEventHandler {
+  getDataPlugin (ind: number): React.MouseEventHandler {
     return async (e) => {
-      const response = await fetch('/dataplugin?i=' + ind )
+      // eslint-disable-next-line
+      const response = await fetch('/dataplugin?i=' + ind)
       const json = await response.json()
-      let dataplugins = document.getElementById('data_options')
-      let searchbar = document.getElementById('search')
+      const dataplugins = document.getElementById('data_options')
+      const searchbar = document.getElementById('search')
       if (dataplugins !== null && searchbar !== null) {
         dataplugins.style.display = 'none'
         searchbar.style.display = 'inline'
@@ -104,82 +108,89 @@ class App extends React.Component<Props, framework> {
 
   submitKeyword (): React.MouseEventHandler {
     return async (e) => {
-      this.setState({instruction: 'Please wait', frozen: true},
+      this.setState({ instruction: 'Please wait', frozen: true }
       )
-      let keyword: string = (document.getElementById('keyword') as HTMLInputElement).value
+      const keyword: string = (document.getElementById('keyword') as HTMLInputElement).value
+      // eslint-disable-next-line
       const response = await fetch('/submitdata?keyword=' + keyword)
-      const json = await response.json()
       this.setInstructionContent('Please select a Visualization plugin')
-      let visplugins = document.getElementById('vis_options')
-      let searchbar = document.getElementById('search')
+      const visplugins = document.getElementById('vis_options')
+      const searchbar = document.getElementById('search')
       if (visplugins !== null && searchbar !== null) {
         visplugins.style.display = 'inline'
         searchbar.style.display = 'none'
       }
-      this.setState({instruction: 'Please select a Visualization plugin', frozen: false})
-  }}
+      this.setState({ instruction: 'Please select a Visualization plugin', frozen: false })
+    }
+  }
 
-  getVisPlugin(ind: number): React.MouseEventHandler {
+  getVisPlugin (ind: number): React.MouseEventHandler {
     return async (e) => {
+      // eslint-disable-next-line
       const response = await fetch('/visplugin?i=' + ind)
       const json = await response.json()
-      this.setState({plotData: json}, this.drawPlot)
+      this.setState({ plotData: json }, this.drawPlot)
     }
   }
 
   drawPlot (): void {
-    let plugins = document.getElementById('options')
-    let state = document.getElementById('state')
-    let instruction = document.getElementById('instruction')
+    const plugins = document.getElementById('options')
+    const state = document.getElementById('state')
+    const instruction = document.getElementById('instruction')
     if (plugins !== null && state !== null && instruction !== null) {
       plugins.style.display = 'none'
       state.style.display = 'none'
       instruction.style.display = 'none'
     }
-      if (this.state.plotData !== undefined) {
-        Plotly.newPlot('PlotlyTest', 
+    if (this.state.plotData !== undefined) {
+      // eslint-disable-next-line
+      Plotly.newPlot('PlotlyTest',
         this.state.plotData.data,
-        this.state.plotData.layout)}
+        this.state.plotData.layout)
+    }
   }
 
   createDataButton (plugin: string, idx: number): React.ReactNode {
-    return (<div key={idx}>
-      <button className="dropbtn"  onClick={this.getDataPlugin(idx)}>DataPlugin {plugin}</button>
-      </div>)
+    return (
+      <div key={idx}>
+        <button className='dropbtn' onClick={this.getDataPlugin(idx)}>DataPlugin {plugin}</button>
+      </div>
+    )
   }
 
   createVisButton (plugin: string, idx: number): React.ReactNode {
-    return (<div key={idx}>
-      <button className="dropbtn"  onClick={this.getVisPlugin(idx)}>VisPlugin {plugin}</button>
-      </div>)
+    return (
+      <div key={idx}>
+        <button className='dropbtn' onClick={this.getVisPlugin(idx)}>VisPlugin {plugin}</button>
+      </div>
+    )
   }
 
-  refreshPage = () =>{
-    if (this.state.frozen === false) {
-      window.location.reload();
+  handleRefreshPage = (): void => {
+    if (!this.state.frozen) {
+      window.location.reload()
     }
-    
- }
-
+  }
 
   /**
    * The only method you must define in a React.Component subclass.
    * @returns the React element via JSX.
    * @see https://reactjs.org/docs/react-component.html
    */
-  render(): React.ReactNode {
+  render (): React.ReactNode {
     /**
      * We use JSX to define the template. An advantage of JSX is that you
      * can treat HTML elements as code.
      * @see https://reactjs.org/docs/introducing-jsx.html
      */
+    // eslint-disable-next-line
     return (
       <div>
         <b><div id='instruction'>Please Select a Data Plugin</div></b>
 
         <div id='state'>
-          Data Plugin: <p id='plugin'>{this.state.dataPlugin}</p> <br/>
-          Visualization Plugin: <p id='plugin'>{this.state.visPlugin}</p> <br/>
+          Data Plugin: <p id='plugin'>{this.state.dataPlugin}</p> <br />
+          Visualization Plugin: <p id='plugin'>{this.state.visPlugin}</p> <br />
           Instruction: {this.state.instruction}
         </div>
 
@@ -188,7 +199,7 @@ class App extends React.Component<Props, framework> {
             {this.state.registeredDataPlugins.map((plugin, i) => this.createDataButton(plugin, i))}
           </div>
           <div id='search'>
-            Enter the keyword: <input type="text" id="keyword"  defaultValue=""></input>
+            Enter the keyword: <input type='text' id='keyword' defaultValue='' />
             <button onClick={this.submitKeyword()}>Search</button>
           </div>
           <div id='vis_options'>
@@ -196,11 +207,11 @@ class App extends React.Component<Props, framework> {
           </div>
         </div>
 
-        <div id='PlotlyTest'></div>
-        <button className="dropbtn" onClick={this.refreshPage}>Return</button>
+        <div id='PlotlyTest' />
+        <button className='dropbtn' onClick={this.handleRefreshPage}>Return</button>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

@@ -1,6 +1,6 @@
 interface plotData {
-    data: [{}]
-    layout: {}
+  data: [{}]
+  layout: {}
 }
 
 export type { plotData }
