@@ -59,11 +59,11 @@ public class App extends NanoHTTPD {
             // e.g., /dataplugin?i=0
             DataPlugin dataPlugin = dataPlugins.get(Integer.parseInt(params.get("i")));
             workFlow.registerPlugin(dataPlugin);
-            // String name = dataPlugin.getName();
-            // String instr = dataPlugin.getInstruction();
-            // JSONObject dataPluginInfo = new JSONObject();
-            // dataPluginInfo.put("name", name);
-            // dataPluginInfo.put("instruction", instr);
+            String name = dataPlugin.getPluginName();
+            String instr = dataPlugin.getPluginInstructions();
+            JSONObject dataPluginInfo = new JSONObject();
+            dataPluginInfo.put("name", name);
+            dataPluginInfo.put("instruction", instr);
             return newFixedLengthResponse(responseJson.toString());
         } else if (uri.equals("/submitdata")){
             // e.g., /submitdata?keyword=XX&tabularinput=XX
@@ -71,6 +71,7 @@ public class App extends NanoHTTPD {
                 UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
                 this.processedData = workFlow.processData(UnProcessedData);
                 responseJson.put("datasubmitsuccess", true);
+                System.out.println(responseJson);
                 return newFixedLengthResponse(responseJson.toString());
             } catch(Exception e) {
                 responseJson.put("datasubmitsuccess", false);

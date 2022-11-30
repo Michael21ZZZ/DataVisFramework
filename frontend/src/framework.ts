@@ -1,10 +1,10 @@
-import { processedData } from "./data";
+import { plotData } from "./data";
 
 
 interface framework {
-    processedData: processedData
+    plotData: plotData
     dataPlugin: string
-    vizPlugin: string
+    visPlugin: string
     instruction: string
     registeredVisualizationPlugins: string[]
     registeredDataPlugins: string[]

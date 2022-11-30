@@ -1,6 +1,6 @@
-interface processedData {
+interface plotData {
     data: [{}]
     layout: {}
 }
 
-export type { processedData }
+export type { plotData }

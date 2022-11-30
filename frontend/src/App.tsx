@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './App.css'; // import the css file to enable your styles.
-import { processedData } from './data';
+import { plotData } from './data';
 import { framework} from './framework';
 import Plotly from 'plotly.js-dist';
 
@@ -37,24 +37,12 @@ class App extends React.Component<Props, framework> {
      * state has type Visualization Plugin as specified in the class inheritance.
      */
     this.state = {
-      processedData: {
-        data: [
-          {
-            type: "heatmap",
-            z: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            y: ["January", "February", "March", "April", "May", "June",
-              "July", "August", "September", "October", "November", "December"],
-            text: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-          }
-        ],
-        layout: {}
-      },
-      dataPlugin: "Data plugin not selected",
-      vizPlugin: "Visualization plugin not selected",
+      plotData: {data:[{}], layout:{}},
+      dataPlugin: "not selected",
+      visPlugin: "not selected",
       instruction: "",
-      registeredDataPlugins: ['wiki', 'twitter', 'president'],
-      registeredVisualizationPlugins: ['map', 'heatmap', 'box']
+      registeredDataPlugins: ['manual', 'president', 'wiki'],
+      registeredVisualizationPlugins: ['map', 'heatmap', 'box'],
     }
   }
 
@@ -74,6 +62,19 @@ class App extends React.Component<Props, framework> {
     }
   }
 
+  componentWillMount(): void {
+    this.register()
+  }
+
+  register = async () => {
+    const response = await fetch('/register')
+    const json = await response.json()
+    this.setState({
+      registeredDataPlugins: json.dataplugins,
+      registeredVisualizationPlugins: json.visplugins
+    })
+  }
+
   setInstructionContent(content: string) {
     let instruction = document.getElementById('instruction')
     if (instruction !== null) {
@@ -83,8 +84,8 @@ class App extends React.Component<Props, framework> {
 
   getDataPlugin(ind: number): React.MouseEventHandler {
     return async (e) => {
-      // const response = await fetch('/dataplugin?i=' + { ind })
-      // const json = await response.json()
+      const response = await fetch('/dataplugin?i=' + ind )
+      const json = await response.json()
       let dataplugins = document.getElementById('data_options')
       let searchbar = document.getElementById('search')
       if (dataplugins !== null && searchbar !== null) {
@@ -93,8 +94,8 @@ class App extends React.Component<Props, framework> {
       }
       this.setInstructionContent('Please enter your keywords')
       this.setState({
-        // dataPlugin: json.datapluginname,
-        // instruction: json.instruction
+        dataPlugin: json.datapluginname,
+        instruction: json.instruction
       }
       )
     }
@@ -102,9 +103,9 @@ class App extends React.Component<Props, framework> {
 
   submitKeyword (): React.MouseEventHandler {
     return async (e) => {
-      // let keyword = (document.getElementById('keyword') as HTMLElement).outerHTML
-      // const response = await fetch('/submitdata/?keyword='+{keyword})
-      // const json = await response.json()
+      let keyword: string = (document.getElementById('keyword') as HTMLInputElement).value
+      const response = await fetch('/submitdata?keyword='+ keyword)
+      const json = await response.json()
       this.setInstructionContent('Please select a Visualization plugin')
       let visplugins = document.getElementById('vis_options')
       let searchbar = document.getElementById('search')
@@ -116,25 +117,25 @@ class App extends React.Component<Props, framework> {
 
   getVisPlugin(ind: number): React.MouseEventHandler {
     return async (e) => {
-      // const response = await fetch('/visplugin?i=' + { ind })
-      // const json = await response.json()
+      const response = await fetch('/visplugin?i=' + ind)
+      const json = await response.json()
       let visplugins = document.getElementById('vis_options')
       if (visplugins !== null) {
         visplugins.style.display = 'none'
       }
       this.setState({
-        // vizPlugin: json,
-        // processedData: json
+        visPlugin: json,
+        plotData: json
       }, this.drawPlot
       )
     }
   }
 
   drawPlot (): void {
-      if (this.state.processedData !== undefined) {
+      if (this.state.plotData !== undefined) {
         Plotly.newPlot('PlotlyTest', 
-        this.state.processedData.data,
-        this.state.processedData.layout)}
+        this.state.plotData.data,
+        this.state.plotData.layout)}
   }
 
   createDataButton (plugin: string, idx: number): React.ReactNode {
@@ -169,12 +170,18 @@ class App extends React.Component<Props, framework> {
       <div>
         <div id='instruction'>Please Select a Data Plugin</div>
 
+        <div id='state'>
+          Data Plugin: <p id='plugin'>{this.state.dataPlugin}</p> <br/>
+          Visualization Plugin: <p id='plugin'>{this.state.visPlugin}</p> <br/>
+          Instruction: {this.state.instruction}
+        </div>
+
         <div id='options'>
           <div id='data_options'>
             {this.state.registeredDataPlugins.map((plugin, i) => this.createDataButton(plugin, i))}
           </div>
           <div id='search'>
-            Enter the keyword: <input type="text" id="keyword"></input>
+            Enter the keyword: <input type="text" id="keyword"  defaultValue=""></input>
             <button onClick={this.submitKeyword()}>Search</button>
           </div>
           <div id='vis_options'>
