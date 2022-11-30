@@ -71,6 +71,6 @@ jobs:
       # Build Java and run tests
       - name: Build with Maven
         run: |
-          cd ./back-end
+          cd ./backend
           mvn site
           cd ..
