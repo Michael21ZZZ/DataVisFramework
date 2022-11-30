@@ -14,17 +14,19 @@ Our framework and plugins combined can solve this problem. The data plugins can 
 
 
 ## Installation
-
+### Set Up Backend Server
 To install the necessary packages, in the backend folder, run
 ```
 mvn clean install
 ```
-In the frontend folder, run
-```
-npm install
-```
 
-## Usage
+Then, in the backend folder, run
+
+```
+mvn exec:exec
+```
+This will start the Java server at http://localhost:8080.
+
 
 ### Set Up Frontend Server
 In the front-end folder, run
@@ -32,23 +34,25 @@ In the front-end folder, run
 ```
 npm install
 ```
+
 Then rename the file:
 ```
 ./node_modules/@types/plotly.js
 ```
-
 to
 ```
 ./node_modules/@types/plotly.js-dist
 ```
-
 then, run
-
 ```
 npm start
 ```
 
 This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
+
+## Usage
+
+
 
 Provide instructions and examples for use. Include screenshots as needed.
 
@@ -57,15 +61,6 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
     ```md
     ![alt text](assets/images/screenshot.png)
     ```
-### Set Up Backend Server 
-Either run the Java backend by using your IDE or by typing 
-
-```
-mvn exec:exec
-```
-in the back-end folder. This will start the Java server at http://localhost:8080.
-
-
 
 ### GUI usage
 1. Select a Data Plugin
