@@ -104,7 +104,7 @@ class App extends React.Component<Props, framework> {
   submitKeyword (): React.MouseEventHandler {
     return async (e) => {
       let keyword: string = (document.getElementById('keyword') as HTMLInputElement).value
-      const response = await fetch('/submitdata?keyword='+ keyword)
+      const response = await fetch('/submitdata?keyword=' + keyword)
       const json = await response.json()
       this.setInstructionContent('Please select a Visualization plugin')
       let visplugins = document.getElementById('vis_options')
@@ -113,6 +113,7 @@ class App extends React.Component<Props, framework> {
         visplugins.style.display = 'inline'
         searchbar.style.display = 'none'
       }
+      this.setState({instruction: 'Please select a Visualization plugin'})
   }}
 
   getVisPlugin(ind: number): React.MouseEventHandler {
@@ -124,8 +125,8 @@ class App extends React.Component<Props, framework> {
         visplugins.style.display = 'none'
       }
       this.setState({
-        visPlugin: json,
-        plotData: json
+        visPlugin: json.data,
+        plotData: json.layout
       }, this.drawPlot
       )
     }
