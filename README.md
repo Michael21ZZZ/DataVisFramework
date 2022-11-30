@@ -52,16 +52,6 @@ This will start the front-end server at http://localhost:3000. You can update th
 
 ## Usage
 
-
-
-Provide instructions and examples for use. Include screenshots as needed.
-
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
-
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
-
 ### GUI usage
 1. Select a Data Plugin
 2. Search keyword and submits
