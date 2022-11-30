@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import edu.cmu.cs214.hw6.framework.core.VisPlugin;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 
-public class VisPluginGeo implements VisPlugin {
+public class VisPluginLocFreq implements VisPlugin {
     private JSONObject layout = new JSONObject();
     private JSONArray coreData = new JSONArray();
     private List<JSONObject> formattedData = new ArrayList<JSONObject>();
@@ -30,56 +30,23 @@ public class VisPluginGeo implements VisPlugin {
 
     @Override
     public void setLayout() {
-        layout.put("dragmode", "zoom");
-        
-        layout.put("mapbox", this.getMapBox());
-        layout.put("margin", this.getMargin());
     }
 
-    public JSONObject getMapBox() {
-        JSONObject mapBox = new JSONObject();
-        mapBox.put("style", "scattergeo");
-        // add center
-        JSONObject center = new JSONObject();
-        center.put("lat", 38);
-        center.put("lon", -90);
-        mapBox.put("center", center);
-        // add zoom
-        mapBox.put("zoom", 3);
-        return mapBox;
-    }
 
-    public JSONObject getMargin() {
-        JSONObject margin = new JSONObject();
-        margin.put("r", 0);
-        margin.put("t", 0);
-        margin.put("b", 0);
-        margin.put("l", 0);
-        return margin;
-    }
 
     @Override
     public void formatData() {
-        List<String> allText = new ArrayList<String>();
-        List<String> allLoc = new ArrayList<String>();
-        List<String> allDate = new ArrayList<String>();
-        List<Double> allLat = new ArrayList<Double>();
-        List<Double> allLon = new ArrayList<Double>();
-        for (int i = 0; i < this.coreData.length(); i++) {
-            JSONObject row = this.coreData.getJSONObject(i);
-            allText.add(row.getString("text"));
-            allLoc.add(row.getString("location"));
-            allLat.add(row.getDouble("lat"));
-            allLon.add(row.getDouble("lng"));
-            allDate.add(row.getString("time"));
+        List<String> x = new ArrayList<String>();
+        List<Integer> y = new ArrayList<Integer>();
+        for(String key: this.locFreq.keySet()){
+            x.add(key);
+            y.add(this.locFreq.getInt(key));
         }
-        JSONObject formattedCoreDate = new JSONObject();
-        formattedCoreDate.put("type", "scattermapbox");
-        formattedCoreDate.put("text", allText);
-        formattedCoreDate.put("lon", allLon);
-        formattedCoreDate.put("lat", allLat);
-        formattedCoreDate.put("mode", "markers");
-        this.formattedData.add(formattedCoreDate);
+        JSONObject formattedCoreDataInner = new JSONObject();
+        formattedCoreDataInner.put("x", x);
+        formattedCoreDataInner.put("y", y);
+        formattedCoreDataInner.put("type", "bar");
+        this.formattedData.add(formattedCoreDataInner);
     }
 
     @Override

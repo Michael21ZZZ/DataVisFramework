@@ -81,7 +81,9 @@ public class App extends NanoHTTPD {
                 return newFixedLengthResponse(responseJson.toString());
             }
         } else if (uri.equals("/visplugin")) {
-            return newFixedLengthResponse(workFlow.prepVis(responseJson).toString());
+            VisPlugin visPlugin = visPlugins.get(Integer.parseInt(params.get("i")));
+            this.workFlow.setCurrentVisPlugin(visPlugin);
+            return newFixedLengthResponse(workFlow.prepVis(this.processedData).toString());
         } else if (uri.equals("/register")) {
             String[] dataplugins = {};
             String[] visplugins = {};
