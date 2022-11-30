@@ -36,6 +36,7 @@ public class VisPluginLocFreq implements VisPlugin {
 
     @Override
     public void formatData() {
+        this.formattedData = new ArrayList<JSONObject>();
         List<String> x = new ArrayList<String>();
         List<Integer> y = new ArrayList<Integer>();
         for(String key: this.locFreq.keySet()){
