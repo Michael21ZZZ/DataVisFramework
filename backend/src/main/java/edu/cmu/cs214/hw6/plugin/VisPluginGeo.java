@@ -38,6 +38,7 @@ public class VisPluginGeo implements VisPlugin {
 
     public JSONObject getMapBox() {
         JSONObject mapBox = new JSONObject();
+        mapBox.put("style", "open-street-map");
         // add center
         JSONObject center = new JSONObject();
         center.put("lat", 38);
@@ -78,7 +79,7 @@ public class VisPluginGeo implements VisPlugin {
         formattedCoreDate.put("text", allText);
         formattedCoreDate.put("lon", allLon);
         formattedCoreDate.put("lat", allLat);
-        formattedCoreDate.put("mode", "markers");
+        formattedCoreDate.put("mode", "markers+lines");
         this.formattedData.add(formattedCoreDate);
     }
 
