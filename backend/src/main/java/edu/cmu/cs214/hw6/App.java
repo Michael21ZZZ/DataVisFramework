@@ -6,16 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
-import javax.xml.crypto.Data;
-
 import org.json.JSONObject;
-import org.json.JSONArray;
-
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.VisPlugin;
-import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFrameworkImpl;
 import fi.iki.elonen.NanoHTTPD;
 

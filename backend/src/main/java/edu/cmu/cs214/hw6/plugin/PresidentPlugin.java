@@ -24,8 +24,6 @@ import java.util.ArrayList;
  */
 public class PresidentPlugin implements DataPlugin{
 
-    private WorkFlowFramework framework;
-
     private static final String PLUGIN_NAME = "President";
     private static final String PLUGIN_INSTRUCTION = "Please enter the last name and the first name of a president of United States." 
     + "For example, you can enter trump donald to search for Donald Trump."
@@ -54,7 +52,6 @@ public class PresidentPlugin implements DataPlugin{
 
     @Override
     public void onRegister(WorkFlowFramework framework) {
-        this.framework = framework;
         
     }
     @Override
@@ -122,12 +119,12 @@ public class PresidentPlugin implements DataPlugin{
 
     @Override
     public String getPluginInstructions() {
-        return this.PLUGIN_INSTRUCTION;
+        return PresidentPlugin.PLUGIN_INSTRUCTION;
     }
 
     @Override
     public String getPluginName() {
-        return this.PLUGIN_NAME;
+        return PresidentPlugin.PLUGIN_NAME;
     }
     /**
      * Transform users'input into standard file name to locate which president. 

@@ -14,13 +14,11 @@ public class VisPluginGeo implements VisPlugin {
     private JSONObject layout = new JSONObject();
     private JSONArray coreData = new JSONArray();
     private List<JSONObject> formattedData = new ArrayList<JSONObject>();
-    private JSONObject locFreq;
-    private WorkFlowFramework framework;
     @Override
     public JSONObject prepVis(JSONObject processedData) {
         JSONObject res = new JSONObject();
         this.coreData = processedData.getJSONArray("coreData");
-        this.locFreq = processedData.getJSONObject("locationFreq");
+        processedData.getJSONObject("locationFreq");
         this.formatData();
         this.setLayout();
         res.put("data", this.formattedData);
@@ -85,7 +83,6 @@ public class VisPluginGeo implements VisPlugin {
 
     @Override
     public void onRegister(WorkFlowFramework framework) {
-        this.framework = framework;
         
     }
 

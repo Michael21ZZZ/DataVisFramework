@@ -8,7 +8,6 @@ import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 
 public class WikiPlugin implements DataPlugin {
 
-    private WorkFlowFramework framework;
     private boolean isTabular;
     private boolean hasTime;
     private boolean hasLocation;
@@ -16,7 +15,7 @@ public class WikiPlugin implements DataPlugin {
     private JSONArray tabularData;
 
     private static final String PLUGIN_NAME = "Wikipedia";
-    private static final String PLUGIN_INSTRUCTION = "Please enter a keyword that is used to be search on Wikipedia.";
+    private static final String PLUGIN_INSTRUCTION = "Please enter a keyword that is used to be search on Wikipedia. \nFor this plugin, celebrity keywords(Barack Obama) works very well";
     
     public WikiPlugin() {
         this.isTabular = false;
@@ -28,7 +27,6 @@ public class WikiPlugin implements DataPlugin {
 
     @Override
     public void onRegister(WorkFlowFramework framework) {
-        this.framework = framework;
     }
 
     @Override
@@ -66,12 +64,12 @@ public class WikiPlugin implements DataPlugin {
 
     @Override
     public String getPluginInstructions() {
-        return this.PLUGIN_INSTRUCTION;
+        return WikiPlugin.PLUGIN_INSTRUCTION;
     }
 
     @Override
     public String getPluginName() {
-        return this.PLUGIN_NAME;
+        return WikiPlugin.PLUGIN_NAME;
     }
     
 }

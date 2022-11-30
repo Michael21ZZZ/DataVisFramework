@@ -1,7 +1,4 @@
 package edu.cmu.cs214.hw6.framework.core;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 
 
 public interface DataPlugin {
@@ -36,7 +33,5 @@ public interface DataPlugin {
      * Gets the name of the plug-in game.
      * @return Name for specific plugins
      */
-    String getPluginName();
-
-        
+    String getPluginName();       
 }

@@ -1,19 +1,9 @@
 package edu.cmu.cs214.hw6;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Test;
-
-import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
-import edu.cmu.cs214.hw6.framework.core.WorkFlowFrameworkImpl;
-import edu.cmu.cs214.hw6.plugin.WikiPlugin;
 
 public class BEFrameworkTest {
     JSONArray tabDataArray = new JSONArray();

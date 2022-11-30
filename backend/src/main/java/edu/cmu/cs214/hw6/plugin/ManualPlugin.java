@@ -2,8 +2,6 @@ package edu.cmu.cs214.hw6.plugin;
 
 import org.json.*;
 
-import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
-
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
@@ -11,7 +9,6 @@ import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 
 public class ManualPlugin implements DataPlugin{
 
-    private WorkFlowFramework framework;
     private boolean isTabular;
     private boolean hasTime;
     private boolean hasLocation;
@@ -30,7 +27,6 @@ public class ManualPlugin implements DataPlugin{
 
     @Override
     public void onRegister(WorkFlowFramework framework) {
-        this.framework = framework;
         
     }
 
@@ -52,12 +48,12 @@ public class ManualPlugin implements DataPlugin{
 
     @Override
     public String getPluginInstructions() {
-        return this.PLUGIN_INSTRUCTION;
+        return ManualPlugin.PLUGIN_INSTRUCTION;
     }
 
     @Override
     public String getPluginName() {
-        return this.PLUGIN_NAME;
+        return ManualPlugin.PLUGIN_NAME;
     }
     
 }
