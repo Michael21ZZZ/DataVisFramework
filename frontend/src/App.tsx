@@ -41,8 +41,8 @@ class App extends React.Component<Props, framework> {
       dataPlugin: "not selected",
       visPlugin: "not selected",
       instruction: "",
-      registeredDataPlugins: ['manual', 'president', 'wiki'],
-      registeredVisualizationPlugins: ['map', 'heatmap', 'box'],
+      registeredDataPlugins: [],
+      registeredVisualizationPlugins: [],
     }
   }
 
@@ -94,7 +94,7 @@ class App extends React.Component<Props, framework> {
       }
       this.setInstructionContent('Please enter your keywords')
       this.setState({
-        dataPlugin: json.datapluginname,
+        dataPlugin: json.name,
         instruction: json.instruction
       }
       )
@@ -120,19 +120,22 @@ class App extends React.Component<Props, framework> {
     return async (e) => {
       const response = await fetch('/visplugin?i=' + ind)
       const json = await response.json()
-      let visplugins = document.getElementById('vis_options')
-      if (visplugins !== null) {
-        visplugins.style.display = 'none'
-      }
       this.setState({
-        visPlugin: json.data,
-        plotData: json.layout
+        plotData: json
       }, this.drawPlot
       )
     }
   }
 
   drawPlot (): void {
+    let plugins = document.getElementById('options')
+    let state = document.getElementById('state')
+    let instruction = document.getElementById('instruction')
+    if (plugins !== null && state !== null && instruction !== null) {
+      plugins.style.display = 'none'
+      state.style.display = 'none'
+      instruction.style.display = 'none'
+    }
       if (this.state.plotData !== undefined) {
         Plotly.newPlot('PlotlyTest', 
         this.state.plotData.data,
