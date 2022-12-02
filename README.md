@@ -187,54 +187,8 @@ record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, 
 }
 ```
 	
-## Data Exchange
-**Data Plugin sends data to Backend Framework**
-```
-record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, String textData, JSONArray tabularData){
-	“isTabular”: boolean (whether the data is recorded in text or tabular format),
-	“hasTime”: boolean (whether the tabular data has a time column), 
-	“hasLocation”: boolean (whether the tabular data has a time column),
-	“textData”: String (data in text format),
-	“tabularData”: [
-					{“time”: String, 
-					"location": String, 
-					"text": String},
-					{“time”: String, 
-					"location": String, 
-					"text": String},
-					...
-					]
-	}
-```
-
-**Backend Framework sends data to DataVis Plugin**
-```
-{
-“coreData”: {[
-  “time”: String,
-  “location”: String, 
-  “lat”: double,
-  “lng: double,
-  “text”: String],
-  ...
-              }
-“locationFreq”: {
-  “location”: String,
-  “freq”: int}
-              }
-}
-```
-
-**DataVis Plugin sends data to Frontend Framework**
-```
-{
-	data: {},
-	layout: {}
-}
-```
-
-
-
+## Instructions for adding new plugins
+After implementing your new plugin, please put your plugin class in backend/src/main/java/edu/cmu/cs214/hw6/plugin. Also add fully qualified class name in backend/src/main/resources/META-INF/services. The service loader would register your plugin to the framework. 
 
 ## Credits
 
