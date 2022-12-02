@@ -107,10 +107,11 @@ public interface DataPlugin {
 }
 ```
 ### Data Visualization Interface	
+```
 public interface VisPlugin {
     /**
      * Further process the data. The output should align with the plotly documentation 
-     * "https://plotly.com/javascript/reference/index/"
+     * https://plotly.com/javascript/reference/index/
      * 
      * @param processedData
      * @return the result should include data and layout {"data": JSONArray[], "layout":JSONObject}
