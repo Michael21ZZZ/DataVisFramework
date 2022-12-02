@@ -53,10 +53,16 @@ This will start the front-end server at http://localhost:3000. You can update th
 1. Select a Data Plugin from the list. 
 ![1](https://user-images.githubusercontent.com/91205016/205211570-dfe99448-936c-4b14-951b-17bc9dbe9d05.png)
 
-2. Type keyword in the search box and press 'Submit'.
+2. Type keyword in the search box and press 'search'.
+![image](https://user-images.githubusercontent.com/91205016/205212208-491c2d54-89bc-4f72-999e-d2521f8251f5.png)
 
-3. Select visualization plugins and get the visualization result. 
+
+3. Select visualization plugins from the list. 
 ![3](https://user-images.githubusercontent.com/91205016/205211639-05943aa9-2c29-4977-95f8-4f14d300e9e8.png)
+
+4. You can get the visualization result now! You can return to the front page by clicking 'return'. 
+![image](https://user-images.githubusercontent.com/91205016/205211981-fdd66d86-eed0-4d8d-8592-487b669ff7db.png)
+
 
 
 ## Data Exchange
