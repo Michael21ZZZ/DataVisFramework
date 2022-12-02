@@ -63,6 +63,80 @@ This will start the front-end server at http://localhost:3000. You can update th
 4. You can get the visualization result now! You can return to the front page by clicking 'return'. 
 ![image](https://user-images.githubusercontent.com/91205016/205211981-fdd66d86-eed0-4d8d-8592-487b669ff7db.png)
 
+## Plugin Interfaces
+### Data Plugin Interface
+```
+public interface DataPlugin {
+
+    /**
+     * Called (only once) when the plug-in is first registered with the
+     * framework, giving the plug-in a chance to perform any initial set-up
+     * before the game has begun (if necessary).
+     */
+    void onRegister(WorkFlowFramework framework);
+    
+    /**
+     * Every class that implements this interface should have a field of 
+     * JSONObject to store the data to be processed by framework
+     * This method will return that field of JSONObject to the framework
+     */
+    UnProcessedData getData();
+
+    /**
+     * Perform search based on searchTerm
+     * @param searchTerm Words used for search
+     */
+    void search(SearchTerm searchTerm);
+
+    /**
+     * Get the instruction for this plugin
+     * @return Instruction for specific plugins
+     */
+    String getPluginInstructions();
+
+    /**
+     * Gets the name of the plug-in game.
+     * @return Name for specific plugins
+     */
+    String getPluginName();
+ 
+}
+```
+### Data Visualization Interface	
+```
+public interface VisPlugin {
+    /**
+     * Further process the data. The output should align with the plotly documentation 
+     * https://plotly.com/javascript/reference/index/
+     * 
+     * @param processedData
+     * @return the result should include data and layout {"data": JSONArray[], "layout":JSONObject}
+     */
+    public JSONObject prepVis(ProcessedData processedData);
+    
+    /**
+     * Set the layout of this vis, make change to the local variable layout
+     */
+    public void setLayout();
+
+    /**
+     * A helper function that format the processed data into a JSONArray required by plotly
+     */
+    public void formatData();
+
+    /**
+     * Register the framework to the plugin
+     * @param framework
+     */
+    public void onRegister(WorkFlowFramework framework);
+
+    /**
+     * Gets the name of the plug-in game.
+     * @return Name for specific plugins
+     */
+    String getPluginName();
+}
+```
 
 
 ## Data Exchange
@@ -159,80 +233,7 @@ record UnProcessedData(boolean isTabular, boolean hasTime, boolean hasLocation, 
 }
 ```
 
-## Plugin Interfaces
-### Data Plugin Interface
-```
-public interface DataPlugin {
 
-    /**
-     * Called (only once) when the plug-in is first registered with the
-     * framework, giving the plug-in a chance to perform any initial set-up
-     * before the game has begun (if necessary).
-     */
-    void onRegister(WorkFlowFramework framework);
-    
-    /**
-     * Every class that implements this interface should have a field of 
-     * JSONObject to store the data to be processed by framework
-     * This method will return that field of JSONObject to the framework
-     */
-    UnProcessedData getData();
-
-    /**
-     * Perform search based on searchTerm
-     * @param searchTerm Words used for search
-     */
-    void search(SearchTerm searchTerm);
-
-    /**
-     * Get the instruction for this plugin
-     * @return Instruction for specific plugins
-     */
-    String getPluginInstructions();
-
-    /**
-     * Gets the name of the plug-in game.
-     * @return Name for specific plugins
-     */
-    String getPluginName();
- 
-}
-```
-### Data Visualization Interface	
-```
-public interface VisPlugin {
-    /**
-     * Further process the data. The output should align with the plotly documentation 
-     * https://plotly.com/javascript/reference/index/
-     * 
-     * @param processedData
-     * @return the result should include data and layout {"data": JSONArray[], "layout":JSONObject}
-     */
-    public JSONObject prepVis(ProcessedData processedData);
-    
-    /**
-     * Set the layout of this vis, make change to the local variable layout
-     */
-    public void setLayout();
-
-    /**
-     * A helper function that format the processed data into a JSONArray required by plotly
-     */
-    public void formatData();
-
-    /**
-     * Register the framework to the plugin
-     * @param framework
-     */
-    public void onRegister(WorkFlowFramework framework);
-
-    /**
-     * Gets the name of the plug-in game.
-     * @return Name for specific plugins
-     */
-    String getPluginName();
-}
-```
 
 
 ## Credits
