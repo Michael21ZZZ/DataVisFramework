@@ -55,8 +55,8 @@ public class NLPHelper {
         JSONObject currentSent = new JSONObject();
         currentSent.put("text", "");
         currentSent.put("location", "");
-        currentSent.put("lng", 0);
-        currentSent.put("lat", 0);
+        currentSent.put("lng", 32);
+        currentSent.put("lat", -99);
         currentSent.put("time", prevDate);
         for (CoreSentence sentence: sentences) {
             String sentText = sentence.text();
