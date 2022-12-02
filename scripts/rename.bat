@@ -1,0 +1,1 @@
+ren "../frontend/node_modules/@types/plotly.js" plotly.js-dist
