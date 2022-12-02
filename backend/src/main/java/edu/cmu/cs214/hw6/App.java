@@ -58,13 +58,14 @@ public class App extends NanoHTTPD {
             workFlow.setCurrentDataPlugin(dataPlugin);
             String name = dataPlugin.getPluginName();
             String instr = dataPlugin.getPluginInstructions();
+            this.responseJson = new JSONObject(); // clear responseJson
             responseJson.put("name", name);
             responseJson.put("instruction", instr);
             System.out.println(responseJson.toString());
         } else if (uri.equals("/submitdata")){
             // e.g., /submitdata?keyword=XX&tabularinput=XX
             try {
-                UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params)); // TODO!
+                UnProcessedData UnProcessedData = workFlow.fetchData(parseParams(params));
                 System.out.println(UnProcessedData.textData());
                 this.processedData = workFlow.processData(UnProcessedData);
                 this.responseJson.put("processedata", this.processedData);
@@ -136,7 +137,7 @@ public class App extends NanoHTTPD {
      */
     private SearchTerm parseParams(Map<String, String> params) {
         String keyword = params.get("keyword");
-        // JSONArray tabularInput = new JSONArray(params.get("tabularInput")); // TODO!
+        // JSONArray tabularInput = new JSONArray(params.get("tabularInput"));
         SearchTerm searchTerm = new SearchTerm(keyword);
 
         return searchTerm;
