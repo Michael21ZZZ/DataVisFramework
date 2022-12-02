@@ -151,7 +151,7 @@ public interface VisPlugin {
      * @param processedData
      * @return the result should include data and layout {"data": JSONArray[], "layout":JSONObject}
      */
-    public JSONObject prepVis(JSONObject processedData);
+    public JSONObject prepVis(ProcessedData processedData);
     
     /**
      * Set the layout of this vis, make change to the local variable layout
