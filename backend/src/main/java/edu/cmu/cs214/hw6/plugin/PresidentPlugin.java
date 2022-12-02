@@ -25,10 +25,10 @@ import java.util.ArrayList;
 public class PresidentPlugin implements DataPlugin{
 
     private static final String PLUGIN_NAME = "President";
-    private static final String PLUGIN_INSTRUCTION = "Please enter the last name and the first name of a president of United States." 
-    + "For example, you can enter trump donald to search for Donald Trump."
-    + "If you are searching George H. W. Bush, please enter bush george h w." 
-    + "If you are searching George W. Bush, please enter bush george w. "
+    private static final String PLUGIN_INSTRUCTION = "Please enter the exact last name and the first name of a president of United States.\n" 
+    + "For example, you can enter 'trump donald' to search for President Donald Trump.\n"
+    + "If you are searching George H. W. Bush, please enter 'bush george h w.'\n" 
+    + "If you are searching George W. Bush, please enter 'bush george w.' \n"
     + "Source: https://history.state.gov/departmenthistory/travels/president.";
     
     private boolean isTabular;

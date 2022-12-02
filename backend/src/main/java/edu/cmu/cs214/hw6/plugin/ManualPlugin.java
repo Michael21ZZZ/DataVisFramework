@@ -15,7 +15,7 @@ public class ManualPlugin implements DataPlugin{
     private String textData;
     private JSONArray tabularData;
     private static final String PLUGIN_NAME = "Manual";
-    private static final String PLUGIN_INSTRUCTION = "Please enter any text that includes time and space information. ";
+    private static final String PLUGIN_INSTRUCTION = "Please enter any text that includes time and space information. \n";
 
     public ManualPlugin() {
         this.isTabular = false;
