@@ -15,7 +15,9 @@ public class WikiPlugin implements DataPlugin {
     private JSONArray tabularData;
 
     private static final String PLUGIN_NAME = "Wikipedia";
-    private static final String PLUGIN_INSTRUCTION = "Please enter a keyword that is used to be search on Wikipedia. \nFor this plugin, celebrity keywords(Barack Obama) works very well";
+    private static final String PLUGIN_INSTRUCTION = "Please enter a keyword that is used to be search on Wikipedia. \n" +
+    "For this plugin, celebrity keywords(Barack Obama) works very well.\n" + 
+    " Please remember the keyword input is case sensitive.\n";
     
     public WikiPlugin() {
         this.isTabular = false;

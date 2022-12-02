@@ -58,7 +58,7 @@ public class VisPluginTimeline implements VisPlugin {
         for (int i = 0; i < this.coreData.length(); i++) {
             JSONObject row = this.coreData.getJSONObject(i);
             allLoc.add(row.getString("location"));
-            String yearStr = row.getString("time").substring(0, 3);
+            String yearStr = row.getString("time").substring(0, 4);
             Integer year = Integer.parseInt(yearStr);
             allDate.add(year);
         }

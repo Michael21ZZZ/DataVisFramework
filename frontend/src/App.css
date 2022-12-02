@@ -46,3 +46,8 @@
   display: inline;
   color: red;
 }
+
+#inline_instruction {
+  width: 50%;
+  display: inline-block;
+}
