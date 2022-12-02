@@ -41,7 +41,7 @@ class App extends React.Component<Props, framework> {
       plotData: { data: [{}], layout: {} },
       dataPlugin: 'not selected',
       visPlugin: 'not selected',
-      instruction: '',
+      instruction: 'Please select a data plugin',
       registeredDataPlugins: [],
       registeredVisualizationPlugins: [],
       frozen: false
@@ -70,6 +70,9 @@ class App extends React.Component<Props, framework> {
     this.register()
   }
 
+  /**
+   * From backend to register the data and visualization plugins
+   */
   register = async (): Promise<any> => {
     const response = await fetch('/register')
     const json = await response.json()
@@ -79,6 +82,9 @@ class App extends React.Component<Props, framework> {
     })
   }
 
+  /**
+   * @params the text to be set at div with id equals 'instruction'
+   */
   setInstructionContent (content: string): void {
     const instruction = document.getElementById('instruction')
     if (instruction !== null) {
@@ -86,6 +92,9 @@ class App extends React.Component<Props, framework> {
     }
   }
 
+  /**
+   * send the information to backend to select a data plugin
+   */
   getDataPlugin (ind: number): React.MouseEventHandler {
     return async (e) => {
       // eslint-disable-next-line
@@ -106,6 +115,9 @@ class App extends React.Component<Props, framework> {
     }
   }
 
+  /**
+   * send the required keyword to the backend
+   */
   submitKeyword (): React.MouseEventHandler {
     return async (e) => {
       this.setState({ instruction: 'Please wait', frozen: true }
@@ -124,6 +136,9 @@ class App extends React.Component<Props, framework> {
     }
   }
 
+  /**
+   * send the information to backend to select a visualization plugin
+   */
   getVisPlugin (ind: number): React.MouseEventHandler {
     return async (e) => {
       // eslint-disable-next-line
@@ -133,6 +148,9 @@ class App extends React.Component<Props, framework> {
     }
   }
 
+  /**
+   * use selected data and visualization plugins to draw plot at <div id="Visualization">
+   */
   drawPlot (): void {
     const plugins = document.getElementById('options')
     const state = document.getElementById('state')
@@ -144,12 +162,15 @@ class App extends React.Component<Props, framework> {
     }
     if (this.state.plotData !== undefined) {
       // eslint-disable-next-line
-      Plotly.newPlot('PlotlyTest',
+      Plotly.newPlot('Visualization',
         this.state.plotData.data,
         this.state.plotData.layout)
     }
   }
 
+  /**
+   * helper function to iteratively create the data plugin buttons from backend
+   */
   createDataButton (plugin: string, idx: number): React.ReactNode {
     return (
       <div key={idx}>
@@ -158,6 +179,9 @@ class App extends React.Component<Props, framework> {
     )
   }
 
+  /**
+   * helper function to iteratively create the visualization plugin buttons from backend
+   */
   createVisButton (plugin: string, idx: number): React.ReactNode {
     return (
       <div key={idx}>
@@ -166,6 +190,9 @@ class App extends React.Component<Props, framework> {
     )
   }
 
+  /**
+   * helper function to refresh the page when backend is processing
+   */
   handleRefreshPage = (): void => {
     if (!this.state.frozen) {
       window.location.reload()
@@ -191,7 +218,7 @@ class App extends React.Component<Props, framework> {
         <div id='state'>
           Data Plugin: <p id='plugin'>{this.state.dataPlugin}</p> <br />
           Visualization Plugin: <p id='plugin'>{this.state.visPlugin}</p> <br />
-          Instruction: {this.state.instruction}
+          <p id='inline_instruction'>Instruction: {this.state.instruction}</p>
         </div>
 
         <div id='options'>
@@ -207,7 +234,7 @@ class App extends React.Component<Props, framework> {
           </div>
         </div>
 
-        <div id='PlotlyTest' />
+        <div id='Visualization' />
         <button className='dropbtn' onClick={this.handleRefreshPage}>Return</button>
       </div>
     )

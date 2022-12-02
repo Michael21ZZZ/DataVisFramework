@@ -64,21 +64,33 @@ public class VisPluginGeo implements VisPlugin {
         List<String> allDate = new ArrayList<String>();
         List<Double> allLat = new ArrayList<Double>();
         List<Double> allLon = new ArrayList<Double>();
+        List<Integer> allYear = new ArrayList<Integer>();
         for (int i = 0; i < this.coreData.length(); i++) {
             JSONObject row = this.coreData.getJSONObject(i);
-            allText.add(row.getString("text"));
-            allLoc.add(row.getString("location"));
+            String date = row.getString("time");
+            allDate.add(date);
+            String loc = row.getString("location");
+            allLoc.add(loc);
+            allText.add(date + " " + loc + " " + row.getString("text"));
             allLat.add(row.getDouble("lat"));
             allLon.add(row.getDouble("lng"));
-            allDate.add(row.getString("time"));
+            
+            int year = Integer.parseInt(date.substring(0, 4));
+            allYear.add(year);
         }
-        JSONObject formattedCoreDate = new JSONObject();
-        formattedCoreDate.put("type", "scattermapbox");
-        formattedCoreDate.put("text", allText);
-        formattedCoreDate.put("lon", allLon);
-        formattedCoreDate.put("lat", allLat);
-        formattedCoreDate.put("mode", "markers+lines");
-        this.formattedData.add(formattedCoreDate);
+        JSONObject formattedCoreData = new JSONObject();
+        formattedCoreData.put("type", "scattermapbox");
+        formattedCoreData.put("text", allText);
+        formattedCoreData.put("lon", allLon);
+        formattedCoreData.put("lat", allLat);
+        formattedCoreData.put("mode", "markers");
+        JSONObject colorbar = new JSONObject();
+        colorbar.put("title", "Date");
+        JSONObject markers = new JSONObject();
+        markers.put("color", allYear);
+        markers.put("colorbar", colorbar);
+        formattedCoreData.put("marker", markers);
+        this.formattedData.add(formattedCoreData);
     }
 
     @Override
