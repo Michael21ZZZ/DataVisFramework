@@ -33,26 +33,6 @@ In the front-end folder, run
 ```
 npm install
 ```
-
-Then rename the file:
-```
-./node_modules/@types/plotly.js
-```
-to
-```
-./node_modules/@types/plotly.js-dist -->
-```
-
-For linux users, run the following command in the frontend folder to fix an installation problem. 
-
-```
-chmod +x ./scripts 
-./scripts/script.sh 
-```
-
-For Windos users, run the following command in the frontend folder to fix an installation problem. 
-
-
 then, run
 ```
 npm start
@@ -61,10 +41,9 @@ npm start
 This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
 
 ## Usage
-1. Select a Data Plugin.
-2. Search keyword and press 'Submit'.
-3. Select Visualization and gets the visualization result. 
-
+1. Select a Data Plugin and read the instructions.
+2. Type keyword in the search box and press 'Submit'.
+3. Select visualization plugins and get the visualization result. 
 
 	
 ## Plugin Interfaces
