@@ -53,7 +53,7 @@ This will start the front-end server at http://localhost:3000. You can update th
 1. Select a Data Plugin from the list. 
 ![1](https://user-images.githubusercontent.com/91205016/205211570-dfe99448-936c-4b14-951b-17bc9dbe9d05.png)
 
-2. Type keyword in the search box and press 'search'.
+2. Type keyword in the search box and press 'search'. It may take some time for the data to be processed.
 ![image](https://user-images.githubusercontent.com/91205016/205212208-491c2d54-89bc-4f72-999e-d2521f8251f5.png)
 
 
