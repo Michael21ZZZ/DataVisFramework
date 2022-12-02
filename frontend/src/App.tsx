@@ -120,16 +120,15 @@ class App extends React.Component<Props, framework> {
   submitKeyword (): React.MouseEventHandler {
     return async (e) => {
       this.setErrorContent('')
-      this.setState({ instruction: 'Please wait', frozen: true })
+      this.setState({ instruction: 'Please Wait', frozen: true })
       const keyword: string = (document.getElementById('keyword') as HTMLInputElement).value
       // eslint-disable-next-line
       const response = await fetch('/submitdata?keyword=' + keyword)
       const json = await response.json()
       if (json.datasubmitsuccess === false) {
-        this.setState({ instruction: 'Search Failed.', frozen: false})
+        this.setState({ instruction: 'Search Failed.', frozen: false })
         this.setErrorContent('Please enter a valid keyword.')
-      }
-      else {
+      } else {
         const visplugins = document.getElementById('vis_options')
         const searchbar = document.getElementById('search')
         if (visplugins !== null && searchbar !== null) {
@@ -138,7 +137,6 @@ class App extends React.Component<Props, framework> {
         }
         this.setState({ instruction: 'Please select a Visualization plugin', frozen: false })
       }
-
     }
   }
 
@@ -150,9 +148,11 @@ class App extends React.Component<Props, framework> {
       // eslint-disable-next-line
       const response = await fetch('/visplugin?i=' + ind)
       const json = await response.json()
-      this.setState({ plotData: json , 
-        visPlugin: this.state.registeredVisualizationPlugins[ind]}, 
-        this.drawPlot)
+      this.setState({
+        plotData: json,
+        visPlugin: this.state.registeredVisualizationPlugins[ind]
+      },
+      this.drawPlot)
     }
   }
 
@@ -166,7 +166,7 @@ class App extends React.Component<Props, framework> {
       plugins.style.display = 'none'
       instruction.style.display = 'none'
     }
-    this.setState({instruction: 'Done!'})
+    this.setState({ instruction: 'Done!' })
     if (this.state.plotData !== undefined) {
       // eslint-disable-next-line
       Plotly.newPlot('Visualization',
@@ -222,13 +222,13 @@ class App extends React.Component<Props, framework> {
       <div>
         <b><div id='instruction'>When and Where Data Analytics Tool</div></b>
 
-        <div id='Visualization'></div>
+        <div id='Visualization' />
 
         <div id='state'>
           Data Plugin: <p id='plugin'>{this.state.dataPlugin}</p> <br />
           Visualization Plugin: <p id='plugin'>{this.state.visPlugin}</p> <br />
           <p id='inline_instruction'>Instruction: {this.state.instruction}</p>
-          <p id='error_message'></p>
+          <p id='error_message' />
         </div>
 
         <div id='options'>
