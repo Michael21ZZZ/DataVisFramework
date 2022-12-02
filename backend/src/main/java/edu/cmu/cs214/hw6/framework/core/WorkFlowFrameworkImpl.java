@@ -83,12 +83,7 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
             return this.nlpHelper.parseText(unprocessedData.textData());
         } else {
             JSONArray tabularData = unprocessedData.tabularData();
-            if (!unprocessedData.hasTime()) {
-                tabularData = this.nlpHelper.parseTime(tabularData);
-            }
-            if (!unprocessedData.hasLocation()) {
-                tabularData = this.nlpHelper.parseLocation(tabularData);
-            }
+            tabularData = this.nlpHelper.parseTabular(tabularData, unprocessedData.hasTime(), unprocessedData.hasLocation());
             // A map store the freq of a location
             Map<String, Integer> locFreqMap = new HashMap<String, Integer>();
             // iterate through the data rows; add location; update location freq map
