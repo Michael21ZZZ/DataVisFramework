@@ -73,7 +73,7 @@ class App extends React.Component<Props, framework> {
   /**
    * From backend to register the data and visualization plugins
    */
-  register = async (): Promise<any> => {
+  private register = async (): Promise<any> => {
     const response = await fetch('/register')
     const json = await response.json()
     this.setState({
