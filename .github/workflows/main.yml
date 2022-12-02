@@ -61,6 +61,7 @@ jobs:
       
       # Runs compiler and linter for TS files
       - name: Run on TS files
+        if: steps.change-ts.outputs.any_changed == 'true'
         run: |
           cd ./frontend
           timeout 2m npm install
