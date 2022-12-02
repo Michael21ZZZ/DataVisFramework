@@ -18,12 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve"
   },
   "include": [
     "src"
   ],
   "plotly.js-dist": [
     "node_modules/@types/plotly.js"
-    ],
+  ]
 }
