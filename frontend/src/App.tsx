@@ -85,10 +85,10 @@ class App extends React.Component<Props, framework> {
   /**
    * @params the text to be set at div with id equals 'instruction'
    */
-  setInstructionContent (content: string): void {
-    const instruction = document.getElementById('instruction')
-    if (instruction !== null) {
-      instruction.innerHTML = content
+  setErrorContent (content: string): void {
+    const error = document.getElementById('error_message')
+    if (error !== null) {
+      error.innerHTML = content
     }
   }
 
@@ -106,9 +106,8 @@ class App extends React.Component<Props, framework> {
         dataplugins.style.display = 'none'
         searchbar.style.display = 'inline'
       }
-      this.setInstructionContent('Please enter your keywords')
       this.setState({
-        dataPlugin: json.name,
+        dataPlugin: this.state.registeredDataPlugins[ind],
         instruction: json.instruction
       }
       )
@@ -120,19 +119,26 @@ class App extends React.Component<Props, framework> {
    */
   submitKeyword (): React.MouseEventHandler {
     return async (e) => {
-      this.setState({ instruction: 'Please wait', frozen: true }
-      )
+      this.setErrorContent('')
+      this.setState({ instruction: 'Please wait', frozen: true })
       const keyword: string = (document.getElementById('keyword') as HTMLInputElement).value
       // eslint-disable-next-line
       const response = await fetch('/submitdata?keyword=' + keyword)
-      this.setInstructionContent('Please select a Visualization plugin')
-      const visplugins = document.getElementById('vis_options')
-      const searchbar = document.getElementById('search')
-      if (visplugins !== null && searchbar !== null) {
-        visplugins.style.display = 'inline'
-        searchbar.style.display = 'none'
+      const json = await response.json()
+      if (json.datasubmitsuccess === false) {
+        this.setState({ instruction: 'Search Failed.', frozen: false})
+        this.setErrorContent('Please enter a valid keyword.')
       }
-      this.setState({ instruction: 'Please select a Visualization plugin', frozen: false })
+      else {
+        const visplugins = document.getElementById('vis_options')
+        const searchbar = document.getElementById('search')
+        if (visplugins !== null && searchbar !== null) {
+          visplugins.style.display = 'inline'
+          searchbar.style.display = 'none'
+        }
+        this.setState({ instruction: 'Please select a Visualization plugin', frozen: false })
+      }
+
     }
   }
 
@@ -144,7 +150,9 @@ class App extends React.Component<Props, framework> {
       // eslint-disable-next-line
       const response = await fetch('/visplugin?i=' + ind)
       const json = await response.json()
-      this.setState({ plotData: json }, this.drawPlot)
+      this.setState({ plotData: json , 
+        visPlugin: this.state.registeredVisualizationPlugins[ind]}, 
+        this.drawPlot)
     }
   }
 
@@ -153,13 +161,12 @@ class App extends React.Component<Props, framework> {
    */
   drawPlot (): void {
     const plugins = document.getElementById('options')
-    const state = document.getElementById('state')
     const instruction = document.getElementById('instruction')
-    if (plugins !== null && state !== null && instruction !== null) {
+    if (plugins !== null && instruction !== null) {
       plugins.style.display = 'none'
-      state.style.display = 'none'
       instruction.style.display = 'none'
     }
+    this.setState({instruction: 'Done!'})
     if (this.state.plotData !== undefined) {
       // eslint-disable-next-line
       Plotly.newPlot('Visualization',
@@ -215,10 +222,13 @@ class App extends React.Component<Props, framework> {
       <div>
         <b><div id='instruction'>Please Select a Data Plugin</div></b>
 
+        <div id='Visualization'></div>
+
         <div id='state'>
           Data Plugin: <p id='plugin'>{this.state.dataPlugin}</p> <br />
           Visualization Plugin: <p id='plugin'>{this.state.visPlugin}</p> <br />
           <p id='inline_instruction'>Instruction: {this.state.instruction}</p>
+          <p id='error_message'></p>
         </div>
 
         <div id='options'>
@@ -234,7 +244,6 @@ class App extends React.Component<Props, framework> {
           </div>
         </div>
 
-        <div id='Visualization' />
         <button className='dropbtn' onClick={this.handleRefreshPage}>Return</button>
       </div>
     )
