@@ -4,13 +4,12 @@
 ## Description
 ### Motivation
 
-GEO map, time series and GEO-time visualizations can provide intuitive insights regarding data like travel logs and chronicles. However, such data sources often have 2 problems. 
 
-1. The date format is messy.
+When describing an event, time and space information are always deeply coupled. However, this information is always buried in texts and there is little tool to help visualize it. Besides, time and location from different sources can be messy to handle. 
 
-2. Time and GEO information are buried in text.
+Our framework can extract time, location and event information from selected texts and perform data visualization in an interactive way. It can extract data from different sources with Named Entity Recognition (NER). Visualization plugins like location-event, time series, and location-time can provide intuitive insights regarding data like travel logs and chronicles. 
 
-Our framework and plugins combined can solve this problem. The data plugins can ensure a clean date format. Our framework can extract time and spatial information from selected texts with an NLP technique called Named Entity Recognition (NER). After the time and location data are processed, the framework will pass them to the frontend and perform data visualization in an interactive way. 
+For data plugins, we implemented Wikipedia plugin, Manual Input plugin and Twitter plugin for illustration. You can find instructions when you select each plugin. For visualization plugins, there are Geolocation plugin, Timeline plugin and 
 
 
 ## Installation
