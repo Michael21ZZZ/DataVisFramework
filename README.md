@@ -50,11 +50,9 @@ npm start
 This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
 
 ## Usage
-
-### GUI usage
-1. Select a Data Plugin
-2. Search keyword and submits
-3. Select Visualization and gets the plot
+1. Select a Data Plugin.
+2. Search keyword and press 'Submit'.
+3. Select Visualization and gets the visualization result. 
 
 
 	
