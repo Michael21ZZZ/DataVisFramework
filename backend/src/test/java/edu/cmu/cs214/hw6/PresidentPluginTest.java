@@ -10,18 +10,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.*;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 import edu.cmu.cs214.hw6.plugin.PresidentPlugin;
 /**
  * 
  */
-public class PresidentPluginStubTest {
+public class PresidentPluginTest {
 
     PresidentPlugin testPlugin = new PresidentPlugin();
     String inputName1 = "harding-warren-g.xml";

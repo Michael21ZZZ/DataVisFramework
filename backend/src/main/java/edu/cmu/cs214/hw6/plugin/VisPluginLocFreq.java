@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.cmu.cs214.hw6.framework.core.ProcessedData;
