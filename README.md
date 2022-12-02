@@ -47,7 +47,7 @@ For linux users, run the following command in the frontend folder to fix an inst
 
 ```
 chmod +x ./scripts 
-./scripts/scriptx.sh 
+./scripts/scripts.sh 
 ```
 
 For Windos users, run the following command in the frontend folder to fix an installation problem. 
