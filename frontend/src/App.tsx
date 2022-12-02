@@ -83,7 +83,7 @@ class App extends React.Component<Props, framework> {
   }
 
   /**
-   * @params the text to be set at div with id equals 'instruction'
+   * @params the text to be set at div with id equals 'error_message'
    */
   setErrorContent (content: string): void {
     const error = document.getElementById('error_message')
@@ -220,7 +220,7 @@ class App extends React.Component<Props, framework> {
     // eslint-disable-next-line
     return (
       <div>
-        <b><div id='instruction'>Please Select a Data Plugin</div></b>
+        <b><div id='instruction'>When and Where Data Analytics Tool</div></b>
 
         <div id='Visualization'></div>
 
