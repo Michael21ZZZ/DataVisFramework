@@ -34,16 +34,17 @@ In the front-end folder, run
 npm install
 ```
 
-<!-- Then rename the file:
+Then rename the file:
 ```
 ./node_modules/@types/plotly.js
 ```
 to
 ```
 ./node_modules/@types/plotly.js-dist -->
-
 ```
+
 For linux users, run the following command in the frontend folder to fix an installation problem. 
+
 ```
 chmod +x ./scripts 
 ./scripts/scriptx.sh 
