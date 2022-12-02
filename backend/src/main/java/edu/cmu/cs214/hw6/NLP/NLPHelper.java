@@ -13,6 +13,7 @@ public class NLPHelper {
     private final String[] nerTypeLoc = {"CITY", "STATE_OR_PROVINCE", "COUNTRY"};
     private Properties props = new Properties();
     private StanfordCoreNLP pipeline;
+
     public NLPHelper() {
         this.props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
         this.pipeline = new StanfordCoreNLP(props);
@@ -78,18 +79,13 @@ public class NLPHelper {
                     
                 }
             }
-            Collections.sort(nERDateList, Collections.reverseOrder());
-            Collections.sort(nERLocList,  Collections.reverseOrder());
-            System.out.println(nERLocList);
-            System.out.println(nERDateList);
             currentSent.put("text", currentSent.getString("text")+ sentText);
             if (!nERDateList.isEmpty() || !nERLocList.isEmpty()) { // either a new location or a new date means a new sentence partition
                 if (!nERDateList.isEmpty()) { // update date
-                    currentSent.put("time", nERDateList.get(0));
+                    currentSent.put("time", nERDateList.get(0).getDateVal());
                 }
                 if (!nERLocList.isEmpty()) { // update location
                     String location = nERLocList.get(0).getLocVal();
-                    System.out.println(location);
                     currentSent.put("location", location);
                     JSONObject coord = ggc.getCord(location);
                     currentSent.put("lng", coord.getDouble("lng"));
@@ -107,17 +103,69 @@ public class NLPHelper {
             tabularData.put(currentSent);
         }
         JSONObject res = new JSONObject();
-    res.put("coreData", tabularData);
-    res.put("locationFreq", locFreqMap);
-    System.out.println(res);
-    return res;
+        res.put("coreData", tabularData);
+        res.put("locationFreq", locFreqMap);
+        System.out.println(res);
+        return res;
     }
 
-    public JSONArray parseTime(JSONArray dataToParse) {
-        return dataToParse;
-    }
-
-    public JSONArray parseLocation(JSONArray dataToParse) {
+    /**
+     * Update tabular data's location and time column
+     * @param dataToParse JSONArray tabular data [{location, time, text} ...]
+     * @param hasTime whether tabular data contains time
+     * @param hasLocation whether tabular data contains location
+     * @return JSONArray tabular data [{location, time, text} ...]
+     */
+    public JSONArray parseTabular(JSONArray dataToParse, boolean hasTime, boolean hasLocation) {
+        boolean needNLP = !hasTime || !hasLocation;
+        String prevDate = "2000-01-01";
+        String prevLoc = "United States";
+        for (int i = 0; i < dataToParse.length(); i++) {
+            JSONObject row = dataToParse.getJSONObject(i);
+             // create a document object
+            String sentence = row.getString("text");
+            CoreDocument doc = new CoreDocument(sentence);
+            // annotate
+            if (needNLP) {
+                this.pipeline.annotate(doc);
+                List<NERLoc> nERLocList = new ArrayList<NERLoc>();
+                List<NERDate> nERDateList = new ArrayList<NERDate>();
+                for (CoreEntityMention em : doc.entityMentions()) {
+                    if (Arrays.asList(this.nerTypeLoc).contains(em.entityType())) { // a location em
+                        nERLocList.add(new NERLoc(em.entityType(), em.text()));
+                    } else if (em.entityType().equals("DATE")) { // a date em
+                        try {
+                            String dateVal = em.coreMap().get(TimeAnnotations.TimexAnnotation.class).value();
+                            dateVal = DateReg.dateReg(dateVal, prevDate);
+                            prevDate = dateVal;
+                            NERDate nERDate = new NERDate(dateVal);
+                            nERDateList.add(nERDate);
+                        } catch(Exception e){
+                            continue;
+                        }
+                        
+                    }
+                }
+                if (!hasTime) {
+                    if (!nERDateList.isEmpty()) { // update date
+                        String newDate = nERDateList.get(0).getDateVal();
+                        row.put("time", newDate);
+                        prevDate = newDate;
+                    } else {
+                        row.put("time", prevDate);
+                    }
+                }
+                if (!hasLocation) {
+                    if (!nERLocList.isEmpty()) { // update date
+                        String newLoc = nERLocList.get(0).getLocVal();
+                        row.put("location", newLoc);
+                        prevLoc = newLoc;
+                    } else {
+                        row.put("location", prevLoc);
+                    }
+                }
+            }
+        }
         return dataToParse;
     }
 

@@ -52,7 +52,7 @@ public class WikiPlugin implements DataPlugin {
         this.textData = wiki.getTextExtract(keyword);
         if (this.textData == null) {
             this.textData = "";
-            throw new IllegalArgumentException("Keyword not found. Please change another keyword.");
+            // throw new IllegalArgumentException("Keyword not found. Please change another keyword.");
         }
     }
 

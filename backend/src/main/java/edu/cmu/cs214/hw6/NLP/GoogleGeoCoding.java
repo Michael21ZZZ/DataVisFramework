@@ -14,14 +14,14 @@ public class GoogleGeoCoding {
     private final String apiKey = "AIzaSyCDAYlOl4ongbn5JV4nhg6QBe4bKCo2NWE";
 
     /**
-     * Get the coordinates of a place; return  {lat: 999, lng: 999} if not found
+     * Get the coordinates of a place; return  {lat: 32, lng: -99} if not found
      * @param keyword a place to search
-     * @return coordinate JSONObject. {lat: 999, lng: 999} if not found
+     * @return coordinate JSONObject. {lat: 32, lng: -99} if not found
      */
     public JSONObject getCord(String keyword) {
         JSONObject defaultJO = new JSONObject();
-        defaultJO.put("lat", 0);
-        defaultJO.put("lng", 0);
+        defaultJO.put("lat", 32); 
+        defaultJO.put("lng", -99);
         JSONObject output = new JSONObject();
         if (keyword == null || keyword.strip().length() == 0) {
             return defaultJO;

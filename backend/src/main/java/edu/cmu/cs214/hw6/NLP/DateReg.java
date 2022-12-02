@@ -18,7 +18,7 @@ public class DateReg {
         if (dateStr == null) {
             return prevDateStr;
         }
-        if (dateStr.equals("PAST_REF")) {
+        if (dateStr.equals("PAST_REF") || dateStr.equals("FUTURE_REF")) {
             return prevDateStr;
         }
         String prevYear = prevDateStr.substring(0, 4);
@@ -53,6 +53,7 @@ public class DateReg {
         // month
         if (month.equals("")) {
             month = prevMon;
+        } else if (Pattern.matches("[0-9]{2}", month)) {
         } else { // season
             month = seasonToMon(month);
         }
