@@ -8,6 +8,7 @@ import java.util.ServiceLoader;
 
 import org.json.JSONObject;
 import edu.cmu.cs214.hw6.framework.core.DataPlugin;
+import edu.cmu.cs214.hw6.framework.core.ProcessedData;
 import edu.cmu.cs214.hw6.framework.core.SearchTerm;
 import edu.cmu.cs214.hw6.framework.core.UnProcessedData;
 import edu.cmu.cs214.hw6.framework.core.VisPlugin;
@@ -27,7 +28,7 @@ public class App extends NanoHTTPD {
     private WorkFlowFrameworkImpl workFlow;
     private List<DataPlugin> dataPlugins;
     private List<VisPlugin> visPlugins;
-    private JSONObject processedData;
+    private ProcessedData processedData;
     private JSONObject responseJson = new JSONObject();
 
     /**

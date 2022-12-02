@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.cmu.cs214.hw6.framework.core.ProcessedData;
 import edu.cmu.cs214.hw6.framework.core.VisPlugin;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 
@@ -15,10 +16,9 @@ public class VisPluginGeo implements VisPlugin {
     private JSONArray coreData = new JSONArray();
     private List<JSONObject> formattedData = new ArrayList<JSONObject>();
     @Override
-    public JSONObject prepVis(JSONObject processedData) {
+    public JSONObject prepVis(ProcessedData processedData) {
         JSONObject res = new JSONObject();
-        this.coreData = processedData.getJSONArray("coreData");
-        processedData.getJSONObject("locationFreq");
+        this.coreData = processedData.coreData();
         this.formatData();
         this.setLayout();
         res.put("data", this.formattedData);
@@ -121,9 +121,7 @@ public class VisPluginGeo implements VisPlugin {
         coreData.put(row2);
         JSONObject locFreq = new JSONObject();
         locFreq.put("MIAMI", 1);
-        JSONObject processedData = new JSONObject();
-        processedData.put("coreData", coreData);
-        processedData.put("locationFreq", locFreq);
+        ProcessedData processedData = new ProcessedData(coreData, locFreq);
         VisPluginGeo vpg = new VisPluginGeo();
         System.out.println(vpg.prepVis(processedData));
     }

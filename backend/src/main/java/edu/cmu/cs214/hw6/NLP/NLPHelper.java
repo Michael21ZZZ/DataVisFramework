@@ -1,5 +1,6 @@
 package edu.cmu.cs214.hw6.NLP;
 
+import edu.cmu.cs214.hw6.framework.core.ProcessedData;
 import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.time.TimeAnnotations;
 
@@ -22,7 +23,13 @@ public class NLPHelper {
         NLPHelper nlpHelper = new NLPHelper();
         nlpHelper.parseText(NLPDemo.demoText);
     }
-    public JSONObject parseText(String article) {
+
+    /**
+     * Parse an text and extract time and location
+     * @param article string
+     * @return a ProcessedData Object
+     */
+    public ProcessedData parseText(String article) {
         GoogleGeoCoding ggc = new GoogleGeoCoding();
         Map<String, Integer> locFreqMap = new HashMap<String, Integer>();
         CoreDocument doc = new CoreDocument(article);
@@ -102,11 +109,7 @@ public class NLPHelper {
             // put this sentence into the new partition
             tabularData.put(currentSent);
         }
-        JSONObject res = new JSONObject();
-        res.put("coreData", tabularData);
-        res.put("locationFreq", locFreqMap);
-        System.out.println(res);
-        return res;
+        return new ProcessedData(tabularData, new JSONObject(locFreqMap));
     }
 
     /**

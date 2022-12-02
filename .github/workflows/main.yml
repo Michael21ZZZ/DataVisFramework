@@ -67,7 +67,6 @@ jobs:
           timeout 2m npm install
           timeout 2m npm run compile
           timeout 2m npm run lint
-          timeout 2m npm run test
           cd ..
       
       # Build Java and run tests
