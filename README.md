@@ -13,6 +13,24 @@ For data plugins, we implemented Wikipedia plugin, Manual Input plugin and Twitt
 
 
 ## Installation
+### Linux User
+In the main directory, run
+```
+chmod +x ./scripts 
+```
+
+To install and start the backend server, run this command in the main directory
+```
+./scripts/backend-linux.sh 
+```
+This will start the Java server at http://localhost:8080.
+
+To install and start the frontend server, run this command in the main directory
+```
+./scripts/frontend-linux.sh 
+```
+This will start the front-end server at http://localhost:3000. You can update the front-end code as the server is running in the development mode (i.e., npm start). It will automatically recompile and reload.
+
 ### Set Up Backend Server
 To install the necessary packages, in the backend folder, run
 ```
