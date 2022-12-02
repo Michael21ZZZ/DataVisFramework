@@ -25,10 +25,10 @@ import java.util.ArrayList;
 public class PresidentPlugin implements DataPlugin{
 
     private static final String PLUGIN_NAME = "President";
-    private static final String PLUGIN_INSTRUCTION = "Please enter the last name and the first name of a president of United States." 
-    + "For example, you can enter trump donald to search for Donald Trump."
-    + "If you are searching George H. W. Bush, please enter bush george h w." 
-    + "If you are searching George W. Bush, please enter bush george w. "
+    private static final String PLUGIN_INSTRUCTION = "Please enter the exact last name and the first name of a president of United States." 
+    + "For example, you can enter 'trump donald' to search for President Donald Trump."
+    + "If you are searching George H. W. Bush, please enter 'bush george h w.'" 
+    + "If you are searching George W. Bush, please enter 'bush george w.' "
     + "Source: https://history.state.gov/departmenthistory/travels/president.";
     
     private boolean isTabular;
@@ -72,11 +72,13 @@ public class PresidentPlugin implements DataPlugin{
             String standardFileName = transformName(keyword);
             this.tabularData = loadTravelLogs(standardFileName);
         } catch(ParserConfigurationException e) {
-            System.out.println(e.getMessage());  
+            this.tabularData = new JSONArray(); 
         } catch(SAXException e) {
-            System.out.println(e.getMessage());  
+            this.tabularData = new JSONArray(); 
         } catch(IOException e) {
-            System.out.println(e.getMessage());  
+            this.tabularData = new JSONArray(); 
+        } catch(IllegalArgumentException e) {
+            this.tabularData = new JSONArray(); 
         }
     }
 

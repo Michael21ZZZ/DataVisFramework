@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import edu.cmu.cs214.hw6.framework.core.ProcessedData;
 import edu.cmu.cs214.hw6.framework.core.VisPlugin;
 import edu.cmu.cs214.hw6.framework.core.WorkFlowFramework;
 
@@ -15,10 +16,9 @@ public class VisPluginTimeline implements VisPlugin {
     private JSONArray coreData = new JSONArray();
     private List<JSONObject> formattedData = new ArrayList<JSONObject>();
     @Override
-    public JSONObject prepVis(JSONObject processedData) {
+    public JSONObject prepVis(ProcessedData processedData) {
         JSONObject res = new JSONObject();
-        this.coreData = processedData.getJSONArray("coreData");
-        processedData.getJSONObject("locationFreq");
+        this.coreData = processedData.coreData();
         this.formatData();
         this.setLayout();
         res.put("data", this.formattedData);
@@ -97,33 +97,5 @@ public class VisPluginTimeline implements VisPlugin {
 
         return axisObject;
     }
-
-    public static void main(String[] args) {
-        JSONArray coreData = new JSONArray();
-        JSONObject row1 = new JSONObject();
-        row1.put("lat", 30);
-        row1.put("lng", 40);
-        row1.put("text", "hamburght");
-        row1.put("time", "1999-01-02");
-        row1.put("location", "New York");
-        coreData.put(row1);
-        JSONObject row2 = new JSONObject();
-        row2.put("lat", 40);
-        row2.put("lng", 50);
-        row2.put("text", "pizza");
-        row2.put("time", "2000-01-02");
-        row2.put("location", "Chicago");
-        coreData.put(row2);
-        JSONObject locFreq = new JSONObject();
-        locFreq.put("MIAMI", 1);
-        JSONObject processedData = new JSONObject();
-        processedData.put("coreData", coreData);
-        processedData.put("locationFreq", locFreq);
-        VisPluginTimeline vpt = new VisPluginTimeline();
-        System.out.println(vpt.prepVis(processedData));
-    }
-
-
-
 
 }

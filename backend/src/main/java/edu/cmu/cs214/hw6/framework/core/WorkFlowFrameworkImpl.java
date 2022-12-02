@@ -39,6 +39,11 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
         this.currentDataPlugin = plugin;
     }
 
+    /**
+     * Get data using data plugin
+     * @param searchTerm
+     * @return
+     */
     public UnProcessedData fetchData(SearchTerm searchTerm) {
         if (this.currentDataPlugin != null) {
             this.currentDataPlugin.search(searchTerm);
@@ -63,7 +68,12 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
         this.currentVisPlugin = plugin;
     }
 
-    public JSONObject prepVis(JSONObject processedData) {
+    /**
+     * Prepare data for visualization using processed data
+     * @param processedData
+     * @return
+     */
+    public JSONObject prepVis(ProcessedData processedData) {
         if (this.currentVisPlugin != null && processedData != null) {
             return this.currentVisPlugin.prepVis(processedData);
         } else {
@@ -77,18 +87,13 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
      * @param unprocessedData
      * @return
      */
-    public JSONObject processData(UnProcessedData unprocessedData) {
+    public ProcessedData processData(UnProcessedData unprocessedData) {
         boolean isTabular = unprocessedData.isTabular();
         if (!isTabular) { // if it's pure text, needs to partitioned
             return this.nlpHelper.parseText(unprocessedData.textData());
         } else {
             JSONArray tabularData = unprocessedData.tabularData();
-            if (!unprocessedData.hasTime()) {
-                tabularData = this.nlpHelper.parseTime(tabularData);
-            }
-            if (!unprocessedData.hasLocation()) {
-                tabularData = this.nlpHelper.parseLocation(tabularData);
-            }
+            tabularData = this.nlpHelper.parseTabular(tabularData, unprocessedData.hasTime(), unprocessedData.hasLocation());
             // A map store the freq of a location
             Map<String, Integer> locFreqMap = new HashMap<String, Integer>();
             // iterate through the data rows; add location; update location freq map
@@ -101,10 +106,7 @@ public class WorkFlowFrameworkImpl implements WorkFlowFramework{
                 row.put("lat", coord.getDouble("lat"));
                 locFreqMap.put(location, locFreqMap.getOrDefault(location, 0) + 1);
             }
-            JSONObject res = new JSONObject();
-            res.put("coreData", tabularData);
-            res.put("locationFreq", locFreqMap);
-            return res;
+            return new ProcessedData(tabularData, new JSONObject(locFreqMap));
         }
     }
 }

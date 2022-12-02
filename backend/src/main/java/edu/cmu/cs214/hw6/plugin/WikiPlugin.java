@@ -15,7 +15,9 @@ public class WikiPlugin implements DataPlugin {
     private JSONArray tabularData;
 
     private static final String PLUGIN_NAME = "Wikipedia";
-    private static final String PLUGIN_INSTRUCTION = "Please enter a keyword that is used to be search on Wikipedia. \nFor this plugin, celebrity keywords(Barack Obama) works very well";
+    private static final String PLUGIN_INSTRUCTION = "Please enter a keyword that is used to be search on Wikipedia. The keyword input is case sensitive." +
+    "For this plugin, celebrity keywords works very well." + 
+    "You can try: Barack Obama, Hillary Clinton, Andrew Carnegie"; 
     
     public WikiPlugin() {
         this.isTabular = false;
@@ -50,7 +52,7 @@ public class WikiPlugin implements DataPlugin {
         this.textData = wiki.getTextExtract(keyword);
         if (this.textData == null) {
             this.textData = "";
-            throw new IllegalArgumentException("Keyword not found. Please change another keyword.");
+            // throw new IllegalArgumentException("Keyword not found. Please change another keyword.");
         }
     }
 
