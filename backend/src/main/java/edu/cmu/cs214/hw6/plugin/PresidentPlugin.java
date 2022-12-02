@@ -72,11 +72,13 @@ public class PresidentPlugin implements DataPlugin{
             String standardFileName = transformName(keyword);
             this.tabularData = loadTravelLogs(standardFileName);
         } catch(ParserConfigurationException e) {
-            System.out.println(e.getMessage());  
+            this.tabularData = new JSONArray(); 
         } catch(SAXException e) {
-            System.out.println(e.getMessage());  
+            this.tabularData = new JSONArray(); 
         } catch(IOException e) {
-            System.out.println(e.getMessage());  
+            this.tabularData = new JSONArray(); 
+        } catch(IllegalArgumentException e) {
+            this.tabularData = new JSONArray(); 
         }
     }
 
