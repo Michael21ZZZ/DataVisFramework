@@ -14,7 +14,7 @@ For data plugins, we implemented Wikipedia plugin, Manual Input plugin and Twitt
 
 ## Installation
 ### Replace the Geocoding API key
-Before set up the server, please set the following field with your own Google GeoCoding API key:
+Before set up the server, please set the following field with your own Google Geocoding API key:
 ```
 ./backend/src/main/java/edu/cmu/cs214/hw6/NLP/GoogleGeoCoding.apiKey = "YourAPIKey"
 ```
