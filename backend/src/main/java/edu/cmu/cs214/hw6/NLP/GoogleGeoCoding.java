@@ -11,7 +11,10 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 
 public class GoogleGeoCoding {
-    private final String apiKey = "AIzaSyCDAYlOl4ongbn5JV4nhg6QBe4bKCo2NWE";
+    /**
+     * You need to fill in your api key in this section. 
+     */
+    private final String apiKey = ""; 
 
     /**
      * Get the coordinates of a place; return  {lat: 32, lng: -99} if not found
