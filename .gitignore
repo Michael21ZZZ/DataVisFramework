@@ -3,4 +3,4 @@ target/
 *.class
 .vscode
 .DS_Store
-node_modules
+visualization/node_modules
